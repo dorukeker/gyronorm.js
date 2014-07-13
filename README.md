@@ -5,6 +5,9 @@ It has options uniform the alpha value, and normalize the gravity related values
 
 ##How to use
 - Add the JS file in the head part of your HTML
+
+	<script src="js/gyronorm.js"></script>
+
 - Initiize the gn object
 - Start the gn object
 
