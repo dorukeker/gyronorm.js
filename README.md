@@ -48,11 +48,16 @@ You can pass an object of arguments to the gn.init() function. The values of tha
 
 ###Methods
 ####gn.init()
-- Call this method before everyting else
 - Adds the event listeners to the window object
 - If extra argumnets are provided overwrites the default options (see above)
 
-		gn.init(args);
+Call this method before everyting else
+
+	gn.init(args);
+		
+####gn.start()
+- Returns values in the given frequency interval
+- 
 
 ###Error Handling
 
