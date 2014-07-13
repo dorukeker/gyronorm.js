@@ -5,6 +5,7 @@ It has options uniform the alpha value, and normalize the gravity related values
 
 ##How to use
 <<<<<<< HEAD
+<<<<<<< HEAD
 - Add the JS file in the head part of your HTML
 - Initiize the gn object
 - Start the gn object
@@ -33,6 +34,8 @@ It has options uniform the alpha value, and normalize the gravity related values
 	</script>
 
 =======
+=======
+>>>>>>> FETCH_HEAD
 - Add the JS file in the <head> part of your HTML
 - Initiize the gn object
 - Start the gn object
@@ -59,6 +62,9 @@ It has options uniform the alpha value, and normalize the gravity related values
 		// data.dm.gamma
 	});
     </script>
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
 >>>>>>> FETCH_HEAD
 
 ###Options
