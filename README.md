@@ -16,26 +16,27 @@ It has options uniform the alpha value, and normalize the gravity related values
     	gn.init();
     	gn.track(function(data){
     		// Process:
-			// data.do.alpha
-			// data.do.beta
-			// data.do.gamma
+			// data.do.alpha	( deviceorientation event alpha value )
+			// data.do.beta		( deviceorientation event beta value )
+			// data.do.gamma	( deviceorientation event gamma value )
 		
-			// data.dm.x
-			// data.dm.y
-			// data.dm.z
+			// data.dm.x		( devicemotion event acceleration x value )
+			// data.dm.y		( devicemotion event acceleration y value )
+			// data.dm.z		( devicemotion event acceleration z value )
 		
-			// data.dm.gx
-			// data.dm.gy
-			// data.dm.gz
+			// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
+			// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
+			// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
 			
-			// data.dm.alpha
-			// data.dm.beta
-			// data.dm.gamma
+			// data.dm.alpha	( devicemotion event rotationRate alpha value )
+			// data.dm.beta		( devicemotion event rotationRate beta value )
+			// data.dm.gamma	( devicemotion event rotationRate gamma value )
 		});
 	
-
-
 ###Options
+You can pass an object of arguments to the gn.init() function. The values of that object overwrites the default values.
+
+
 
 ###Methods
 
