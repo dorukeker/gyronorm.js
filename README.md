@@ -39,14 +39,20 @@ You can pass an object of arguments to the gn.init() function. The values of tha
 
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
-		normalizeGravity:true,			// ( If the garvity related values to be normalized )
-		orientationIsAbsolute:true,		// ( If the alpha value return absolute values )
-		decimalCount:2					// ( How many digits after the decimal point wil there be in the return values )
+		normalizeGravity:true,			// ( if the garvity related values to be normalized )
+		orientationIsAbsolute:true,		// ( if the alpha value return absolute values )
+		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
 	}
 	
 	gn.init(args);
 
 ###Methods
+####gn.init()
+- Call this method before everyting else
+- Adds the event listeners to the window object
+- If extra argumnets are provided overwrites the default options (see above)
+
+		gn.init(args);
 
 ###Error Handling
 
