@@ -49,7 +49,7 @@ You can pass an object of arguments to the gn.init() function. The values of tha
 ###Methods
 ####gn.init()
 - Adds the event listeners to the window object
-- If extra argumnets are provided overwrites the default options (see above)
+- If extra arguments are provided overwrites the default options (see above)
 
 Call this method before everyting else
 
