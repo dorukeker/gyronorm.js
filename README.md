@@ -9,27 +9,27 @@ It has options uniform the alpha value, and normalize the gravity related values
 - Start the gn object
 
 	<script src="/js/gyronorm.js"></script>
-	<script>
-    		gn.init();
-    		gn.track(function(data){
-    			// Process:
-			// data.do.alpha
-			// data.do.beta
-			// data.do.gamma
+	
+    	gn.init();
+    	gn.track(function(data){
+    		// Process:
+		// data.do.alpha
+		// data.do.beta
+		// data.do.gamma
 		
-			// data.dm.x
-			// data.dm.y
-			// data.dm.z
+		// data.dm.x
+		// data.dm.y
+		// data.dm.z
 		
-			// data.dm.gx
-			// data.dm.gy
-			// data.dm.gz
+		// data.dm.gx
+		// data.dm.gy
+		// data.dm.gz
 			
-			// data.dm.alpha
-			// data.dm.beta
-			// data.dm.gamma
-		});
-	</script>
+		// data.dm.alpha
+		// data.dm.beta
+		// data.dm.gamma
+	});
+	
 
 
 ###Options
