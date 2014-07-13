@@ -56,8 +56,16 @@ Call this method before everyting else
 	gn.init(args);
 		
 ####gn.start()
-- Returns values in the given frequency interval
-- 
+
+####gn.normalizeGravity()
+
+####gn.giveAbsoluteOrientation()
+
+####gn.setHeadDirection()
+
+####gn.stop()
+
+####gn.end()
 
 ###Error Handling
 
