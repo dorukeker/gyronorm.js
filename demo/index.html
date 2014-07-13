@@ -1,0 +1,131 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalabel=no">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/js/gyronorm.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+	div.col-xs-3, div.col-xs-1{
+		padding-right: 0;
+	}
+</style>
+</head>
+<body>
+
+
+	
+	
+	<div class="col-xs-12">
+		<strong>Device Orientation Event</strong>
+	</div>
+	<div class="col-xs-6">alpha:</div>
+	<input class="col-xs-6" id="do_alpha"/>
+	<div class="col-xs-6">beta:</div>
+	<input class="col-xs-6" id="do_beta"/>
+	<div class="col-xs-6">gamma:</div>
+	<input class="col-xs-6" id="do_gamma"/>
+
+	<p>&nbsp;</p>
+
+	<div class="col-xs-12">
+		<strong>Device Motion Event</strong>
+	</div>
+	<div class="col-xs-12">
+		Acceleration
+	</div>
+	<div class="col-xs-1">x:</div>
+	<input class="col-xs-3" id="dm_x"/>
+	<div class="col-xs-1">y:</div>
+	<input class="col-xs-3" id="dm_y"/>
+	<div class="col-xs-1">z:</div>
+	<input class="col-xs-3" id="dm_z"/>
+
+
+	<p>&nbsp;</p>
+	<div class="col-xs-12">
+		Acceleration including gravity
+	</div>
+	<div class="col-xs-1">x:</div>
+	<input class="col-xs-3" id="dm_gx"/>
+	<div class="col-xs-1">y:</div>
+	<input class="col-xs-3" id="dm_gy"/>
+	<div class="col-xs-1">z:</div>
+	<input class="col-xs-3" id="dm_gz"/>
+
+	<p>&nbsp;</p>
+	<div class="col-xs-12">
+		Rotation rate
+	</div>
+	<div class="col-xs-6">alpha:</div>
+	<input class="col-xs-6" id="dm_alpha"/>
+	<div class="col-xs-6">beta:</div>
+	<input class="col-xs-6" id="dm_beta"/>
+	<div class="col-xs-6">gamma:</div>
+	<input class="col-xs-6" id="dm_gamma"/>
+
+	<input type="button" onclick="start_gn()" value="START" class="col-xs-4 btn-info btn"/> 
+	<input type="button" onclick="abs_gn()" value="Absolute" class="col-xs-4 btn-info btn"/> 
+	<input type="button" onclick="norm_gn()" value="Normalize" class="col-xs-4 btn-info btn"/> 
+	
+	<input type="button" onclick="stop_gn()" value="STOP" class="col-xs-4 btn-info btn"/> 
+	<input type="button" onclick="rel_gn()" value="Relative" class="col-xs-4 btn-info btn"/> 
+	<input type="button" onclick="org_gn()" value="Original" class="col-xs-4 btn-info btn"/> 
+
+	<textarea class="col-xs-12 form-control" id="error-message" style="height:100px"></textarea>
+
+
+	<script type="text/javascript">
+
+		var args = new Object();
+		gn.log = function(err){
+			console.log(err);
+		}
+
+		gn.init(args);
+
+		function stop_gn(){
+			gn.stop();
+		}
+
+		function start_gn(){
+			gn.track(gnCallBack);
+		}
+
+		function gnCallBack(data){
+			$('#do_alpha').val(data.do.alpha);
+			$('#do_beta').val(data.do.beta);
+			$('#do_gamma').val(data.do.gamma);
+
+			$('#dm_x').val(data.dm.x);	
+			$('#dm_y').val(data.dm.y);	
+			$('#dm_z').val(data.dm.z);	
+
+			$('#dm_gx').val(data.dm.gx);	
+			$('#dm_gy').val(data.dm.gy);	
+			$('#dm_gz').val(data.dm.gz);	
+
+			$('#dm_alpha').val(data.dm.alpha);
+			$('#dm_beta').val(data.dm.beta);
+			$('#dm_gamma').val(data.dm.gamma);
+		}
+
+		function abs_gn(){
+			gn.giveAbsoluteOrientation(true);
+		}
+
+		function rel_gn(){
+			gn.giveAbsoluteOrientation(false);
+		}
+
+		function norm_gn(){
+			gn.normalizeGravity(true);
+		}
+
+		function org_gn(){
+			gn.normalizeGravity(false);
+		}
+
+
+	</script>
+</body>
+</html>
