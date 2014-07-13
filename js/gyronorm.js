@@ -108,7 +108,7 @@ gn.end = function(){
 * @param function callback - Callback function to read the values
 *
 */
-gn.track = function(callback){
+gn.start = function(callback){
 	if(!gn_isready){
 		onError({message:'GyroNorm is not initialized. First call gn.init()' , code:1});
 		return;
