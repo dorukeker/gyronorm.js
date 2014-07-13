@@ -10,7 +10,7 @@
 	}
 </style>
 </head>
-<body>
+<body onload="init_gn()">
 
 
 	
@@ -81,7 +81,9 @@
 			console.log(err);
 		}
 
-		gn.init(args);
+		function init_gn(){
+			gn.init(args);	
+		}		
 
 		function stop_gn(){
 			gn.stop();
