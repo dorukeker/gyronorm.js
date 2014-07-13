@@ -4,8 +4,6 @@ Accesses the gyroscope and accelerometer data from the web browser and combines 
 It has options uniform the alpha value, and normalize the gravity related values across different devices. You can find more about these differences [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
 
 ##How to use
-<<<<<<< HEAD
-<<<<<<< HEAD
 - Add the JS file in the head part of your HTML
 - Initiize the gn object
 - Start the gn object
@@ -33,39 +31,6 @@ It has options uniform the alpha value, and normalize the gravity related values
 		});
 	</script>
 
-=======
-=======
->>>>>>> FETCH_HEAD
-- Add the JS file in the <head> part of your HTML
-- Initiize the gn object
-- Start the gn object
-
-    <script src="/js/gyronorm.js"></script>
-    <script>
-    	gn.init();
-    	gn.track(function(data){
-    		// Process:
-		// data.do.alpha
-		// data.do.beta
-		// data.do.gamma
-		
-		// data.dm.x
-		// data.dm.y
-		// data.dm.z
-		
-		// data.dm.gx
-		// data.dm.gy
-		// data.dm.gz
-			
-		// data.dm.alpha
-		// data.dm.beta
-		// data.dm.gamma
-	});
-    </script>
-<<<<<<< HEAD
->>>>>>> FETCH_HEAD
-=======
->>>>>>> FETCH_HEAD
 
 ###Options
 
