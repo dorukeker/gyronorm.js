@@ -35,11 +35,16 @@ Start the gn object. Access the values in the callback function of the gn.start(
 		});
 	
 ###Options
-You can pass an object of arguments to the gn.init() function. The values of that object overwrites the default values.
+You can pass an object of arguments to the gn.init() function. The values of that object overwrites the default values. Below is the list of available options and the default value.
 
 	var args = {
-		frequency:50	
+		frequency:50,					// ( how often the object sends the values - milliseconds )
+		normalizeGravity:true,			// ( If the garvity related values to be normalized )
+		orientationIsAbsolute:true,		// ( If the alpha value return absolute values )
+		decimalCount:2					// ( How many digits after the decimal point wil there be in the return values )
 	}
+	
+	gn.init(args);
 
 ###Methods
 
