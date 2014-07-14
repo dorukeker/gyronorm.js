@@ -8,11 +8,11 @@ Add the JS file in the head part of your HTML
 
 	<script src="js/gyronorm.js"></script>
 
-Initiize the <em>gn</em> object
+Initialiize the <em>gn</em> object
 
 Start the <em>gn</em> object.
 
-Access the values in the callback function of the <em>gn.start()</em> function.
+Access the values in the callback function of the <em>gn.start()</em>
 
 	<script src="/js/gyronorm.js"></script>
 	
