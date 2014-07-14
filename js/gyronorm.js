@@ -159,6 +159,7 @@ gn.giveAbsoluteOrientation = function(flag){
 gn.setHeadDirection = function(){
 	gn._orientationIsAbsolute = false;
 	calibrate();
+}
 
 /*-------------------------------------------------------*/
 /* PRIVATE FUNCTIONS */
