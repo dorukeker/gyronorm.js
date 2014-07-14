@@ -60,8 +60,6 @@ gn._values = {
 * 
 * @param object options - values are as follows. If set in the init function they overwrite the default option values 
 * @param int options.frequency
-* @param boolean options.trackOrientation
-* @param boolean options.trackMotion
 * @param boolean options.normalizeGravity
 * @param boolean options.orientationIsAbsolute
 *
@@ -163,7 +161,7 @@ gn.giveAbsoluteOrientation = function(flag){
 gn.setHeadDirection = function(){
 	gn._orientationIsAbsolute = false;
 	gn.stop();
-	gn.track();
+	gn.start();
 }
 
 /*-------------------------------------------------------*/
