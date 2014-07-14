@@ -113,9 +113,7 @@ gn.start = function(callback){
 	}
 	calibrate();
 	gn_interval = setInterval(function(){
-		if(!gn_isCalibrating){
-			callback(snapShot());	
-		}		
+		callback(snapShot());	
 	},gn._frequency);
 }
 
@@ -160,9 +158,7 @@ gn.giveAbsoluteOrientation = function(flag){
 */
 gn.setHeadDirection = function(){
 	gn._orientationIsAbsolute = false;
-	gn.stop();
-	gn.start();
-}
+	calibrate();
 
 /*-------------------------------------------------------*/
 /* PRIVATE FUNCTIONS */
