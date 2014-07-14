@@ -8,14 +8,16 @@ Add the JS file in the head part of your HTML
 
 	<script src="js/gyronorm.js"></script>
 
-Initiize the gn object
+Initiize the <em>gn</em> object
 
-Start the gn object. Access the values in the callback function of the gn.start() function.
+Start the <em>gn</em> object.
+
+Access the values in the callback function of the <em>gn.start()</em> function.
 
 	<script src="/js/gyronorm.js"></script>
 	
     	gn.init();
-    	gn.track(function(data){
+    	gn.start(function(data){
     		// Process:
 			// data.do.alpha	( deviceorientation event alpha value )
 			// data.do.beta		( deviceorientation event beta value )
