@@ -175,9 +175,9 @@ gn.setHeadDirection = function(){
 *
 */
 function gn_setupListeners(){
-	window.addEventListener('deviceorientation',onDeviceOrientationHandler);
-	window.addEventListener('devicemotion',onDeviceMotionHandler);
-	window.addEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler);
+	window.addEventListener('deviceorientation',onDeviceOrientationHandler,true);
+	window.addEventListener('devicemotion',onDeviceMotionHandler,true);
+	window.addEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler,true);
 }
 
 
