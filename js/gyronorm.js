@@ -26,7 +26,7 @@ var gn_isready = false;					// Flag if event listeners are added
 gn.log = null;						// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
 
 /* OPTIONS */
-gn._frequency 				= 100;		// Frequency for the return data in milliseconds
+gn._frequency 				= 50;		// Frequency for the return data in milliseconds
 gn._normalizeGravity		= true;		// Flag if to normalize gravity values
 gn._orientationIsAbsolute	= false;	// Flag if to return absolute or relative alpha values
 gn._decimalCount			= 2;		// Number of digits after the decimals point for the return values
