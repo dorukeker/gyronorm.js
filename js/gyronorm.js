@@ -28,7 +28,7 @@ gn.log = null;						// Function to callback on error. There is no default value.
 /* OPTIONS */
 gn._frequency 				= 50;		// Frequency for the return data in milliseconds
 gn._gravityNormalized		= true;		// Flag if to normalize gravity values
-gn._orientationIsAbsolute	= false;	// Flag if to return absolute or relative alpha values
+gn._directionAbsolute	= false;	// Flag if to return absolute or relative alpha values
 gn._decimalCount			= 2;		// Number of digits after the decimals point for the return values
 
 gn._values = {
@@ -61,7 +61,7 @@ gn._values = {
 * @param object options - values are as follows. If set in the init function they overwrite the default option values 
 * @param int options.frequency
 * @param boolean options.gravityNormalized
-* @param boolean options.orientationIsAbsolute
+* @param boolean options.directionAbsolute
 *
 */
 gn.init = function(options){
@@ -69,7 +69,7 @@ gn.init = function(options){
 	// Assign options that are passed with the init function
 	if(options && options.frequency) gn._frequency = options.frequency;
 	if(options && options.gravityNormalized) gn._gravityNormalized = options.gravityNormalized;
-	if(options && options.orientationIsAbsolute) gn._orientationIsAbsolute = options.orientationIsAbsolute;
+	if(options && options.directionAbsolute) gn._directionAbsolute = options.directionAbsolute;
 	if(options && options.decimalCount) gn._decimalCount = options.decimalCount;
 
 	try{
@@ -148,7 +148,7 @@ gn.normalizeGravity = function(flag){
 *
 */
 gn.giveAbsoluteOrientation = function(flag){
-	gn._orientationIsAbsolute = (flag)?true:false;
+	gn._directionAbsolute = (flag)?true:false;
 }
 
 /*
@@ -157,7 +157,7 @@ gn.giveAbsoluteOrientation = function(flag){
 *
 */
 gn.setHeadDirection = function(){
-	gn._orientationIsAbsolute = false;
+	gn._directionAbsolute = false;
 	calibrate();
 }
 
@@ -303,7 +303,7 @@ function snapShot(){
 
 	// Send absolute or relative alpha. Default is relative.
 	var alphaToSend = 0;
-	if(!gn._orientationIsAbsolute){
+	if(!gn._directionAbsolute){
 		alphaToSend = gn._values.do.alpha - gn_calibrationValue;
 		alphaToSend = (alphaToSend < 0)?(360 - Math.abs(alphaToSend)):alphaToSend;
 	} else {
