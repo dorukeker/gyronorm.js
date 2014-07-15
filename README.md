@@ -39,7 +39,7 @@ You can pass arguments as an object to the <em>gn.init()</em> function. The valu
 
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
-		normalizeGravity:true,			// ( if the garvity related values to be normalized )
+		gravityNormalized:true,			// ( if the garvity related values to be normalized )
 		orientationIsAbsolute:false,		// ( if the alpha value return absolute values )
 		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
 	}
