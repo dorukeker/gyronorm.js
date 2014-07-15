@@ -40,7 +40,7 @@ You can pass arguments as an object to the <em>gn.init()</em> function. The valu
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
 		gravityNormalized:true,			// ( if the garvity related values to be normalized )
-		orientationIsAbsolute:false,		// ( if the alpha value return absolute values )
+		directionAbsolute:false,		// ( if the do.alpha value return absolute values, if false the value is relative to the initial position of the device )
 		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
 	}
 	
