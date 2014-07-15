@@ -27,7 +27,7 @@ gn.log = null;						// Function to callback on error. There is no default value.
 
 /* OPTIONS */
 gn._frequency 				= 50;		// Frequency for the return data in milliseconds
-gn._normalizeGravity		= true;		// Flag if to normalize gravity values
+gn._gravityNormalized		= true;		// Flag if to normalize gravity values
 gn._orientationIsAbsolute	= false;	// Flag if to return absolute or relative alpha values
 gn._decimalCount			= 2;		// Number of digits after the decimals point for the return values
 
@@ -60,7 +60,7 @@ gn._values = {
 * 
 * @param object options - values are as follows. If set in the init function they overwrite the default option values 
 * @param int options.frequency
-* @param boolean options.normalizeGravity
+* @param boolean options.gravityNormalized
 * @param boolean options.orientationIsAbsolute
 *
 */
@@ -68,7 +68,7 @@ gn.init = function(options){
 
 	// Assign options that are passed with the init function
 	if(options && options.frequency) gn._frequency = options.frequency;
-	if(options && options.normalizeGravity) gn._normalizeGravity = options.normalizeGravity;
+	if(options && options.gravityNormalized) gn._gravityNormalized = options.gravityNormalized;
 	if(options && options.orientationIsAbsolute) gn._orientationIsAbsolute = options.orientationIsAbsolute;
 	if(options && options.decimalCount) gn._decimalCount = options.decimalCount;
 
@@ -136,7 +136,7 @@ gn.stop = function(){
 *
 */
 gn.normalizeGravity = function(flag){
-	gn._normalizeGravity = (flag)?true:false;
+	gn._gravityNormalized = (flag)?true:false;
 }
 
 
@@ -241,7 +241,7 @@ function onDeviceOrientationHandler(event){
 function onDeviceMotionHandler(event){
 
 	// Assign gravity coefficient. Assumes that the user is holding the phot up right facing the screen.
-	// If you cannot make this assumption because of the usecase, disable the normalization via changing the option 'normalizeGravity' value to false
+	// If you cannot make this assumption because of the usecase, disable the normalization via changing the option 'gravityNormalized' value to false
 	if(gn_gravityCoefficient == 0){
 		gn_gravityCoefficient = (event.accelerationIncludingGravity.z < 0)?1:-1;
 		return;
@@ -330,7 +330,7 @@ function snapShot(){
 	};
 
 	// Normalize gravity
-	if(gn._normalizeGravity){
+	if(gn._gravityNormalized){
 		snapShot.dm.gx *= gn_gravityCoefficient;
 		snapShot.dm.gy *= gn_gravityCoefficient;
 		snapShot.dm.gz *= gn_gravityCoefficient;
