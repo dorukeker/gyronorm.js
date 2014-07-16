@@ -88,7 +88,7 @@ Changes the value of the <em>gravityNormalized</em> option. It can be called any
 
 #####Parameters
 
-flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <em>false</em> set it to false.
+flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <em>false</em> set it to off.
 
 ####gn.giveAbsoluteDirection()
 
@@ -100,9 +100,18 @@ Changes the value of the <em>directionAbsolute</em> option. It can be called any
 
 #####Parameters
 
-flag - boolean - <em>true</em> sets the option <em>directionAbsolute</em> on, <em>false</em> set it to false.
+flag - boolean - <em>true</em> sets the option <em>directionAbsolute</em> on, <em>false</em> set it to off.
 
 ####gn.setHeadDirection()
+
+Must be called when the <em>gn.start()</em> function is running. When called, starts returning the <em>do.alpha</em> value relative to the current head direction of the decvice.
+
+Once this function is called <em>directionAbsolute</em> option is also set to <em>false</em>
+
+#####Syntax
+
+	gn.setHeadDirection();
+
 
 ####gn.stop()
 
