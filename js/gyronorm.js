@@ -147,7 +147,7 @@ gn.normalizeGravity = function(flag){
 * @param boolean flag
 *
 */
-gn.giveAbsoluteOrientation = function(flag){
+gn.giveAbsoluteDirection = function(flag){
 	gn._directionAbsolute = (flag)?true:false;
 }
 
