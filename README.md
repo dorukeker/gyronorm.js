@@ -59,7 +59,8 @@ Call this method before everyting else
 
 #####Parameters
 
-argr - Object. Passes the values to overwrite the default option values. See above for usage. 
+args - Object. Passes the values to overwrite the default option values. See above for usage. 
+
 		
 ####gn.start()
 
