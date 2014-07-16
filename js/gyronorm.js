@@ -315,6 +315,7 @@ function snapShot(){
 			alpha:rnd(alphaToSend),
 			beta:rnd(gn._values.do.beta),
 			gamma:rnd(gn._values.do.gamma),
+			absolute:gn._values.do.absolute
 		},
 		dm:{
 			x:rnd(gn._values.dm.x),
