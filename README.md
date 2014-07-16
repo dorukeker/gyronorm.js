@@ -90,7 +90,17 @@ Changes the value of the <em>gravityNormalized</em> option. It can be called any
 
 flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <em>false</em> set it to false.
 
-####gn.giveAbsoluteOrientation()
+####gn.giveAbsoluteDirection()
+
+Changes the value of the <em>directionAbsolute</em> option. It can be called any time.
+
+#####Syntax
+
+	gn.giveAbsoluteDirection(flag);
+
+#####Parameters
+
+flag - boolean - <em>true</em> sets the option <em>directionAbsolute</em> on, <em>false</em> set it to false.
 
 ####gn.setHeadDirection()
 
