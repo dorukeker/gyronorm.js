@@ -61,6 +61,7 @@ Call this method before everyting else
 
 args - object (optional) - Passes the values to overwrite the default option values. See above for usage. 
 
+
 		
 ####gn.start()
 
@@ -74,7 +75,19 @@ Starts returning values via the callback function. The callback function is call
 
 callback - function(data) - The callback function that returns the <em>gn</em> values via the <em>data</em> parameter. The available values via <em>data</em> is listed above. 
 
+
+
 ####gn.normalizeGravity()
+
+Changes the value of the <em>gravityNormalized</em> option. It can be called any time.
+
+#####Syntax
+
+
+
+#####Parameters
+
+flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <em>false</em> set it to false.
 
 ####gn.giveAbsoluteOrientation()
 
