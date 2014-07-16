@@ -83,7 +83,7 @@ Changes the value of the <em>gravityNormalized</em> option. It can be called any
 
 #####Syntax
 
-
+	gn.normalizeGravity(flag);
 
 #####Parameters
 
