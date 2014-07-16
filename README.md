@@ -1,7 +1,7 @@
 #gyronorm.js
 Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.
 
-It has options to uniform the alpha value, and normalize the gravity related values. It returns consistent values across different devices. You can find more about these differences [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
+It has options to uniform the alpha value, and normalize the gravity related values. It returns consistent values across different devices. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
 
 ##How to use
 Add the JS file to your HTML
@@ -63,6 +63,8 @@ args - Object. Passes the values to overwrite the default option values. See abo
 
 		
 ####gn.start()
+
+Starts returning values via the callback function. The callback function is called every many milliseconds defined by the <em>frequency</em> option. See above on how to set the <em>frequency</em>. The default frequency is 50ms. 
 
 ####gn.normalizeGravity()
 
