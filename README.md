@@ -20,6 +20,7 @@ Access the values in the callback function of the <em>gn.start()</em>
 			// data.do.alpha	( deviceorientation event alpha value )
 			// data.do.beta		( deviceorientation event beta value )
 			// data.do.gamma	( deviceorientation event gamma value )
+			// data.do.absolute	( deviceorientation event absolute value )
 		
 			// data.dm.x		( devicemotion event acceleration x value )
 			// data.dm.y		( devicemotion event acceleration y value )
