@@ -59,12 +59,20 @@ Call this method before everyting else
 
 #####Parameters
 
-args - Object. Passes the values to overwrite the default option values. See above for usage. 
+args - object (optional) - Passes the values to overwrite the default option values. See above for usage. 
 
 		
 ####gn.start()
 
 Starts returning values via the callback function. The callback function is called every many milliseconds defined by the <em>frequency</em> option. See above on how to set the <em>frequency</em>. The default frequency is 50ms. 
+
+#####Syntax
+
+	gn.start(callback);
+
+#####Parameters
+
+callback - function(data) - The callback function that returns the <em>gn</em> values via the <em>data</em> parameter. The available values via <em>data</em> is listed above. 
 
 ####gn.normalizeGravity()
 
