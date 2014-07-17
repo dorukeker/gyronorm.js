@@ -1,7 +1,7 @@
 #gyronorm.js
 Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.
 
-It has options to uniform the alpha value, and normalize the gravity related values. It returns consistent values across different devices. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
+It has options to uniform the alpha value (rotation around z-axis), and normalize the gravity related values. It returns consistent values across different devices. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
 
 ##How to use
 Add the JS file to your HTML
@@ -36,7 +36,7 @@ Access the values in the callback function of the `gn.start()`
 		});
 	
 ###Options
-You can pass arguments as an object to the <em>gn.init()</em> function. The values you pass overwrites the default values. Below is the list of available options and their default values.
+You can pass arguments as an object to the `gn.init()` function. The values you pass overwrites the default values. Below is the list of available options and their default values.
 
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
@@ -49,10 +49,7 @@ You can pass arguments as an object to the <em>gn.init()</em> function. The valu
 
 ###Methods
 ####gn.init()
-- Adds the event listeners to the window object
-- If extra arguments are provided overwrites the default options (see above)
-
-Call this method before everyting else
+Adds event listeners to the window object. If extra arguments are provided overwrites the default options (see above). Call this method before everyting else.
 
 #####Syntax
 
@@ -74,7 +71,7 @@ Starts returning values via the callback function. The callback function is call
 
 #####Parameters
 
-callback - function(data) - The callback function that returns the <em>gn</em> values via the <em>data</em> parameter. The available values via <em>data</em> is listed above. 
+callback - function(data) - Function that returns values via the <em>data</em> object. The available values via <em>data</em> are listed above. 
 
 
 
@@ -89,6 +86,19 @@ Changes the value of the <em>gravityNormalized</em> option. It can be called any
 #####Parameters
 
 flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <em>false</em> set it to off.
+
+#####Example
+	
+	gn.init();
+	gn.start(function(){
+			// Process return values here
+		});
+
+		// At this point call back function returns normalized values.
+
+		gn.normalizeGravity(false);
+
+		// At this point call back function returns native values as provided by the device.		
 
 ####gn.giveAbsoluteDirection()
 
