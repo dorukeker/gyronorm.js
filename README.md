@@ -1,7 +1,7 @@
 #gyronorm.js
 Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.
 
-It has options to uniform the alpha value (rotation around z-axis), and normalize the gravity related values. It returns consistent values across different devices. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
+It has options to uniform the alpha value (rotation around z-axis), and normalize the gravity-related values. It returns consistent values across different devices. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
 
 ##How to use
 Add the JS file to your HTML
@@ -36,7 +36,7 @@ Access the values in the callback function of the `gn.start()`
 		});
 	
 ###Options
-You can pass arguments as an object to the `gn.init()` function. The values you pass overwrites the default values. Below is the list of available options and their default values.
+You can pass arguments as an object to the `gn.init()` method. The values you pass overwrites the default values. Below is the list of available options and their default values.
 
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
@@ -94,11 +94,11 @@ flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <e
 		// Process return values here
 	});
 
-	// At this point call back function returns normalized values.
+	// At this point callback function returns normalized gravity-related values.
 
 	gn.normalizeGravity(false);
 
-	// At this point call back function returns native values as provided by the device.		
+	// At this point callback function returns native values gravity-related as provided by the device.		
 
 ####gn.giveAbsoluteDirection()
 
@@ -112,22 +112,61 @@ Changes the value of the <em>directionAbsolute</em> option. It can be called any
 
 flag - boolean - <em>true</em> sets the option <em>directionAbsolute</em> on, <em>false</em> set it to off.
 
+#####Example
+
+	gn.init();
+	gn.start(function(){
+		// Process return values here
+	});
+
+	// At this point callback function returns do.alpha values relative to the initial position of the device
+
+	gn.giveAbsoluteDirection(true);
+
+	// At this point callback function returns do.alpha values as provided by the device.	
+
 ####gn.setHeadDirection()
 
-Must be called when the <em>gn.start()</em> function is running. When called, starts returning the <em>do.alpha</em> value relative to the current head direction of the decvice.
+Must be called after the `gn.start()` method. When called, the callback function starts returning the <em>do.alpha</em> value relative to the current head direction of the decvice.
 
-Once this function is called <em>directionAbsolute</em> option is also set to <em>false</em>
+Once this method is called <em>directionAbsolute</em> option is also set to <em>false</em>
 
 #####Syntax
 
 	gn.setHeadDirection();
 
+#####Example
+
+	gn.init();
+	gn.start(function(){
+		// Process return values here
+	});
+
+	// At this point callback function returns do.alpha values relative to the initial position of the device
+
+	gn.setHeadDirection();
+
+	// At this point callback function returns do.alpha values relative to the position of the device when the above line is called
 
 ####gn.stop()
 
+Stops executing the callback function, that was started by the `gn.start()` method. It does not removes the event listeners. If you want to remove the event listeners you should call `gn.end()` method.
+
+#####Syntax
+
+	gn.stop();
+
 ####gn.end()
 
+Stops executing the callback function, that was started by the `gn.start()` method. Also removes the event listeners.
+
+#####Syntax
+
+	gn.end();
+
 ###Error Handling
+
+
 
 ##Compatibility
 
