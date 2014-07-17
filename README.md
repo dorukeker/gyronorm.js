@@ -166,8 +166,41 @@ Stops executing the callback function, that was started by the `gn.start()` meth
 
 ###Error Handling
 
+<em>gn</em> object returns errors and log messages. You can use the `gn.log` parameter to set a listener function for these logs.
 
+	gn.log = function(data){
+		// Process data.code and data.message
+	}
+
+The return value `data` is an object with two parameters
+
+####data.code
+
+An log code that you can check on.
+
+#####Availabele codes
+
+0 - Errors thrown by the system and caugth by gyronorm.js
+1 - gyronorm is not initialized so the event listeners are not added yet. You get this if you try to call `gn.star()` before `gn.init()`
+2 - The deviceOrientation event of the window seems to be available but not returning the expected values.
+3 - Device compass is not calibrated
+
+####data.message
+
+The human-readable message.
 
 ##Compatibility
 
+I got the demo.html filw working in device/operating system/browser combinations. Below is my list so far. I will update this list in the future. Please also share your findings so we can have a more comlete list.
+
+- iPhone 5 - iOS 8 beta - Safari
+- HTC One - Android 4.2.2 - Native Browser
+- HTC One - Android 4.2.2 - Chrome 35.0.1916.141
+- Samsung Galaxy S5 - Android 4.4.2 - Native Browser
+- Samsung Galaxy S5 - Android 4.4.2 - Chrome 35.0.1916.141
+
 ##Road Map
+
+This file was created for a concept project. I have some ideas that might be added in the future. This list is subject to change depending on the feedback I receive. Please also note that the time frame is not certain for any of those features.
+
+
