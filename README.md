@@ -166,7 +166,7 @@ Stops executing the callback function, that was started by the `gn.start()` meth
 
 ###Error Handling
 
-<em>gn</em> object returns errors and log messages. You can use the `gn.log` parameter to set a listener function for these logs.
+<em>gn</em> object returns errors and log messages. You can use the `gn.log` parameter to set a listener function for these logs. If it is not assigned the messages will be ignored silently.
 
 	gn.log = function(data){
 		// Process data.code and data.message
