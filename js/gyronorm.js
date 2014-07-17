@@ -93,6 +93,7 @@ gn.end = function(){
 		gn.stop();
 		window.removeEventListener('deviceorientation',onDeviceOrientationHandler);
 		window.removeEventListener('devicemotion',onDeviceMotionHandler);
+		window.removeEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler);
 		gn_isready = false;
 	} catch(err){
 		onError(err);
@@ -175,21 +176,6 @@ function gn_setupListeners(){
 	window.addEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler,true);
 }
 
-
-/*
-*
-* Starts listening to orientation event on the window object
-*
-*/
-function onError(err){
-	if(gn.log){
-		if(typeof(err) == 'string'){
-			err = {message:err , code:0}
-		}
-		gn.log(err);
-	}
-}
-
 /*
 *
 * Gets called only in calibration mode. Gets the mean value of the alpha deviations. And stores it as calibration.
@@ -209,7 +195,7 @@ function updateCalibration(){
 
 /*
 *
-* Handler for deviceo orientation event
+* Handler for device orientation event
 *
 */
 function onDeviceOrientationHandler(event){
@@ -338,4 +324,19 @@ function snapShot(){
 	}	
 
 	return snapShot;
+}
+
+
+/*
+*
+* Starts listening to orientation event on the window object
+*
+*/
+function onError(err){
+	if(gn.log){
+		if(typeof(err) == 'string'){
+			err = {message:err , code:0}
+		}
+		gn.log(err);
+	}
 }
