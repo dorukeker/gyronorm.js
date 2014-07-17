@@ -180,10 +180,10 @@ An log code that you can check on.
 
 #####Availabele codes
 
-0 - Errors thrown by the system and caugth by gyronorm.js
-1 - gyronorm is not initialized so the event listeners are not added yet. You get this if you try to call `gn.star()` before `gn.init()`
-2 - The deviceOrientation event of the window seems to be available but not returning the expected values.
-3 - Device compass is not calibrated
+- 0 - Errors thrown by the system and caugth by gyronorm.js
+- 1 - gyronorm is not initialized so the event listeners are not added yet. You get this if you try to call `gn.star()` before `gn.init()`
+- 2 - The deviceOrientation event of the window seems to be available but not returning the expected values.
+- 3 - Device compass is not calibrated
 
 ####data.message
 
