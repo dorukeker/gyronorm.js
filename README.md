@@ -1,7 +1,7 @@
 #gyronorm.js
 Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.
 
-It has options to uniform the alpha value (rotation around z-axis), and normalize the gravity-related values. It returns consistent values across different devices. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
+It returns consistent values across different devices. It has options to uniform the alpha value (rotation around z-axis), and normalize the gravity-related values. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
 
 ##How to use
 Add the JS file to your HTML
@@ -203,4 +203,6 @@ Below is a list of device/operating system/browser combinations. The demo.html f
 
 gyronorm.js was created for a concept project. Below are some ideas that might be added in the future. This list is subject to change depending on the feedback I receive. Please also note that the time frame is not certain for any of those features.
 
+##Contact
 
+You can find me on Twitter @dorukeker or check my web site http://dorukeker.com
