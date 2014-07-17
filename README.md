@@ -199,10 +199,6 @@ Below is a list of device/operating system/browser combinations. The demo.html f
 - Samsung Galaxy S5 - Android 4.4.2 - Native Browser
 - Samsung Galaxy S5 - Android 4.4.2 - Chrome 35.0.1916.141
 
-##Road Map
-
-gyronorm.js was created for a concept project. Below are some ideas that might be added in the future. This list is subject to change depending on the feedback I receive. Please also note that the time frame is not certain for any of those features.
-
 ##Contact
 
 You can find me on Twitter [@dorukeker](https://twitter.com/dorukeker) or check my web site http://dorukeker.com
