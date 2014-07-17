@@ -91,14 +91,14 @@ flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <e
 	
 	gn.init();
 	gn.start(function(){
-			// Process return values here
-		});
+		// Process return values here
+	});
 
-		// At this point call back function returns normalized values.
+	// At this point call back function returns normalized values.
 
-		gn.normalizeGravity(false);
+	gn.normalizeGravity(false);
 
-		// At this point call back function returns native values as provided by the device.		
+	// At this point call back function returns native values as provided by the device.		
 
 ####gn.giveAbsoluteDirection()
 
