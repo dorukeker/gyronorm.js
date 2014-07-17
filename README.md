@@ -10,7 +10,7 @@ Add the JS file to your HTML
 
 Initialiize and start the <em>gn</em> object
 
-Access the values in the callback function of the <em>gn.start()</em>
+Access the values in the callback function of the `gn.start()`
 
 	<script src="/js/gyronorm.js"></script>
 	
