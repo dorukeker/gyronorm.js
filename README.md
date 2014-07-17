@@ -205,4 +205,4 @@ gyronorm.js was created for a concept project. Below are some ideas that might b
 
 ##Contact
 
-You can find me on Twitter @dorukeker or check my web site http://dorukeker.com
+You can find me on Twitter [@dorukeker](https://twitter.com/dorukeker) or check my web site http://dorukeker.com
