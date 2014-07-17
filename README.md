@@ -150,7 +150,7 @@ Once this method is called <em>directionAbsolute</em> option is also set to <em>
 
 ####gn.stop()
 
-Stops executing the callback function, that was started by the `gn.start()` method. It does not removes the event listeners. If you want to remove the event listeners you should call `gn.end()` method.
+Stops executing the callback function, that was started by the `gn.start()` method. It does not remove the event listeners. If you want to remove the event listeners you should call `gn.end()` method.
 
 #####Syntax
 
