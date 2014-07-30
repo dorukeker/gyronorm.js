@@ -76,13 +76,11 @@
 
 	<script type="text/javascript">
 
-		var args = new Object();
-		gn.log = function(err){
-			console.log(err);
-		}
+		var gn;
 
 		function init_gn(){
-			gn.init(args);	
+			gn = new GyroNorm();
+			console.log(gn);
 		}		
 
 		function stop_gn(){
