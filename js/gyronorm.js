@@ -8,6 +8,41 @@
 */
 
 
+
+/*
+TODO
+
+MAKE A MODULE
+
+LOG FUNCTION
+Add to options
+Set function on public
+
+CALIBRATION
+Change the update function
+	discard the first 5 values
+	Set the value of calibration to the avarage of the current calibration
+	Start returning values after the first 5
+
+
+CHANGE DEMO FILE
+
+------------
+
+Listen one event at a time only
+- options to listen orientation and/or motion event
+- public funtion to start / stop listening
+- status function to get what is being listened
+
+Availability check for the events
+Public function for snap shot
+Trigger function on change
+	- orientation
+	- motion
+
+*/
+
+
 window.GyroNorm = (function(){
 
 	/*-------------------------------------------------------*/
