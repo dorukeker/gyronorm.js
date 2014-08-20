@@ -12,8 +12,6 @@
 /*
 TODO
 
-MAKE A MODULE
-
 LOG FUNCTION
 Add to options
 Set function on public
@@ -43,9 +41,18 @@ Trigger function on change
 */
 
 
-window.GyroNorm = (function(){
-
-	/*-------------------------------------------------------*/
+(function (root, factory) {
+  if(typeof define === "function" && define.amd) {
+    define(function(){
+      return (root.GyroNorm = factory());
+    });
+  } else if(typeof module === "object" && module.exports) {
+    module.exports = (root.GyroNorm = factory());
+  } else {
+    root.GyroNorm = factory();
+  }
+}(this, function() {
+  /*-------------------------------------------------------*/
 	/* PRIVATE VARIABLES */
 
 	var _interval = null;					// Timer to return values
@@ -375,4 +382,4 @@ window.GyroNorm = (function(){
 
 
 	return GyroNorm;
-}());
+}));
