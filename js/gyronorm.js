@@ -7,39 +7,6 @@
 * @license MIT License | http://opensource.org/licenses/MIT 
 */
 
-
-
-/*
-TODO
-
-LOG FUNCTION
-Set function on public
-
-CALIBRATION
-Change the update function
-	discard the first 5 values
-	Set the value of calibration to the avarage of the current calibration
-	Start returning values after the first 5
-
-
-CHANGE DEMO FILE
-
-------------
-
-Listen one event at a time only
-- options to listen orientation and/or motion event
-- public funtion to start / stop listening
-- status function to get what is being listened
-
-Availability check for the events
-Public function for snap shot
-Trigger function on change
-	- orientation
-	- motion
-
-*/
-
-
 (function (root, factory) {
   if(typeof define === "function" && define.amd) {
     define(function(){
@@ -51,7 +18,7 @@ Trigger function on change
     root.GyroNorm = factory();
   }
 }(this, function() {
-  /*-------------------------------------------------------*/
+  	/*-------------------------------------------------------*/
 	/* PRIVATE VARIABLES */
 
 	var _interval = null;					// Timer to return values
@@ -59,8 +26,6 @@ Trigger function on change
 	var _calibrationValues = new Array();	// Array to store values when calculating alpha offset 
 	var _calibrationValue = 0;				// Alpha offset value
 	var _gravityCoefficient = 0;			// Coefficient to normalze gravity related values
-	var _isready = false;					// Flag if event listeners are added
-
 	var _logger = null;						// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
 
 	/* OPTIONS */
@@ -119,8 +84,6 @@ Trigger function on change
 		} catch(err){
 			log(err);
 		}
-
-		_isready = true;
 	}
 
 	/*
@@ -134,7 +97,6 @@ Trigger function on change
 			window.removeEventListener('deviceorientation',onDeviceOrientationHandler);
 			window.removeEventListener('devicemotion',onDeviceMotionHandler);
 			window.removeEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler);
-			_isready = false;
 		} catch(err){
 			log(err);
 		}
@@ -148,10 +110,6 @@ Trigger function on change
 	*
 	*/
 	GyroNorm.prototype.start = function(callback){
-		if(!_isready){
-			log({message:'GyroNorm is not initialized. First call gn.init()' , code:1});
-			return;
-		}
 		calibrate();
 		_interval = setInterval(function(){
 			callback(snapShot());	
