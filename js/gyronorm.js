@@ -13,7 +13,6 @@
 TODO
 
 LOG FUNCTION
-Add to options
 Set function on public
 
 CALIBRATION
@@ -62,7 +61,7 @@ Trigger function on change
 	var _gravityCoefficient = 0;			// Coefficient to normalze gravity related values
 	var _isready = false;					// Flag if event listeners are added
 
-	var _log = null;						// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
+	var _logger = null;						// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
 
 	/* OPTIONS */
 	var _frequency 				= 50;		// Frequency for the return data in milliseconds
@@ -102,6 +101,7 @@ Trigger function on change
 	* @param boolean options.gravityNormalized
 	* @param boolean options.directionAbsolute
 	* @param boolean options.decimalCount
+	* @param function options.logger
 	*
 	*/
 
@@ -111,12 +111,13 @@ Trigger function on change
 		if(options && options.gravityNormalized) _gravityNormalized = options.gravityNormalized;
 		if(options && options.directionAbsolute) _directionAbsolute = options.directionAbsolute;
 		if(options && options.decimalCount) _decimalCount = options.decimalCount;
+		if(options && options.logger) _logger = options.logger;
 
 		try{
 			calibrate();
 			setupListeners();
 		} catch(err){
-			onError(err);
+			log(err);
 		}
 
 		_isready = true;
@@ -135,7 +136,7 @@ Trigger function on change
 			window.removeEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler);
 			_isready = false;
 		} catch(err){
-			onError(err);
+			log(err);
 		}
 	}
 
@@ -148,7 +149,7 @@ Trigger function on change
 	*/
 	GyroNorm.prototype.start = function(callback){
 		if(!_isready){
-			onError({message:'GyroNorm is not initialized. First call gn.init()' , code:1});
+			log({message:'GyroNorm is not initialized. First call gn.init()' , code:1});
 			return;
 		}
 		calibrate();
@@ -201,6 +202,26 @@ Trigger function on change
 		calibrate();
 	}
 
+	/*
+	*
+	* Sets the log function
+	*
+	*/
+	GyroNorm.prototype.startLogging = function(logger){
+		if(logger){
+			_logger = logger;
+		}
+	}
+
+	/*
+	*
+	* Sets the log function to null which stops the logging
+	*
+	*/
+	GyroNorm.prototype.stopLogging = function(){
+		_logger = null;
+	}
+
 	/*-------------------------------------------------------*/
 	/* PRIVATE FUNCTIONS */
 
@@ -240,7 +261,7 @@ Trigger function on change
 	function onDeviceOrientationHandler(event){
 		// Check if values are returned correctly
 		if(!event.alpha && !event.beta && !event.gamma){
-			onError({message:'Device orientation event values are not returned as expected.' , code:2 });
+			log({message:'Device orientation event values are not returned as expected.' , code:2 });
 			window.removeEventListener('deviceorientation',onDeviceOrientationHandler);
 		}
 
@@ -293,7 +314,7 @@ Trigger function on change
 	*/
 	function onCompassNeedsCalibrationHandler(event){
 
-		onError({message:'Compass is not calibrated.' , code:3});
+		log({message:'Compass is not calibrated.' , code:3});
 
 	}
 
@@ -371,12 +392,12 @@ Trigger function on change
 	* Starts listening to orientation event on the window object
 	*
 	*/
-	function onError(err){
-		if(_log){
+	function log(err){
+		if(_logger){
 			if(typeof(err) == 'string'){
 				err = {message:err , code:0}
 			}
-			_log(err);
+			_logger(err);
 		}
 	}
 
