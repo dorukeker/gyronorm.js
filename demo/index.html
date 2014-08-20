@@ -5,82 +5,158 @@
 <script src="/js/gyronorm.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
-	div.col-xs-3, div.col-xs-1{
-		padding-right: 0;
+	input[type=button]{
+		margin-top: 10px;
+	}
+
+	.input-group{
+		float: left !important;
+	}
+
+	.nav-button{
+		text-align: center;
+		background: #ccc;
+		height: 30px;
+		line-height: 30px;
+		border-bottom: 1px solid #aaa;
+		border-left: 1px solid #aaa;
+		border-right: 1px solid #aaa;
+	}
+
+	.nav-button.selected{
+		background: #f1f1f1;
+		border:none;
+	}
+
+	body{
+		background: #f1f1f1;
+	}
+
+	#dm{
+		padding-bottom: 200px;
+	}
+
+	#footer{
+		height: 130px;
+		position: fixed;
+		z-index: 2;
+		bottom: 0;
 	}
 </style>
 </head>
 <body onload="init_gn()">
 
+	<div class="col-xs-6 nav-button selected" onclick="showDO()" id="btn-do">Device Orientation</div>
+	<div class="col-xs-6 nav-button" onclick="showDM()" id="btn-dm">Device Motion</div>
+	<div class="col-xs-12" id="do">
 
-	
-	
-	<div class="col-xs-12">
-		<strong>Device Orientation Event</strong>
+		<p>&nbsp;</p>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">alpha</span>
+		  <input type="text" class="form-control" id="do_alpha">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">beta</span>
+		  <input type="text" class="form-control" id="do_beta">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">gamma</span>
+		  <input type="text" class="form-control" id="do_gamma">
+		</div>
+
+		<input type="button" onclick="abs_gn()" value="Absolute" class="col-xs-12 btn-warning btn"/> 
+		<input type="button" onclick="rel_gn()" value="Relative" class="col-xs-12 btn-warning btn"/> 
+		
+		<input type="button" onclick="set_head_gn()" value="Set Head Direction" class="col-xs-12 btn-warning btn"/> 
+
 	</div>
-	<div class="col-xs-6">alpha:</div>
-	<input class="col-xs-6" id="do_alpha"/>
-	<div class="col-xs-6">beta:</div>
-	<input class="col-xs-6" id="do_beta"/>
-	<div class="col-xs-6">gamma:</div>
-	<input class="col-xs-6" id="do_gamma"/>
+	<div class="col-xs-12" id="dm" style="display:none;">
 
-	<p>&nbsp;</p>
+		<div class="col-xs-12">
+			Acceleration
+		</div>
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">x</span>
+		  <input type="text" class="form-control" id="dm_x">
+		</div>
 
-	<div class="col-xs-12">
-		<strong>Device Motion Event</strong>
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">y</span>
+		  <input type="text" class="form-control" id="dm_y">
+		</div>
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">z</span>
+		  <input type="text" class="form-control" id="dm_z">
+		</div>
+
+
+		<p>&nbsp;</p>
+		<div class="col-xs-12">
+			Acceleration including gravity
+		</div>
+		
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">x</span>
+		  <input type="text" class="form-control" id="dm_gx">
+		</div>
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">y</span>
+		  <input type="text" class="form-control" id="dm_gy">
+		</div>
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">z</span>
+		  <input type="text" class="form-control" id="dm_gz">
+		</div>
+
+		<input type="button" onclick="norm_gn()" value="Normalize" class="col-xs-6 btn-warning btn"/> 	
+		<input type="button" onclick="org_gn()" value="Original" class="col-xs-6 btn-warning btn"/> 
+
+		<p>&nbsp;</p>
+		<div class="col-xs-12">
+			Rotation rate
+		</div>
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">alpha</span>
+		  <input type="text" class="form-control" id="dm_alpha">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">beta</span>
+		  <input type="text" class="form-control" id="dm_beta">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">gamma</span>
+		  <input type="text" class="form-control" id="dm_gamma">
+		</div>
+		
+		
+		
 	</div>
-	<div class="col-xs-12">
-		Acceleration
+
+	<div id="footer">
+		<input type="button" onclick="start_gn()" value="START" class="col-xs-6 btn-info btn"/> 	
+		<input type="button" onclick="stop_gn()" value="STOP" class="col-xs-6 btn-info btn"/> 
+		<textarea class="col-xs-12 form-control" id="error-message" style="height:100px" placeholder="Log area..."></textarea>
 	</div>
-	<div class="col-xs-1">x:</div>
-	<input class="col-xs-3" id="dm_x"/>
-	<div class="col-xs-1">y:</div>
-	<input class="col-xs-3" id="dm_y"/>
-	<div class="col-xs-1">z:</div>
-	<input class="col-xs-3" id="dm_z"/>
-
-
-	<p>&nbsp;</p>
-	<div class="col-xs-12">
-		Acceleration including gravity
-	</div>
-	<div class="col-xs-1">x:</div>
-	<input class="col-xs-3" id="dm_gx"/>
-	<div class="col-xs-1">y:</div>
-	<input class="col-xs-3" id="dm_gy"/>
-	<div class="col-xs-1">z:</div>
-	<input class="col-xs-3" id="dm_gz"/>
-
-	<p>&nbsp;</p>
-	<div class="col-xs-12">
-		Rotation rate
-	</div>
-	<div class="col-xs-6">alpha:</div>
-	<input class="col-xs-6" id="dm_alpha"/>
-	<div class="col-xs-6">beta:</div>
-	<input class="col-xs-6" id="dm_beta"/>
-	<div class="col-xs-6">gamma:</div>
-	<input class="col-xs-6" id="dm_gamma"/>
-
-	<input type="button" onclick="start_gn()" value="START" class="col-xs-4 btn-info btn"/> 
-	<input type="button" onclick="abs_gn()" value="Absolute" class="col-xs-4 btn-info btn"/> 
-	<input type="button" onclick="norm_gn()" value="Normalize" class="col-xs-4 btn-info btn"/> 
-	
-	<input type="button" onclick="stop_gn()" value="STOP" class="col-xs-4 btn-info btn"/> 
-	<input type="button" onclick="rel_gn()" value="Relative" class="col-xs-4 btn-info btn"/> 
-	<input type="button" onclick="org_gn()" value="Original" class="col-xs-4 btn-info btn"/> 
-
-	<textarea class="col-xs-12 form-control" id="error-message" style="height:100px"></textarea>
-
 
 	<script type="text/javascript">
 
 		var gn;
 
 		function init_gn(){
-			gn = new GyroNorm();
-			console.log(gn);
+			var args = {logger:function(data){
+				$('#error-message').val(data.message);
+			}};
+			gn = new GyroNorm(args);
+			start_gn();
 		}		
 
 		function stop_gn(){
@@ -110,11 +186,11 @@
 		}
 
 		function abs_gn(){
-			gn.giveAbsoluteOrientation(true);
+			gn.giveAbsoluteDirection(true);
 		}
 
 		function rel_gn(){
-			gn.giveAbsoluteOrientation(false);
+			gn.giveAbsoluteDirection(false);
 		}
 
 		function norm_gn(){
@@ -123,6 +199,24 @@
 
 		function org_gn(){
 			gn.normalizeGravity(false);
+		}
+
+		function set_head_gn(){
+			gn.setHeadDirection();
+		}
+
+		function showDO(){
+			$('#do').show();
+			$('#dm').hide();
+			$('#btn-dm').removeClass('selected');
+			$('#btn-do').addClass('selected');
+		}
+
+		function showDM(){
+			$('#dm').show();
+			$('#do').hide();
+			$('#btn-do').removeClass('selected');
+			$('#btn-dm').addClass('selected');
 		}
 
 
