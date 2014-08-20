@@ -167,7 +167,9 @@ Stops executing the callback function, that was started by the `start()` method.
 
 ###Error Handling
 
-<em>gn</em> object can return errors and log messages. You need to define a function to handle those message. You can do this with the options when initializing the object.
+GyroNorm can return errors and log messages. You need to define a function to handle those message.
+
+You can do this with the options when initializing the object.
 	
 	var args = {logger:function(data){
 		// Do something with the data
@@ -198,7 +200,7 @@ The return value `data` is an object with two parameters
 
 ####data.code
 
-An log code that you can check on.
+A log code that you can check on.
 
 #####Availabele codes
 
@@ -223,12 +225,12 @@ Below is a list of device/operating system/browser combinations. The demo.html f
 
 ##Next Steps
 
-Below is a list of things I plan to add in the future. Please note that it is not a dfinitive or priorotized list. I will add these features as I need them or as I have time.
+Below is a list of things I plan to add in the future. Please note that it is not a definitive or prioritized list. I will add these features as I need them or as I have time.
 
 - Option to track deviceorientation and devicemotion events seperately
 - Providing alpha values even in the calibration mode
-- Booblean values to check if events are available in the device
-- Option to get snap shot of the values (not only tracking)
+- Boolean values to check if events are available in the device
+- Option to get snap shot of the values (currently it is only tracking)
 
 ##Contact
 
