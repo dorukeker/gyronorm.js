@@ -218,6 +218,7 @@ The human-readable message.
 Below is a list of device/operating system/browser combinations. The demo.html file worked on them out of the box. I will update this list in the future. Please also share your findings so we can have a more complete list.
 
 - iPhone 5 - iOS 8 beta - Safari
+- iPhone 4 - iOS 6.x - Safari
 - HTC One - Android 4.2.2 - Native Browser
 - HTC One - Android 4.2.2 - Chrome 35.0.1916.141
 - Samsung Galaxy S5 - Android 4.4.2 - Native Browser
