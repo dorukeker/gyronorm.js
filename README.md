@@ -221,6 +221,7 @@ Below is a list of device/operating system/browser combinations. The demo.html f
 - iPhone 4 - iOS 6.x - Safari
 - HTC One - Android 4.2.2 - Native Browser
 - HTC One - Android 4.2.2 - Chrome 35.0.1916.141
+- HTC One - Android 4.2.2 - Firefox 31.0
 - Samsung Galaxy S5 - Android 4.4.2 - Native Browser
 - Samsung Galaxy S5 - Android 4.4.2 - Chrome 35.0.1916.141
 
