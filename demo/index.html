@@ -152,12 +152,15 @@
 		var gn;
 
 		function init_gn(){
-			var args = {logger:function(data){
-				$('#error-message').val(data.message);
-			}};
+			var args = {logger:logger};
 			gn = new GyroNorm(args);
+
 			start_gn();
-		}		
+		}	
+
+		function logger(data){
+			$('#error-message').val(data.message);
+		}	
 
 		function stop_gn(){
 			gn.stop();

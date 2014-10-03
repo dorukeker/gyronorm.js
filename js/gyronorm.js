@@ -21,12 +21,15 @@
   	/*-------------------------------------------------------*/
 	/* PRIVATE VARIABLES */
 
-	var _interval = null;					// Timer to return values
-	var _isCalibrating = false;				// Flag if calibrating
-	var _calibrationValues = new Array();	// Array to store values when calculating alpha offset 
-	var _calibrationValue = 0;				// Alpha offset value
-	var _gravityCoefficient = 0;			// Coefficient to normalze gravity related values
-	var _logger = null;						// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
+	var _interval = null;							// Timer to return values
+	var _isCalibrating = false;						// Flag if calibrating
+	var _calibrationValues = new Array();			// Array to store values when calculating alpha offset 
+	var _calibrationValue = 0;						// Alpha offset value
+	var _gravityCoefficient = 0;					// Coefficient to normalze gravity related values
+	var _logger = null;								// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
+	var _deviceOrientationAvailable = true;			// Boolean flag if deviceorientation event is available on the device/browser
+	var _deviceMotionAvailable = true;				// Boolean flag if devicemotion event is available on the device/browser
+	var _compassNeedsCalibrationAvailable = true;	// Boolean flag if devicemotion event is available on the device/browser
 
 	/* OPTIONS */
 	var _frequency 				= 50;		// Frequency for the return data in milliseconds
@@ -180,6 +183,31 @@
 		_logger = null;
 	}
 
+	/*
+	*
+	* Returns if certain type of event is available on the device
+	* 
+	* @param string _eventType - possible values are "deviceorientation" , "devicemotion" , "compassneedscalibration"
+	* 
+	* @return true if event is available false if not
+	*
+	*/
+	GyroNorm.prototype.isAvailable = function(_eventType){
+		switch(_eventType){
+			case 'deviceorientation':
+			return _deviceOrientationAvailable;
+			break;
+
+			case 'devicemotion':
+			return _deviceMotionAvailable;
+			break;
+
+			case 'compassneedscalibration':
+			return _compassNeedsCalibrationAvailable;
+			break;
+		}
+	}
+
 	/*-------------------------------------------------------*/
 	/* PRIVATE FUNCTIONS */
 
@@ -189,9 +217,24 @@
 	*
 	*/
 	function setupListeners(){
-		window.addEventListener('deviceorientation',onDeviceOrientationHandler,true);
-		window.addEventListener('devicemotion',onDeviceMotionHandler,true);
-		window.addEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler,true);
+
+		if(window.ondeviceorientation === undefined){
+			_deviceOrientationAvailable = false;
+		} else {
+			window.ondeviceorientation = onDeviceOrientationHandler;	
+		}
+
+		if(window.ondevicemotion === undefined){
+			_deviceMotionAvailable = false;
+		} else {
+			window.ondevicemotion = onDeviceMotionHandler;	
+		}
+
+		if(window.oncompassneedscalibration === undefined){
+			_compassNeedsCalibrationAvailable = false;
+		} else {
+			window.oncompassneedscalibration = onCompassNeedsCalibrationHandler;	
+		}		
 	}
 
 	/*
@@ -219,6 +262,7 @@
 	function onDeviceOrientationHandler(event){
 		// Check if values are returned correctly
 		if(!event.alpha && !event.beta && !event.gamma){
+			_deviceOrientationAvailable = false;
 			log({message:'Device orientation event values are not returned as expected.' , code:2 });
 			window.removeEventListener('deviceorientation',onDeviceOrientationHandler);
 		}
