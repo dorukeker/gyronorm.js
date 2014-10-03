@@ -152,15 +152,41 @@
 		var gn;
 
 		function init_gn(){
-			var args = {logger:logger};
+			var args = {
+				logger:logger,
+				ready:ongnready
+			};
 			gn = new GyroNorm(args);
-
-			start_gn();
 		}	
 
 		function logger(data){
-			$('#error-message').val(data.message);
+			$('#error-message').append(data.message + "\n");
 		}	
+
+		function ongnready(){
+			var isAvailable = gn.isAvailable();
+			if(!isAvailable.deviceOrientationAvailable){
+				logger({message:'Device orientation is not available.'});
+			}
+
+			if(!isAvailable.accelerationAvailable){
+				logger({message:'Device acceleration is not available.'});
+			}
+
+			if(!isAvailable.accelerationIncludingGravityAvailable){
+				logger({message:'Device acceleration incl. gravity is not available.'});
+			}	
+
+			if(!isAvailable.rotationRateAvailable){
+				logger({message:'Device rotation rate is not available.'});
+			}
+
+			if(!isAvailable.compassNeedsCalibrationAvailable){
+				logger({message:'Device compass needs calibration is not available.'});
+			}
+				
+			start_gn();
+		}
 
 		function stop_gn(){
 			gn.stop();
