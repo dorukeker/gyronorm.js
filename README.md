@@ -103,7 +103,7 @@ Tells the availability of device orientation or device motion values on the devi
 
 valueType - string - optional - If passed, the method returns `true` or `false`, depending on the availablity of a specific type of value. Possible values are `deviceorientation`,`acceleration`,`accelerationinludinggravity`,`rotationrate` or `compassneedscalibration`
 
-When called without a parameter returns and object which contains the list of values and their availibility.
+When called without a parameter returns availibility for value types.
 
 #####Example
 	
