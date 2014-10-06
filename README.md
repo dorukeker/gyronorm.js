@@ -281,8 +281,8 @@ Below is a list of things I plan to add in the future. Please note that it is no
 
 - Option to track deviceorientation and devicemotion events seperately
 - Providing alpha values even in the calibration mode
-- Boolean values to check if events are available in the device
 - Option to get snap shot of the values (currently it is only tracking)
+- Boolean value to check if GyroNorm is tracking or not
 
 ##Contact
 
