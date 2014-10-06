@@ -112,7 +112,7 @@ When called without a parameter returns availibility for value types.
 	var ongnReady = function(){
 		var doAvailable = gn.isAvailable("deviceorientation");
 		// Parameter can also be "acceleration","accelerationinludinggravity","rotationrate" or "compassneedscalibration"
-		// Returns true is device orientation is available. Returns false if not.
+		// In this example returns true is deviceorientation is available. Returns false if not.
 		
 		var gnAvailable = gn.isAvailable();
 		/* Returns the following object.
