@@ -8,32 +8,44 @@ Add the JS file to your HTML
 
 	<script src="js/gyronorm.js"></script>
 
-Initialiize and start the <em>gn</em> object
+Initialiize the and start <em>gn</em> object. Good practice is to start the object in the <em>ready</em> callback function, which you pass when initializing. 
 
 Access the values in the callback function of the `gn.start()`
 
 	<script src="/js/gyronorm.js"></script>
 	
-    	var gn = new GyroNorm();
-    	gn.start(function(data){
-    		// Process:
-			// data.do.alpha	( deviceorientation event alpha value )
-			// data.do.beta		( deviceorientation event beta value )
-			// data.do.gamma	( deviceorientation event gamma value )
-			// data.do.absolute	( deviceorientation event absolute value )
-		
-			// data.dm.x		( devicemotion event acceleration x value )
-			// data.dm.y		( devicemotion event acceleration y value )
-			// data.dm.z		( devicemotion event acceleration z value )
-		
-			// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
-			// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
-			// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
+    	var args = {read:ongnReady};
+    	var gn = new GyroNorm(args);
+    	
+		var ongnReady = function(){
+			gn.start(function(data){
+	    		// Process:
+				// data.do.alpha	( deviceorientation event alpha value )
+				// data.do.beta		( deviceorientation event beta value )
+				// data.do.gamma	( deviceorientation event gamma value )
+				// data.do.absolute	( deviceorientation event absolute value )
 			
-			// data.dm.alpha	( devicemotion event rotationRate alpha value )
-			// data.dm.beta		( devicemotion event rotationRate beta value )
-			// data.dm.gamma	( devicemotion event rotationRate gamma value )
-		});
+				// data.dm.x		( devicemotion event acceleration x value )
+				// data.dm.y		( devicemotion event acceleration y value )
+				// data.dm.z		( devicemotion event acceleration z value )
+			
+				// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
+				// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
+				// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
+				
+				// data.dm.alpha	( devicemotion event rotationRate alpha value )
+				// data.dm.beta		( devicemotion event rotationRate beta value )
+				// data.dm.gamma	( devicemotion event rotationRate gamma value )
+			});
+		}
+		
+###Backward Compatibility
+In the previous version you were able to initialize and start the object directly, with out the <em>ready</em> function
+
+		var gn = new GyroNorm();
+		gn.start(function(data){ ... });
+		
+This method still works. However the return values from the <em>isAvailable</em> function will not be reliable. I recommend you to use the <em>ready</em> callback function as described above.
 	
 ###Options
 You can pass arguments as an object to the `gn.init()` method. The values you pass overwrites the default values. Below is the list of available options and their default values.
@@ -44,6 +56,7 @@ You can pass arguments as an object to the `gn.init()` method. The values you pa
 		directionAbsolute:false,		// ( if the do.alpha value is absolute, if false the value is relative to the initial position of the device )
 		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
 		logger:null						// ( function to be called to log messages from GyroNorm )
+		ready:null						// ( callback function which is called when GyonNorm tries to add all the listeners and knows about the availability of the values ) 
 	}
 	
 	var gn = new GyroNorm(args);
@@ -74,7 +87,34 @@ Starts returning values via the callback function. The callback function is call
 
 callback - function(data) - Function that returns values via the <em>data</em> object. The available values via <em>data</em> are listed above. 
 
+####isAvailable()
 
+Tells the availiblity of device orientation or device motion values on the device and/or the browser. If passed parameters of value type, it returns <em>true</em> or <em>false</em>. If called directly returns and object contains the list of values and their availibility.
+
+#####Syntax
+
+	 gn.isAVailable(valueType);
+	
+	// or
+	
+	gn.isAVailable();
+
+#####Parameters
+
+valueType - string - optional - If passed the method returns a boolean variable telling the availiblity of that value. If not passed the function returns an object of possible value type and their availibility. Possible string values are 
+
+#####Example
+	
+	var gn = new GyroNorm();
+	gn.start(function(){
+		// Process return values here
+	});
+
+	// At this point callback function returns normalized gravity-related values.
+
+	gn.normalizeGravity(false);
+
+	// At this point callback function returns native values gravity-related as provided by the device.
 
 ####normalizeGravity()
 
