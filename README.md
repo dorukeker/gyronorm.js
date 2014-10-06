@@ -56,7 +56,7 @@ You can pass arguments as an object to the `gn.init()` method. The values you pa
 		directionAbsolute:false,		// ( if the do.alpha value is absolute, if false the value is relative to the initial position of the device )
 		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
 		logger:null						// ( function to be called to log messages from GyroNorm )
-		ready:null						// ( callback function to be called when GyonNorm tries to add all the event listeners and knows about the availability of the values ) 
+		ready:null						// ( callback function to be called when the availability of the events and values are known ) 
 	}
 	
 	var gn = new GyroNorm(args);
@@ -89,7 +89,7 @@ callback - function(data) - Function that returns values via the <em>data</em> o
 
 ####isAvailable()
 
-Tells the availiblity of device orientation or device motion values on the device and/or the browser. If passed parameters of value type, it returns <em>true</em> or <em>false</em>. If called directly returns and object contains the list of values and their availibility.
+Tells the availability of device orientation or device motion values on the device+browser combination. If passed parameters of value type, it returns <em>true</em> or <em>false</em>. If called directly returns and object contains the list of values and their availibility.
 
 #####Syntax
 
