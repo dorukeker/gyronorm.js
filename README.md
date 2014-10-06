@@ -8,35 +8,47 @@ Add the JS file to your HTML
 
 	<script src="js/gyronorm.js"></script>
 
-Initialiize and start the <em>gn</em> object
+Initialize and start the <em>gn</em> object. Good practice is to start the object in the `ready` callback function, which you pass when initializing. 
 
 Access the values in the callback function of the `gn.start()`
 
 	<script src="/js/gyronorm.js"></script>
 	
-    	var gn = new GyroNorm();
-    	gn.start(function(data){
-    		// Process:
+    	var args = {read:ongnReady};
+    	var gn = new GyroNorm(args);
+    	
+	var ongnReady = function(){
+		gn.start(function(data){
+	   		// Process:
 			// data.do.alpha	( deviceorientation event alpha value )
 			// data.do.beta		( deviceorientation event beta value )
 			// data.do.gamma	( deviceorientation event gamma value )
 			// data.do.absolute	( deviceorientation event absolute value )
-		
+			
 			// data.dm.x		( devicemotion event acceleration x value )
 			// data.dm.y		( devicemotion event acceleration y value )
 			// data.dm.z		( devicemotion event acceleration z value )
-		
+			
 			// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
 			// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
 			// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
-			
+				
 			// data.dm.alpha	( devicemotion event rotationRate alpha value )
 			// data.dm.beta		( devicemotion event rotationRate beta value )
 			// data.dm.gamma	( devicemotion event rotationRate gamma value )
 		});
+	}
+		
+###Backward Compatibility
+In the previous version you were able to initialize and start the <em>gn</em> object directly, without the `ready` function
+
+	var gn = new GyroNorm();
+	gn.start(function(data){ ... });
+		
+This method still works. However the return values from the `gn.isAvailable()` function will not be reliable. I recommend to use the `ready` callback function as described above.
 	
 ###Options
-You can pass arguments as an object to the `gn.init()` method. The values you pass overwrites the default values. Below is the list of available options and their default values.
+You can pass arguments as an object to the to the constructor method. The values you pass overwrites the default values. Below is the list of available options and their default values.
 
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
@@ -44,6 +56,7 @@ You can pass arguments as an object to the `gn.init()` method. The values you pa
 		directionAbsolute:false,		// ( if the do.alpha value is absolute, if false the value is relative to the initial position of the device )
 		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
 		logger:null						// ( function to be called to log messages from GyroNorm )
+		ready:null						// ( callback function to be called when the availability of the events and values are known ) 
 	}
 	
 	var gn = new GyroNorm(args);
@@ -74,7 +87,44 @@ Starts returning values via the callback function. The callback function is call
 
 callback - function(data) - Function that returns values via the <em>data</em> object. The available values via <em>data</em> are listed above. 
 
+####isAvailable()
 
+Tells the availability of device orientation or device motion values on the device+browser combination.
+
+#####Syntax
+
+	gn.isAvailable(valueType);
+	
+	// or
+	
+	gn.isAvailable();
+
+#####Parameters
+
+valueType - string - optional - If passed, the method returns `true` or `false`, depending on the availablity of the specified value. Possible values are `deviceorientation`,`acceleration`,`accelerationinludinggravity`,`rotationrate` or `compassneedscalibration`
+
+When called without a parameter returns availibility for values.
+
+#####Example
+	
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		var doAvailable = gn.isAvailable("deviceorientation");
+		// Parameter can also be "acceleration","accelerationinludinggravity","rotationrate" or "compassneedscalibration"
+		// This example returns true if deviceorientation is available. Returns false if not.
+		
+		var gnAvailable = gn.isAvailable();
+		/* Returns the following object
+			{
+				deviceOrientationAvailable : true/false,		
+				accelerationAvailable : true/false,
+				accelerationIncludingGravityAvailable : true/false,
+				rotationRateAvailable : true/false,
+				compassNeedsCalibrationAvailable : true/false
+			}
+		*/
+	}
 
 ####normalizeGravity()
 
@@ -90,10 +140,13 @@ flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <e
 
 #####Example
 	
-	var gn = new GyroNorm();
-	gn.start(function(){
-		// Process return values here
-	});
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		gn.start(function(){
+			// Process return values here
+		});
+	}
 
 	// At this point callback function returns normalized gravity-related values.
 
@@ -115,10 +168,13 @@ flag - boolean - <em>true</em> sets the option <em>directionAbsolute</em> on, <e
 
 #####Example
 
-	var gn = new GyroNorm();
-	gn.start(function(){
-		// Process return values here
-	});
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		gn.start(function(){
+			// Process return values here
+		});
+	}
 
 	// At this point callback function returns do.alpha values relative to the initial position of the device
 
@@ -138,16 +194,19 @@ Once this method is called <em>directionAbsolute</em> option is also set to <em>
 
 #####Example
 
-	var gn = new GyroNorm();
-	gn.start(function(){
-		// Process return values here
-	});
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		gn.start(function(){
+			// Process return values here
+		});
+	}
 
 	// At this point callback function returns do.alpha values relative to the initial position of the device
 
 	gn.setHeadDirection();
 
-	// At this point callback function returns do.alpha values relative to the position of the device when the above line is called
+	// At this point callback function starts to return do.alpha values relative to the position of the device when the above line is called
 
 ####stop()
 
@@ -217,7 +276,7 @@ The human-readable message.
 
 Below is a list of device/operating system/browser combinations. The demo.html file worked on them out of the box. I will update this list in the future. Please also share your findings so we can have a more complete list.
 
-- iPhone 5 - iOS 8 beta - Safari
+- iPhone 5 - iOS 8.0.2 - Safari
 - iPhone 4 - iOS 6.x - Safari
 - HTC One - Android 4.2.2 - Native Browser
 - HTC One - Android 4.2.2 - Chrome 35.0.1916.141
@@ -231,8 +290,8 @@ Below is a list of things I plan to add in the future. Please note that it is no
 
 - Option to track deviceorientation and devicemotion events seperately
 - Providing alpha values even in the calibration mode
-- Boolean values to check if events are available in the device
 - Option to get snap shot of the values (currently it is only tracking)
+- Boolean value to check if GyroNorm is tracking or not
 
 ##Contact
 

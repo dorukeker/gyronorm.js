@@ -21,12 +21,19 @@
   	/*-------------------------------------------------------*/
 	/* PRIVATE VARIABLES */
 
-	var _interval = null;					// Timer to return values
-	var _isCalibrating = false;				// Flag if calibrating
-	var _calibrationValues = new Array();	// Array to store values when calculating alpha offset 
-	var _calibrationValue = 0;				// Alpha offset value
-	var _gravityCoefficient = 0;			// Coefficient to normalze gravity related values
-	var _logger = null;						// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
+	var _interval = null;									// Timer to return values
+	var _isCalibrating = false;								// Flag if calibrating
+	var _calibrationValues = new Array();					// Array to store values when calculating alpha offset 
+	var _calibrationValue = 0;								// Alpha offset value
+	var _gravityCoefficient = 0;							// Coefficient to normalze gravity related values
+	var _logger = null;										// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
+	var _ready = null;										// Function to callback after trying to add all listeners
+	var _deviceOrientationAvailable = true;					// Boolean flag if deviceorientation event is available on the device/browser
+	var _accelerationAvailable = true;						// Boolean flag if accleration of devicemotion event is available on the device/browser
+	var _accelerationIncludingGravityAvailable = true;		// Boolean flag if accleration incl. gravity of devicemotion event is available on the device/browser
+	var _rotationRateAvailable = true;						// Boolean flag if accleration incl. gravity of devicemotion event is available on the device/browser
+	var _compassNeedsCalibrationAvailable = true;			// Boolean flag if devicemotion event is available on the device/browser
+	var _addedEventCounter = 0								// Counts the number of events that are tried to be added
 
 	/* OPTIONS */
 	var _frequency 				= 50;		// Frequency for the return data in milliseconds
@@ -67,6 +74,7 @@
 	* @param boolean options.directionAbsolute
 	* @param boolean options.decimalCount
 	* @param function options.logger
+	* @param function options.ready
 	*
 	*/
 
@@ -77,11 +85,13 @@
 		if(options && options.directionAbsolute) _directionAbsolute = options.directionAbsolute;
 		if(options && options.decimalCount) _decimalCount = options.decimalCount;
 		if(options && options.logger) _logger = options.logger;
+		if(options && options.ready) _ready = options.ready;
 
 		try{
 			calibrate();
 			setupListeners();
 		} catch(err){
+			alert('error');
 			log(err);
 		}
 	}
@@ -180,6 +190,49 @@
 		_logger = null;
 	}
 
+	/*
+	*
+	* Returns if certain type of event is available on the device
+	* 
+	* @param string _eventType - possible values are "deviceorientation" , "devicemotion" , "compassneedscalibration"
+	* 
+	* @return true if event is available false if not
+	*
+	*/
+	GyroNorm.prototype.isAvailable = function(_valueType){
+		switch(_valueType){
+			case 'deviceorientation':
+			return _deviceOrientationAvailable;
+			break;
+
+			case 'acceleration':
+			return _accelerationAvailable;
+			break;
+
+			case 'accelerationinludinggravity':
+			return _accelerationIncludingGravityAvailable;
+			break;
+
+			case 'rotationrate':
+			return _rotationRateAvailable;
+			break;
+
+			case 'compassneedscalibration':
+			return _compassNeedsCalibrationAvailable;
+			break;
+
+			default:
+			return {
+						deviceOrientationAvailable:_deviceOrientationAvailable,
+						accelerationAvailable:_accelerationAvailable,
+						accelerationIncludingGravityAvailable:_accelerationIncludingGravityAvailable,
+						rotationRateAvailable:_rotationRateAvailable,
+						compassNeedsCalibrationAvailable:_compassNeedsCalibrationAvailable
+					}
+			break;
+		}
+	}
+
 	/*-------------------------------------------------------*/
 	/* PRIVATE FUNCTIONS */
 
@@ -189,9 +242,28 @@
 	*
 	*/
 	function setupListeners(){
-		window.addEventListener('deviceorientation',onDeviceOrientationHandler,true);
-		window.addEventListener('devicemotion',onDeviceMotionHandler,true);
-		window.addEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler,true);
+		if(window.ondeviceorientation === undefined){
+			_deviceOrientationAvailable = false;
+			onEventAddedHandler();
+		} else {
+			window.ondeviceorientation = onDeviceOrientationHandler;	
+		}
+
+		if(window.ondevicemotion === undefined){
+			_accelerationAvailable = false;
+			_accelerationIncludingGravityAvailable = false;
+			_rotationRateAvailable = false;
+			onEventAddedHandler();
+		} else {
+			window.ondevicemotion = onDeviceMotionHandler;	
+		}
+
+		if(window.oncompassneedscalibration === undefined){
+			_compassNeedsCalibrationAvailable = false;
+			onEventAddedHandler();
+		} else {
+			window.oncompassneedscalibration = onCompassNeedsCalibrationHandler;	
+		}		
 	}
 
 	/*
@@ -219,8 +291,10 @@
 	function onDeviceOrientationHandler(event){
 		// Check if values are returned correctly
 		if(!event.alpha && !event.beta && !event.gamma){
-			log({message:'Device orientation event values are not returned as expected.' , code:2 });
+			_deviceOrientationAvailable = false;
 			window.removeEventListener('deviceorientation',onDeviceOrientationHandler);
+			onEventAddedHandler();
+			return;
 		}
 
 		// For the first 20 values add the alpha to calibration list
@@ -235,6 +309,8 @@
 		_values.do.beta = event.beta;
 		_values.do.gamma = event.gamma;
 		_values.do.absolute = event.absolute;
+
+		onEventAddedHandler();
 	}
 
 	/*
@@ -244,10 +320,28 @@
 	*/
 	function onDeviceMotionHandler(event){
 
+		if(!event.acceleration || !event.acceleration.x || !event.acceleration.y || !event.acceleration.z){
+			_accelerationAvailable = false;
+		}
+
+		if(!event.accelerationIncludingGravity || !event.accelerationIncludingGravity.x || !event.accelerationIncludingGravity.y || !event.accelerationIncludingGravity.z){
+			_accelerationIncludingGravityAvailable = false;
+		}
+
+		if(!event.rotationRate || !event.rotationRate.alpha || !event.rotationRate.beta || !event.rotationRate.gamma){
+			_rotationRateAvailable = false;
+		}
+
+		onEventAddedHandler();
+
+		if(!_accelerationAvailable && !_accelerationIncludingGravityAvailable && !_rotationRateAvailable){
+			window.removeEventListener('devicemotion',onDeviceMotionHandler);
+		}
+
 		// Assign gravity coefficient. Assumes that the user is holding the phot up right facing the screen.
 		// If you cannot make this assumption because of the usecase, disable the normalization via changing the option 'gravityNormalized' value to false
 		if(_gravityCoefficient == 0){
-			_gravityCoefficient = (event.accelerationIncludingGravity.z < 0)?1:-1;
+			_gravityCoefficient = (parseInt(event.accelerationIncludingGravity.z) < 0)?1:-1;
 			return;
 		}
 
@@ -274,6 +368,22 @@
 
 		log({message:'Compass is not calibrated.' , code:3});
 
+		onEventAddedHandler();
+
+	}
+
+	/*
+	*
+	* Called when an event is added or not available.
+	* Checks if all events have been tried to added. 
+	* Calls the ready function when all 3 are tried
+	*
+	*/
+	function onEventAddedHandler(location){
+		_addedEventCounter++;
+		if(_addedEventCounter === 3 && _ready !== null && typeof(_ready) === 'function'){
+			_ready();
+		}
 	}
 
 	/*
