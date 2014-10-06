@@ -8,7 +8,7 @@ Add the JS file to your HTML
 
 	<script src="js/gyronorm.js"></script>
 
-Initialiize and start the <em>gn</em> object. Good practice is to start the object in the `ready` callback function, which you pass when initializing. 
+Initialize and start the <em>gn</em> object. Good practice is to start the object in the `ready` callback function, which you pass when initializing. 
 
 Access the values in the callback function of the `gn.start()`
 
