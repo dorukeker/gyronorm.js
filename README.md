@@ -8,7 +8,7 @@ Add the JS file to your HTML
 
 	<script src="js/gyronorm.js"></script>
 
-Initialiize the and start <em>gn</em> object. Good practice is to start the object in the `ready` callback function, which you pass when initializing. 
+Initialiize and start the <em>gn</em> object. Good practice is to start the object in the `ready` callback function, which you pass when initializing. 
 
 Access the values in the callback function of the `gn.start()`
 
@@ -17,38 +17,38 @@ Access the values in the callback function of the `gn.start()`
     	var args = {read:ongnReady};
     	var gn = new GyroNorm(args);
     	
-		var ongnReady = function(){
-			gn.start(function(data){
-	    		// Process:
-				// data.do.alpha	( deviceorientation event alpha value )
-				// data.do.beta		( deviceorientation event beta value )
-				// data.do.gamma	( deviceorientation event gamma value )
-				// data.do.absolute	( deviceorientation event absolute value )
+	var ongnReady = function(){
+		gn.start(function(data){
+	   		// Process:
+			// data.do.alpha	( deviceorientation event alpha value )
+			// data.do.beta		( deviceorientation event beta value )
+			// data.do.gamma	( deviceorientation event gamma value )
+			// data.do.absolute	( deviceorientation event absolute value )
 			
-				// data.dm.x		( devicemotion event acceleration x value )
-				// data.dm.y		( devicemotion event acceleration y value )
-				// data.dm.z		( devicemotion event acceleration z value )
+			// data.dm.x		( devicemotion event acceleration x value )
+			// data.dm.y		( devicemotion event acceleration y value )
+			// data.dm.z		( devicemotion event acceleration z value )
 			
-				// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
-				// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
-				// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
+			// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
+			// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
+			// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
 				
-				// data.dm.alpha	( devicemotion event rotationRate alpha value )
-				// data.dm.beta		( devicemotion event rotationRate beta value )
-				// data.dm.gamma	( devicemotion event rotationRate gamma value )
-			});
-		}
+			// data.dm.alpha	( devicemotion event rotationRate alpha value )
+			// data.dm.beta		( devicemotion event rotationRate beta value )
+			// data.dm.gamma	( devicemotion event rotationRate gamma value )
+		});
+	}
 		
 ###Backward Compatibility
 In the previous version you were able to initialize and start the <em>gn</em> object directly, without the `ready` function
 
-		var gn = new GyroNorm();
-		gn.start(function(data){ ... });
+	var gn = new GyroNorm();
+	gn.start(function(data){ ... });
 		
 This method still works. However the return values from the `gn.isAvailable()` function will not be reliable. I recommend to use the `ready` callback function as described above.
 	
 ###Options
-You can pass arguments as an object to the `gn.init()` method. The values you pass overwrites the default values. Below is the list of available options and their default values.
+You can pass arguments as an object to the to the constructor method. The values you pass overwrites the default values. Below is the list of available options and their default values.
 
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
@@ -101,9 +101,9 @@ Tells the availability of device orientation or device motion values on the devi
 
 #####Parameters
 
-valueType - string - optional - If passed, the method returns `true` or `false`, depending on the availablity of a specific type of value. Possible values are `deviceorientation`,`acceleration`,`accelerationinludinggravity`,`rotationrate` or `compassneedscalibration`
+valueType - string - optional - If passed, the method returns `true` or `false`, depending on the availablity of the specified value. Possible values are `deviceorientation`,`acceleration`,`accelerationinludinggravity`,`rotationrate` or `compassneedscalibration`
 
-When called without a parameter returns availibility for value types.
+When called without a parameter returns availibility for values.
 
 #####Example
 	
@@ -112,16 +112,16 @@ When called without a parameter returns availibility for value types.
 	var ongnReady = function(){
 		var doAvailable = gn.isAvailable("deviceorientation");
 		// Parameter can also be "acceleration","accelerationinludinggravity","rotationrate" or "compassneedscalibration"
-		// In this example returns true is deviceorientation is available. Returns false if not.
+		// This example returns true if deviceorientation is available. Returns false if not.
 		
 		var gnAvailable = gn.isAvailable();
-		/* Returns the following object.
+		/* Returns the following object
 			{
-				deviceOrientationAvailable:true/false,		
-				accelerationAvailable:true/false,
-				accelerationIncludingGravityAvailable:true/false,
-				rotationRateAvailable:true/false,
-				compassNeedsCalibrationAvailable:true/false
+				deviceOrientationAvailable : true/false,		
+				accelerationAvailable : true/false,
+				accelerationIncludingGravityAvailable : true/false,
+				rotationRateAvailable : true/false,
+				compassNeedsCalibrationAvailable : true/false
 			}
 		*/
 	}
@@ -206,7 +206,7 @@ Once this method is called <em>directionAbsolute</em> option is also set to <em>
 
 	gn.setHeadDirection();
 
-	// At this point callback function returns do.alpha values relative to the position of the device when the above line is called
+	// At this point callback function starts to return do.alpha values relative to the position of the device when the above line is called
 
 ####stop()
 
