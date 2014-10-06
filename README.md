@@ -90,33 +90,41 @@ callback - function(data) - Function that returns values via the <em>data</em> o
 ####isAvailable()
 
 Tells the availability of device orientation or device motion values on the device+browser combination.
-If the value type is passed as a string parameters, it returns `true` or `false`, depending on the availablity of that value.
-When called without a parameter returns and object which contains the list of values and their availibility.
 
 #####Syntax
 
-	 gn.isAVailable(valueType);
+	gn.isAvailable(valueType);
 	
 	// or
 	
-	gn.isAVailable();
+	gn.isAvailable();
 
 #####Parameters
 
-valueType - string - optional - If passed the method returns a boolean variable telling the availiblity of that value. If not passed the function returns an object of possible value type and their availibility. Possible string values are 
+valueType - string - optional - If passed, the method returns `true` or `false`, depending on the availablity of a specific type of value. Possible values are `deviceorientation`,`acceleration`,`accelerationinludinggravity`,`rotationrate` or `compassneedscalibration`
+
+When called without a parameter returns and object which contains the list of values and their availibility.
 
 #####Example
 	
-	var gn = new GyroNorm();
-	gn.start(function(){
-		// Process return values here
-	});
-
-	// At this point callback function returns normalized gravity-related values.
-
-	gn.normalizeGravity(false);
-
-	// At this point callback function returns native values gravity-related as provided by the device.
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		var doAvailable = gn.isAvailable("deviceorientation");
+		// Parameter can also be "acceleration","accelerationinludinggravity","rotationrate" or "compassneedscalibration"
+		// Returns true is device orientation is available. Returns false if not.
+		
+		var gnAvailable = gn.isAvailable();
+		/* Returns the following object.
+			{
+				deviceOrientationAvailable:true/false,		
+				accelerationAvailable:true/false,
+				accelerationIncludingGravityAvailable:true/false,
+				rotationRateAvailable:true/false,
+				compassNeedsCalibrationAvailable:true/false
+			}
+		*/
+	}
 
 ####normalizeGravity()
 
