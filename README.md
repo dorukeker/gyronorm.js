@@ -89,7 +89,9 @@ callback - function(data) - Function that returns values via the <em>data</em> o
 
 ####isAvailable()
 
-Tells the availability of device orientation or device motion values on the device+browser combination. If passed parameters of value type, it returns <em>true</em> or <em>false</em>. If called directly returns and object contains the list of values and their availibility.
+Tells the availability of device orientation or device motion values on the device+browser combination.
+If the value type is passed as a string parameters, it returns `true` or `false`, depending on the availablity of that value.
+When called without a parameter returns and object which contains the list of values and their availibility.
 
 #####Syntax
 
