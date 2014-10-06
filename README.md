@@ -140,10 +140,13 @@ flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <e
 
 #####Example
 	
-	var gn = new GyroNorm();
-	gn.start(function(){
-		// Process return values here
-	});
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		gn.start(function(){
+			// Process return values here
+		});
+	}
 
 	// At this point callback function returns normalized gravity-related values.
 
@@ -165,10 +168,13 @@ flag - boolean - <em>true</em> sets the option <em>directionAbsolute</em> on, <e
 
 #####Example
 
-	var gn = new GyroNorm();
-	gn.start(function(){
-		// Process return values here
-	});
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		gn.start(function(){
+			// Process return values here
+		});
+	}
 
 	// At this point callback function returns do.alpha values relative to the initial position of the device
 
@@ -188,10 +194,13 @@ Once this method is called <em>directionAbsolute</em> option is also set to <em>
 
 #####Example
 
-	var gn = new GyroNorm();
-	gn.start(function(){
-		// Process return values here
-	});
+	var args = {ready:ongnReady};
+	var gn = new GyroNorm(args);
+	var ongnReady = function(){
+		gn.start(function(){
+			// Process return values here
+		});
+	}
 
 	// At this point callback function returns do.alpha values relative to the initial position of the device
 
