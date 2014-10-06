@@ -154,7 +154,7 @@
 		function init_gn(){
 			var args = {
 				logger:logger,
-				ready:ongnready
+				ready:ongnReady
 			};
 			gn = new GyroNorm(args);
 		}	
@@ -163,7 +163,7 @@
 			$('#error-message').append(data.message + "\n");
 		}	
 
-		function ongnready(){
+		var ongnReady = function(){
 			var isAvailable = gn.isAvailable();
 			if(!isAvailable.deviceOrientationAvailable){
 				logger({message:'Device orientation is not available.'});
