@@ -199,8 +199,8 @@
 	* @return true if event is available false if not
 	*
 	*/
-	GyroNorm.prototype.isAvailable = function(_eventType){
-		switch(_eventType){
+	GyroNorm.prototype.isAvailable = function(_valueType){
+		switch(_valueType){
 			case 'deviceorientation':
 			return _deviceOrientationAvailable;
 			break;
