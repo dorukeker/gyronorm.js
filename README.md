@@ -8,7 +8,7 @@ Add the JS file to your HTML
 
 	<script src="js/gyronorm.js"></script>
 
-Initialiize the and start <em>gn</em> object. Good practice is to start the object in the <em>ready</em> callback function, which you pass when initializing. 
+Initialiize the and start <em>gn</em> object. Good practice is to start the object in the `ready` callback function, which you pass when initializing. 
 
 Access the values in the callback function of the `gn.start()`
 
@@ -40,12 +40,12 @@ Access the values in the callback function of the `gn.start()`
 		}
 		
 ###Backward Compatibility
-In the previous version you were able to initialize and start the object directly, with out the <em>ready</em> function
+In the previous version you were able to initialize and start the <em>gn</em> object directly, without the `ready` function
 
 		var gn = new GyroNorm();
 		gn.start(function(data){ ... });
 		
-This method still works. However the return values from the <em>isAvailable</em> function will not be reliable. I recommend you to use the <em>ready</em> callback function as described above.
+This method still works. However the return values from the `gn.isAvailable()` function will not be reliable. I recommend to use the `ready` callback function as described above.
 	
 ###Options
 You can pass arguments as an object to the `gn.init()` method. The values you pass overwrites the default values. Below is the list of available options and their default values.
@@ -56,7 +56,7 @@ You can pass arguments as an object to the `gn.init()` method. The values you pa
 		directionAbsolute:false,		// ( if the do.alpha value is absolute, if false the value is relative to the initial position of the device )
 		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
 		logger:null						// ( function to be called to log messages from GyroNorm )
-		ready:null						// ( callback function which is called when GyonNorm tries to add all the listeners and knows about the availability of the values ) 
+		ready:null						// ( callback function to be called when GyonNorm tries to add all the event listeners and knows about the availability of the values ) 
 	}
 	
 	var gn = new GyroNorm(args);
