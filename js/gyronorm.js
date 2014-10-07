@@ -3,7 +3,7 @@
 *
 * @author Doruk Eker <dorukeker@gmail.com>
 * @copyright 2014 Doruk Eker <http://dorukeker.com>
-* @version 0.0.10
+* @version 1.0.10
 * @license MIT License | http://opensource.org/licenses/MIT 
 */
 
@@ -28,12 +28,21 @@
 	var _gravityCoefficient = 0;							// Coefficient to normalze gravity related values
 	var _logger = null;										// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
 	var _ready = null;										// Function to callback after trying to add all listeners
-	var _deviceOrientationAvailable = true;					// Boolean flag if deviceorientation event is available on the device/browser
-	var _accelerationAvailable = true;						// Boolean flag if accleration of devicemotion event is available on the device/browser
-	var _accelerationIncludingGravityAvailable = true;		// Boolean flag if accleration incl. gravity of devicemotion event is available on the device/browser
-	var _rotationRateAvailable = true;						// Boolean flag if accleration incl. gravity of devicemotion event is available on the device/browser
-	var _compassNeedsCalibrationAvailable = true;			// Boolean flag if devicemotion event is available on the device/browser
-	var _addedEventCounter = 0								// Counts the number of events that are tried to be added
+	
+	var _deviceOrientationAvailable = false;				// Boolean flag if deviceorientation event is available on the device/browser
+	var _accelerationAvailable = false;						// Boolean flag if accleration of devicemotion event is available on the device/browser
+	var _accelerationIncludingGravityAvailable = false;		// Boolean flag if accleration incl. gravity of devicemotion event is available on the device/browser
+	var _rotationRateAvailable = false;						// Boolean flag if accleration incl. gravity of devicemotion event is available on the device/browser
+	var _compassNeedsCalibrationAvailable = false;			// Boolean flag if devicemotion event is available on the device/browser
+	
+	var _addedEventCounter = 0;								// Counts the number of events that are tried to be added
+	var _devicemotionCheckFlag = false;						// Boolean to show if device motion event has been checked for availibility
+	var _deviceorientationCheckFlag = false;				// Boolean to show if device motion event has been checked for availibility
+	var _devicemotionCallbackCount = 0;						// Counts the number of time the devicemotion call back function has been called
+	var _deviceorientationCallbackCount = 0;				// Counts the number of time the deviceorientation call back function has been called
+	var _eventInitialCallbackLimit = 2;						// Number of times a callback function for an event will be called before it is assumed to return correct values
+	var _readyGracePeriod = 5000;							// The time in milliseconds, after which the ready function will be forced called. 
+	var _readyGracePeriodTimeout = null;						// Timeout variable for the grace period
 
 	/* OPTIONS */
 	var _frequency 				= 50;		// Frequency for the return data in milliseconds
@@ -91,7 +100,6 @@
 			calibrate();
 			setupListeners();
 		} catch(err){
-			alert('error');
 			log(err);
 		}
 	}
@@ -199,8 +207,8 @@
 	* @return true if event is available false if not
 	*
 	*/
-	GyroNorm.prototype.isAvailable = function(_valueType){
-		switch(_valueType){
+	GyroNorm.prototype.isAvailable = function(_eventType){
+		switch(_eventType){
 			case 'deviceorientation':
 			return _deviceOrientationAvailable;
 			break;
@@ -243,27 +251,25 @@
 	*/
 	function setupListeners(){
 		if(window.ondeviceorientation === undefined){
-			_deviceOrientationAvailable = false;
 			onEventAddedHandler();
 		} else {
-			window.ondeviceorientation = onDeviceOrientationHandler;	
+			window.addEventListener('deviceorientation',onDeviceOrientationHandler);	
 		}
 
 		if(window.ondevicemotion === undefined){
-			_accelerationAvailable = false;
-			_accelerationIncludingGravityAvailable = false;
-			_rotationRateAvailable = false;
 			onEventAddedHandler();
 		} else {
-			window.ondevicemotion = onDeviceMotionHandler;	
+			window.addEventListener('devicemotion',onDeviceMotionHandler);	
 		}
 
 		if(window.oncompassneedscalibration === undefined){
-			_compassNeedsCalibrationAvailable = false;
 			onEventAddedHandler();
 		} else {
-			window.oncompassneedscalibration = onCompassNeedsCalibrationHandler;	
-		}		
+			window.addEventListener('compassneedscalibration',onCompassNeedsCalibrationHandler);	
+		}
+
+		_readyGracePeriodTimeout = setTimeout(onReadyGracePeriodComplete,_readyGracePeriod);
+
 	}
 
 	/*
@@ -289,9 +295,17 @@
 	*
 	*/
 	function onDeviceOrientationHandler(event){
+		if(_deviceorientationCallbackCount < _eventInitialCallbackLimit){
+			_deviceorientationCallbackCount++;
+			return;
+		}
+
 		// Check if values are returned correctly
-		if(!event.alpha && !event.beta && !event.gamma){
-			_deviceOrientationAvailable = false;
+		if(
+			(!event.alpha || event.alpha === null) &&
+			(!event.beta || event.beta === null) &&
+			(!event.gamma || event.gamma === null)
+			){
 			window.removeEventListener('deviceorientation',onDeviceOrientationHandler);
 			onEventAddedHandler();
 			return;
@@ -308,9 +322,13 @@
 		_values.do.alpha = event.alpha;
 		_values.do.beta = event.beta;
 		_values.do.gamma = event.gamma;
-		_values.do.absolute = event.absolute;
+		_values.do.absolute = event.absolute;	
 
-		onEventAddedHandler();
+		if(!_deviceorientationCheckFlag){
+			_deviceOrientationAvailable = true;
+			_deviceorientationCheckFlag = true;	
+			onEventAddedHandler();
+		}	
 	}
 
 	/*
@@ -319,24 +337,33 @@
 	*
 	*/
 	function onDeviceMotionHandler(event){
-
-		if(!event.acceleration || !event.acceleration.x || !event.acceleration.y || !event.acceleration.z){
-			_accelerationAvailable = false;
+		if(_devicemotionCallbackCount < _eventInitialCallbackLimit){
+			_devicemotionCallbackCount++;
+			return;
 		}
 
-		if(!event.accelerationIncludingGravity || !event.accelerationIncludingGravity.x || !event.accelerationIncludingGravity.y || !event.accelerationIncludingGravity.z){
-			_accelerationIncludingGravityAvailable = false;
-		}
+		if(!_devicemotionCheckFlag){
+			if(event.acceleration && event.acceleration.x && event.acceleration.y && event.acceleration.z){
+				_accelerationAvailable = true;
+			}
 
-		if(!event.rotationRate || !event.rotationRate.alpha || !event.rotationRate.beta || !event.rotationRate.gamma){
-			_rotationRateAvailable = false;
-		}
+			if(event.accelerationIncludingGravity && event.accelerationIncludingGravity.x && event.accelerationIncludingGravity.y && event.accelerationIncludingGravity.z){
+				_accelerationIncludingGravityAvailable = true;
+			}
 
-		onEventAddedHandler();
+			if(event.rotationRate && event.rotationRate.alpha && event.rotationRate.beta && event.rotationRate.gamma){
+				_rotationRateAvailable = true;
+			}
 
-		if(!_accelerationAvailable && !_accelerationIncludingGravityAvailable && !_rotationRateAvailable){
-			window.removeEventListener('devicemotion',onDeviceMotionHandler);
+			if(!_accelerationAvailable && !_accelerationIncludingGravityAvailable && !_rotationRateAvailable){
+				window.removeEventListener('devicemotion',onDeviceMotionHandler);
+			}	
+
+			onEventAddedHandler();
+
+			_devicemotionCheckFlag = true;
 		}
+		
 
 		// Assign gravity coefficient. Assumes that the user is holding the phot up right facing the screen.
 		// If you cannot make this assumption because of the usecase, disable the normalization via changing the option 'gravityNormalized' value to false
@@ -379,11 +406,22 @@
 	* Calls the ready function when all 3 are tried
 	*
 	*/
-	function onEventAddedHandler(location){
+	function onEventAddedHandler(){
 		_addedEventCounter++;
 		if(_addedEventCounter === 3 && _ready !== null && typeof(_ready) === 'function'){
+			window.clearTimeout(_readyGracePeriodTimeout);
 			_ready();
 		}
+	}
+
+	/*
+	*
+	* Called when an if the grace period times out.
+	*
+	*/
+	function onReadyGracePeriodComplete(){
+		_addedEventCounter = 2;
+		onEventAddedHandler();
 	}
 
 	/*
