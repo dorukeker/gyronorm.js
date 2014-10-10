@@ -3,6 +3,11 @@ Accesses the gyroscope and accelerometer data from the web browser and combines 
 
 It returns consistent values across different devices. It has options to uniform the alpha value (rotation around z-axis), and normalize the gravity-related values. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
 
+##Installation
+You can clone from this GitHub repository or use Bower.
+	
+	$ bower install gyronorm
+
 ##How to use
 Add the JS file to your HTML
 
