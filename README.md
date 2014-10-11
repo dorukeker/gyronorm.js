@@ -229,6 +229,15 @@ Stops executing the callback function, that was started by the `start()` method.
 
 	gn.end();
 
+####isRunning()
+
+Returns boolean value showing if the `gn` object is running. It starts running when `gn.start()` is called and returns values to the callback function. It stops when `gn.stop()` or `gn.end()` is called.
+
+#####Syntax
+
+	gn.isRunning();
+	// Returns true or false
+
 ###Error Handling
 
 GyroNorm can return errors and log messages. You need to define a function to handle those message.
@@ -296,7 +305,6 @@ Below is a list of things I plan to add in the future. Please note that it is no
 - Option to track deviceorientation and devicemotion events seperately
 - Providing alpha values even in the calibration mode
 - Option to get snap shot of the values (currently it is only tracking)
-- Boolean value to check if GyroNorm is tracking or not
 
 ##Contact
 
