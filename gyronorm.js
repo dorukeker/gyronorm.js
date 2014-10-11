@@ -28,6 +28,7 @@
 	var _gravityCoefficient = 0;							// Coefficient to normalze gravity related values
 	var _logger = null;										// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
 	var _ready = null;										// Function to callback after trying to add all listeners
+	var _isRunning = false;									// Boolean value if GyroNorm is tracking
 	
 	var _deviceOrientationAvailable = false;				// Boolean flag if deviceorientation event is available on the device/browser
 	var _accelerationAvailable = false;						// Boolean flag if accleration of devicemotion event is available on the device/browser
@@ -132,6 +133,7 @@
 		_interval = setInterval(function(){
 			callback(snapShot());	
 		},_frequency);
+		_isRunning = true;
 	}
 
 	/*
@@ -142,6 +144,7 @@
 	GyroNorm.prototype.stop = function(){
 		if(_interval){
 			clearInterval(_interval);
+			_isRunning = false;
 		}
 	}
 
@@ -239,6 +242,15 @@
 					}
 			break;
 		}
+	}
+
+	/*
+	*
+	* Returns boolean value if the GyroNorm is running
+	*
+	*/
+	GyroNorm.prototype.isRunning = function(){
+		return _isRunning;
 	}
 
 	/*-------------------------------------------------------*/
