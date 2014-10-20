@@ -1,0 +1,15 @@
+{
+  "name": "gyronorm",
+  "version": "1.0.1",
+  "homepage": "https://github.com/dorukeker/gyronorm.git",
+  "authors": [
+    "Doruk Eker"
+  ],
+  "description": "Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.",
+  "main": "js/gyronorm.js",
+  "keywords": [
+    "devicemotion",
+    "deviceorientation"
+  ],
+  "license": "MIT"
+}
