@@ -3,7 +3,7 @@
 *
 * @author Doruk Eker <dorukeker@gmail.com>
 * @copyright 2014 Doruk Eker <http://dorukeker.com>
-* @version 1.0.3
+* @version 1.0.2
 * @license MIT License | http://opensource.org/licenses/MIT 
 */
 
