@@ -19,7 +19,7 @@ Access the values in the callback function of the `gn.start()`
 
 	<script src="/js/gyronorm.js"></script>
 	
-    	var args = {read:ongnReady};
+    	var args = {ready:ongnReady};
     	var gn = new GyroNorm(args);
     	
 	var ongnReady = function(){
