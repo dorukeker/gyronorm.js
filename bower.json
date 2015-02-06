@@ -13,6 +13,10 @@
     "demo/*",
     "demo"
   ],
+  "dependencies": {
+    "fulltilt": "0.5.2",
+    "es6-promise":"*"
+  },
   "keywords": [
     "devicemotion",
     "deviceorientation"
