@@ -1,0 +1,256 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../bower_components/es6-promise/promise.min.js"></script>
+<script src="../bower_components/fulltilt/dist/fulltilt.min.js"></script>
+<script src="../gyronorm.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+	input[type=button]{
+		margin-top: 10px;
+	}
+
+	.input-group{
+		float: left !important;
+	}
+
+	.nav-button{
+		text-align: center;
+		background: #ccc;
+		height: 30px;
+		line-height: 30px;
+		border-bottom: 1px solid #aaa;
+		border-left: 1px solid #aaa;
+		border-right: 1px solid #aaa;
+	}
+
+	.nav-button.selected{
+		background: #f1f1f1;
+		border:none;
+	}
+
+	body{
+		background: #f1f1f1;
+	}
+
+	#dm{
+		padding-bottom: 200px;
+	}
+
+	#footer{
+		height: 130px;
+		position: fixed;
+		z-index: 2;
+		bottom: 0;
+	}
+</style>
+</head>
+<body onload="init_gn()">
+
+	<div class="col-xs-6 nav-button selected" onclick="showDO()" id="btn-do">Device Orientation</div>
+	<div class="col-xs-6 nav-button" onclick="showDM()" id="btn-dm">Device Motion</div>
+	<div class="col-xs-12" id="do">
+
+		<p>&nbsp;</p>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">alpha</span>
+		  <input type="text" class="form-control" id="do_alpha">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">beta</span>
+		  <input type="text" class="form-control" id="do_beta">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">gamma</span>
+		  <input type="text" class="form-control" id="do_gamma">
+		</div>
+
+		<input type="button" onclick="abs_gn()" value="Absolute" class="col-xs-12 btn-warning btn"/> 
+		<input type="button" onclick="rel_gn()" value="Relative" class="col-xs-12 btn-warning btn"/> 
+		
+		<input type="button" onclick="set_head_gn()" value="Set Head Direction" class="col-xs-12 btn-warning btn"/> 
+
+	</div>
+	<div class="col-xs-12" id="dm" style="display:none;">
+
+		<div class="col-xs-12">
+			Acceleration
+		</div>
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">x</span>
+		  <input type="text" class="form-control" id="dm_x">
+		</div>
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">y</span>
+		  <input type="text" class="form-control" id="dm_y">
+		</div>
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">z</span>
+		  <input type="text" class="form-control" id="dm_z">
+		</div>
+
+
+		<p>&nbsp;</p>
+		<div class="col-xs-12">
+			Acceleration including gravity
+		</div>
+		
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">x</span>
+		  <input type="text" class="form-control" id="dm_gx">
+		</div>
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">y</span>
+		  <input type="text" class="form-control" id="dm_gy">
+		</div>
+
+		<div class="input-group col-xs-4">
+		  <span class="input-group-addon">z</span>
+		  <input type="text" class="form-control" id="dm_gz">
+		</div>
+
+		<input type="button" onclick="norm_gn()" value="Normalize" class="col-xs-6 btn-warning btn"/> 	
+		<input type="button" onclick="org_gn()" value="Original" class="col-xs-6 btn-warning btn"/> 
+
+		<p>&nbsp;</p>
+		<div class="col-xs-12">
+			Rotation rate
+		</div>
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">alpha</span>
+		  <input type="text" class="form-control" id="dm_alpha">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">beta</span>
+		  <input type="text" class="form-control" id="dm_beta">
+		</div>
+
+		<div class="input-group col-xs-12">
+		  <span class="input-group-addon">gamma</span>
+		  <input type="text" class="form-control" id="dm_gamma">
+		</div>
+		
+		
+		
+	</div>
+
+	<div id="footer">
+		<input type="button" onclick="start_gn()" value="START" class="col-xs-6 btn-info btn"/> 	
+		<input type="button" onclick="stop_gn()" value="STOP" class="col-xs-6 btn-info btn"/> 
+		<textarea class="col-xs-12 form-control" id="error-message" style="height:100px" placeholder="Log area..."></textarea>
+	</div>
+
+	<script type="text/javascript">
+
+		var gn;
+
+		function init_gn(){
+			var args = {
+				logger:logger,
+				ready:ongnReady
+			};
+			gn = new GyroNorm(args);
+		}	
+
+		function logger(data){
+			$('#error-message').append(data.message + "\n");
+		}	
+
+		var ongnReady = function(){
+			var isAvailable = gn.isAvailable();
+			if(!isAvailable.deviceOrientationAvailable){
+				logger({message:'Device orientation is not available.'});
+			}
+
+			if(!isAvailable.accelerationAvailable){
+				logger({message:'Device acceleration is not available.'});
+			}
+
+			if(!isAvailable.accelerationIncludingGravityAvailable){
+				logger({message:'Device acceleration incl. gravity is not available.'});
+			}	
+
+			if(!isAvailable.rotationRateAvailable){
+				logger({message:'Device rotation rate is not available.'});
+			}
+
+			if(!isAvailable.compassNeedsCalibrationAvailable){
+				logger({message:'Device compass needs calibration is not available.'});
+			}
+				
+			start_gn();
+		}
+
+		function stop_gn(){
+			gn.stop();
+		}
+
+		function start_gn(){
+			gn.start(gnCallBack);
+		}
+
+		function gnCallBack(data){
+			$('#do_alpha').val(data.do.alpha);
+			$('#do_beta').val(data.do.beta);
+			$('#do_gamma').val(data.do.gamma);
+
+			$('#dm_x').val(data.dm.x);	
+			$('#dm_y').val(data.dm.y);	
+			$('#dm_z').val(data.dm.z);	
+
+			$('#dm_gx').val(data.dm.gx);	
+			$('#dm_gy').val(data.dm.gy);	
+			$('#dm_gz').val(data.dm.gz);	
+
+			$('#dm_alpha').val(data.dm.alpha);
+			$('#dm_beta').val(data.dm.beta);
+			$('#dm_gamma').val(data.dm.gamma);
+		}
+
+		function abs_gn(){
+			gn.giveAbsoluteDirection(true);
+		}
+
+		function rel_gn(){
+			gn.giveAbsoluteDirection(false);
+		}
+
+		function norm_gn(){
+			gn.normalizeGravity(true);
+		}
+
+		function org_gn(){
+			gn.normalizeGravity(false);
+		}
+
+		function set_head_gn(){
+			gn.setHeadDirection();
+		}
+
+		function showDO(){
+			$('#do').show();
+			$('#dm').hide();
+			$('#btn-dm').removeClass('selected');
+			$('#btn-do').addClass('selected');
+		}
+
+		function showDM(){
+			$('#dm').show();
+			$('#do').hide();
+			$('#btn-do').removeClass('selected');
+			$('#btn-dm').addClass('selected');
+		}
+
+
+	</script>
+</body>
+</html>
