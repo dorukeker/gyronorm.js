@@ -2,148 +2,165 @@
 <head>
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../bower_components/es6-promise/promise.min.js"></script>
 <script src="../bower_components/fulltilt/dist/fulltilt.min.js"></script>
 <script src="../gyronorm.js"></script>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
-	input[type=button]{
-		margin-top: 10px;
+	.container{
+		margin-top: 20px;
+	}
+
+	.tab-pane{
+		margin-top: 15px;
+	}
+
+	.page-header{
+		margin-top: 20px;
 	}
 
 	.input-group{
-		float: left !important;
+		margin-bottom: 20px;
+		
 	}
 
-	.nav-button{
-		text-align: center;
-		background: #ccc;
-		height: 30px;
-		line-height: 30px;
-		border-bottom: 1px solid #aaa;
-		border-left: 1px solid #aaa;
-		border-right: 1px solid #aaa;
+	input[type=text],
+	textarea{
+		box-shadow: none;
+		-webkit-appearance:none;
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		box-shadow: none !important;
 	}
 
-	.nav-button.selected{
-		background: #f1f1f1;
-		border:none;
+	#dm .input-group{
+		float: left;
+		padding-left: 10px;
 	}
 
-	body{
-		background: #f1f1f1;
+	#dm .input-group.first{
+		padding-left: 0px;
 	}
 
-	#dm{
-		padding-bottom: 200px;
+	#dm .col-xs-12{
+		padding-left: 0;
 	}
 
-	#footer{
-		height: 130px;
-		position: fixed;
-		z-index: 2;
-		bottom: 0;
-	}
 </style>
+
 </head>
 <body onload="init_gn()">
 
-	<div class="col-xs-6 nav-button selected" onclick="showDO()" id="btn-do">Device Orientation</div>
-	<div class="col-xs-6 nav-button" onclick="showDM()" id="btn-dm">Device Motion</div>
-	<div class="col-xs-12" id="do">
+	<div class="container">
 
-		<p>&nbsp;</p>
+		<div role="tabpanel">
+			<!-- Nav tabs -->
+			<ul class="nav nav-pills" role="tablist">
+				<li role="presentation" class="active"><a href="#do" aria-controls="do" role="tab" data-toggle="tab">Orientation</a></li>
+				<li role="presentation"><a href="#dm" aria-controls="dm" role="tab" data-toggle="tab">Motion</a></li>
+				<li role="presentation"><a href="#logs" aria-controls="logs" role="tab" data-toggle="tab">Logs</a></li>
+			</ul>
 
-		<div class="input-group col-xs-12">
-		  <span class="input-group-addon">alpha</span>
-		  <input type="text" class="form-control" id="do_alpha">
+			<!-- Tab panes -->
+			<div class="tab-content">
+
+				<div role="tabpanel" class="tab-pane active" id="do">
+
+					<div class="input-group col-xs-12">
+					  <span class="input-group-addon">alpha</span>
+					  <input type="text" class="form-control" id="do_alpha" disabled>
+					</div>
+
+					<div class="input-group col-xs-12">
+					  <span class="input-group-addon">beta</span>
+					  <input type="text" class="form-control" id="do_beta" disabled>
+					</div>
+
+					<div class="input-group col-xs-12">
+					  <span class="input-group-addon">gamma</span>
+					  <input type="text" class="form-control" id="do_gamma" disabled>
+					</div>
+					
+					<input type="button" onclick="set_head_gn()" value="Set Head Direction" class="col-xs-12 btn-warning btn"/> 					
+
+				</div>
+				<div role="tabpanel" class="tab-pane" id="dm">
+
+					<div class="col-xs-12">
+						Acceleration
+					</div>
+					<div class="input-group col-xs-4 first">
+					  <span class="input-group-addon">x</span>
+					  <input type="text" class="form-control" id="dm_x" disabled>
+					</div>
+
+					<div class="input-group col-xs-4">
+					  <span class="input-group-addon">y</span>
+					  <input type="text" class="form-control" id="dm_y" disabled>
+					</div>
+
+					<div class="input-group col-xs-4">
+					  <span class="input-group-addon">z</span>
+					  <input type="text" class="form-control" id="dm_z" disabled>
+					</div>
+
+					<div class="col-xs-12">
+						Acceleration including gravity
+					</div>
+					
+
+					<div class="input-group col-xs-4 first">
+					  <span class="input-group-addon">x</span>
+					  <input type="text" class="form-control" id="dm_gx" disabled>
+					</div>
+
+					<div class="input-group col-xs-4">
+					  <span class="input-group-addon">y</span>
+					  <input type="text" class="form-control" id="dm_gy" disabled>
+					</div>
+
+					<div class="input-group col-xs-4">
+					  <span class="input-group-addon">z</span>
+					  <input type="text" class="form-control" id="dm_gz" disabled>
+					</div>
+
+					<input type="button" onclick="norm_gn()" value="Normalize" class="col-xs-6 btn-warning btn"/> 	
+					<input type="button" onclick="org_gn()" value="Original" class="col-xs-6 btn-warning btn"/> 
+
+					<p>&nbsp;</p>
+					<div class="col-xs-12">
+						Rotation rate
+					</div>
+					<div class="input-group col-xs-12">
+					  <span class="input-group-addon">alpha</span>
+					  <input type="text" class="form-control" id="dm_alpha" disabled>
+					</div>
+
+					<div class="input-group col-xs-12">
+					  <span class="input-group-addon">beta</span>
+					  <input type="text" class="form-control" id="dm_beta" disabled>
+					</div>
+
+					<div class="input-group col-xs-12">
+					  <span class="input-group-addon">gamma</span>
+					  <input type="text" class="form-control" id="dm_gamma" disabled>
+					</div>
+
+				</div>
+				<div role="tabpanel" class="tab-pane" id="logs">
+					<textarea class="col-xs-12 form-control" id="error-message" style="height:100px" placeholder="Log area..." disabled></textarea>
+				</div>
+			</div>
+
 		</div>
-
-		<div class="input-group col-xs-12">
-		  <span class="input-group-addon">beta</span>
-		  <input type="text" class="form-control" id="do_beta">
-		</div>
-
-		<div class="input-group col-xs-12">
-		  <span class="input-group-addon">gamma</span>
-		  <input type="text" class="form-control" id="do_gamma">
-		</div>
-		
-		<input type="button" onclick="set_head_gn()" value="Set Head Direction" class="col-xs-12 btn-warning btn"/> 
 
 	</div>
-	<div class="col-xs-12" id="dm" style="display:none;">
 
-		<div class="col-xs-12">
-			Acceleration
-		</div>
-		<div class="input-group col-xs-4">
-		  <span class="input-group-addon">x</span>
-		  <input type="text" class="form-control" id="dm_x">
-		</div>
-
-		<div class="input-group col-xs-4">
-		  <span class="input-group-addon">y</span>
-		  <input type="text" class="form-control" id="dm_y">
-		</div>
-
-		<div class="input-group col-xs-4">
-		  <span class="input-group-addon">z</span>
-		  <input type="text" class="form-control" id="dm_z">
-		</div>
-
-
-		<p>&nbsp;</p>
-		<div class="col-xs-12">
-			Acceleration including gravity
-		</div>
-		
-
-		<div class="input-group col-xs-4">
-		  <span class="input-group-addon">x</span>
-		  <input type="text" class="form-control" id="dm_gx">
-		</div>
-
-		<div class="input-group col-xs-4">
-		  <span class="input-group-addon">y</span>
-		  <input type="text" class="form-control" id="dm_gy">
-		</div>
-
-		<div class="input-group col-xs-4">
-		  <span class="input-group-addon">z</span>
-		  <input type="text" class="form-control" id="dm_gz">
-		</div>
-
-		<input type="button" onclick="norm_gn()" value="Normalize" class="col-xs-6 btn-warning btn"/> 	
-		<input type="button" onclick="org_gn()" value="Original" class="col-xs-6 btn-warning btn"/> 
-
-		<p>&nbsp;</p>
-		<div class="col-xs-12">
-			Rotation rate
-		</div>
-		<div class="input-group col-xs-12">
-		  <span class="input-group-addon">alpha</span>
-		  <input type="text" class="form-control" id="dm_alpha">
-		</div>
-
-		<div class="input-group col-xs-12">
-		  <span class="input-group-addon">beta</span>
-		  <input type="text" class="form-control" id="dm_beta">
-		</div>
-
-		<div class="input-group col-xs-12">
-		  <span class="input-group-addon">gamma</span>
-		  <input type="text" class="form-control" id="dm_gamma">
-		</div>
-		
-		
-		
-	</div>
-
-	<div id="footer">
+	<div style="display:none;">
 		<input type="button" onclick="start_gn()" value="START" class="col-xs-6 btn-info btn"/> 	
 		<input type="button" onclick="stop_gn()" value="STOP" class="col-xs-6 btn-info btn"/> 
-		<textarea class="col-xs-12 form-control" id="error-message" style="height:100px" placeholder="Log area..."></textarea>
+		
 	</div>
 
 	<script type="text/javascript">
