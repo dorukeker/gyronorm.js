@@ -15,12 +15,14 @@
   ],
   "dependencies": {
     "fulltilt": "0.5.2",
-    "es6-promise": "*",
-    "bootstrap": "~3.3.2"
+    "es6-promise": "*"
   },
   "keywords": [
     "devicemotion",
     "deviceorientation"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "bootstrap": "~3.3.2"
+  }
 }
