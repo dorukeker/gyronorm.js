@@ -140,7 +140,7 @@
 				_dm = controller;
 
 				// Set gravity coefficient
-				_gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0) 1 : -1;
+				_gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0)? 1 : -1;
 
 				isDeviceMotionReady = true;
 
