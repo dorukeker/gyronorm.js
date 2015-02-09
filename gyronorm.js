@@ -36,8 +36,6 @@
 	var _orientationBase		= 'game';	// Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world.
 	var _decimalCount			= 2;		// Number of digits after the decimals point for the return values
 	var _logger 				= null;		// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
-	var _trackDeviceOrientation	= true;		// Boolean flag to indicate if device orientation values are being tracked.
-	var _trackDeviceMotion		= true;		// Boolean flag to indicate if device motion values are being tracked.
 	var _screenAdjusted			= false;	// If set to true it will return screen adjusted values. (e.g. On a horizontal orientation of a mobile device, the head would be one of the sides, instead of  the actual head of the device.)
 
 	var _values = {
@@ -110,8 +108,6 @@
 		if(options && options.orientationBase) _orientationBase = options.orientationBase;
 		if(options && options.decimalCount) _decimalCount = options.decimalCount;
 		if(options && options.logger) _logger = options.logger;
-		if(options && options.trackDeviceOrientation) _trackDeviceOrientation = options.trackDeviceOrientation;
-		if(options && options.trackDeviceMotion) _trackDeviceOrientation = options.trackDeviceMotion;
 		if(options && options.screenAdjusted) _screenAdjusted = options.screenAdjusted;
 
 		return new Promise(function( resolve , reject ){
