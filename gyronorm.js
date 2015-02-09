@@ -336,7 +336,14 @@
 		var accGraSnapShot = _dm.getScreenAdjustedAccelerationIncludingGravity();
 		var rotRateSnapShot = _dm.getScreenAdjustedRotationRate();
 
-		var alphaToSend = doSnapShot.alpha + _calibrationValue;
+		var alphaToSend = 0;
+
+		if(_orientationBase === GAME){
+			alphaToSend = doSnapShot.alpha - _calibrationValue;
+			alphaToSend = (alphaToSend < 0)?(360 - Math.abs(alphaToSend)):alphaToSend;
+		} else {
+			alphaToSend = doSnapShot.alpha;
+		}
 
 		var snapShot = {
 			do:{
