@@ -7,7 +7,7 @@
   ],
   "description": "Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.",
   "main": "gyronorm.min.js",
-  "ignore":[
+  "ignore": [
     "README.md",
     "LICENSE",
     "demo/*",
@@ -15,7 +15,8 @@
   ],
   "dependencies": {
     "fulltilt": "0.5.2",
-    "es6-promise":"*"
+    "es6-promise": "*",
+    "bootstrap": "~3.3.2"
   },
   "keywords": [
     "devicemotion",
