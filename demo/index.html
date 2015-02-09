@@ -68,9 +68,6 @@
 		  <span class="input-group-addon">gamma</span>
 		  <input type="text" class="form-control" id="do_gamma">
 		</div>
-
-		<input type="button" onclick="abs_gn()" value="Absolute" class="col-xs-12 btn-warning btn"/> 
-		<input type="button" onclick="rel_gn()" value="Relative" class="col-xs-12 btn-warning btn"/> 
 		
 		<input type="button" onclick="set_head_gn()" value="Set Head Direction" class="col-xs-12 btn-warning btn"/> 
 
@@ -155,39 +152,37 @@
 
 		function init_gn(){
 			var args = {
-				logger:logger,
-				ready:ongnReady
+				logger:logger
 			};
-			gn = new GyroNorm(args);
+
+			gn = new GyroNorm();
+
+			gn.init(args).then(function(){
+
+				var isAvailable = gn.isAvailable();
+				if(!isAvailable.deviceOrientationAvailable){
+					logger({message:'Device orientation is not available.'});
+				}
+
+				if(!isAvailable.accelerationAvailable){
+					logger({message:'Device acceleration is not available.'});
+				}
+
+				if(!isAvailable.accelerationIncludingGravityAvailable){
+					logger({message:'Device acceleration incl. gravity is not available.'});
+				}	
+
+				if(!isAvailable.rotationRateAvailable){
+					logger({message:'Device rotation rate is not available.'});
+				}
+				
+				start_gn();
+
+			});
 		}	
 
 		function logger(data){
 			$('#error-message').append(data.message + "\n");
-		}	
-
-		var ongnReady = function(){
-			var isAvailable = gn.isAvailable();
-			if(!isAvailable.deviceOrientationAvailable){
-				logger({message:'Device orientation is not available.'});
-			}
-
-			if(!isAvailable.accelerationAvailable){
-				logger({message:'Device acceleration is not available.'});
-			}
-
-			if(!isAvailable.accelerationIncludingGravityAvailable){
-				logger({message:'Device acceleration incl. gravity is not available.'});
-			}	
-
-			if(!isAvailable.rotationRateAvailable){
-				logger({message:'Device rotation rate is not available.'});
-			}
-
-			if(!isAvailable.compassNeedsCalibrationAvailable){
-				logger({message:'Device compass needs calibration is not available.'});
-			}
-				
-			start_gn();
 		}
 
 		function stop_gn(){
@@ -216,13 +211,7 @@
 			$('#dm_gamma').val(data.dm.gamma);
 		}
 
-		function abs_gn(){
-			gn.giveAbsoluteDirection(true);
-		}
 
-		function rel_gn(){
-			gn.giveAbsoluteDirection(false);
-		}
 
 		function norm_gn(){
 			gn.normalizeGravity(true);
