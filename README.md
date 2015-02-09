@@ -8,22 +8,32 @@ You can clone from this GitHub repository or use Bower.
 	
 	$ bower install gyronorm
 
+This version of gyronorm.js is built on top of the [FullTilt](https://github.com/richtr/Full-Tilt) project which uses [JavaScript Promises](https://www.promisejs.org/). You do not need to install them seperately. Both the FullTilt library and the polyfill for JS Promises will come as dependencies of gyronorm.js
+
 ##How to use
-Add the JS file to your HTML
+Add the JS promises polyfill file to your HTML, incase you target older devices. 
 
-	<script src="js/gyronorm.js"></script>
+	<script src="<path_to_js_files>/promise.min.js"></script>
 
-Initialize and start the <em>gn</em> object. Good practice is to start the object in the `ready` callback function, which you pass when initializing. 
+Add the FullTilt to your HTML
+
+	<script src="<path_to_js_files>/fulltilt.min.js"></script>
+
+Add the gyronorm.js to your HTML
+
+	<script src="<path_to_js_files>/gyronorm.min.js"></script>
+
+Initialize the <em>gn</em> object. Call the `init` function which returns a promise. Start the <em>gn</em> object when this promise resolves.
 
 Access the values in the callback function of the `gn.start()`
 
-	<script src="/js/gyronorm.js"></script>
+	<script src="/js/promise.min.js"></script>
+	<script src="/js/fulltilt.min.js"></script>
+	<script src="/js/gyronorm.min.js"></script>
 	
-    	var args = {ready:ongnReady};
-    	var gn = new GyroNorm(args);
-    	
-	var ongnReady = function(){
-		gn.start(function(data){
+    var gn = new GyroNorm();
+    gn.init(args).then(function(){
+    	gn.start(function(data){
 	   		// Process:
 			// data.do.alpha	( deviceorientation event alpha value )
 			// data.do.beta		( deviceorientation event beta value )
@@ -42,10 +52,13 @@ Access the values in the callback function of the `gn.start()`
 			// data.dm.beta		( devicemotion event rotationRate beta value )
 			// data.dm.gamma	( devicemotion event rotationRate gamma value )
 		});
-	}
-		
+	});
+    	
+
 ###Backward Compatibility
-In the previous version you were able to initialize and start the <em>gn</em> object directly, without the `ready` function
+There are some breaking changes from 1.x to 2.x versions. You can find the details here.
+
+In the previous versions you were able to initialize and start the <em>gn</em> object directly, without the `ready` function
 
 	var gn = new GyroNorm();
 	gn.start(function(data){ ... });
@@ -58,10 +71,10 @@ You can pass arguments as an object to the to the constructor method. The values
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
 		gravityNormalized:true,			// ( if the garvity related values to be normalized )
-		directionAbsolute:false,		// ( if the do.alpha value is absolute, if false the value is relative to the initial position of the device )
-		decimalCount:2					// ( how many digits after the decimal point wil there be in the return values )
-		logger:null						// ( function to be called to log messages from GyroNorm )
-		ready:null						// ( callback function to be called when the availability of the events and values are known ) 
+		orientationBase:gn.EULER,		// ( Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world. )
+		decimalCount:2,					// ( how many digits after the decimal point will there be in the return values )
+		logger:null,					// ( function to be called to log messages from GyroNorm )
+		screenAdjusted:false			// ( If set to true it will return screen adjusted values. )
 	}
 	
 	var gn = new GyroNorm(args);
@@ -78,8 +91,6 @@ Instantiate gyronorm instance. Adds event listeners to the window object. If ext
 
 args - object (optional) - Passes the values to overwrite the default option values. See above for usage. 
 
-
-		
 ####start()
 
 Starts returning values via the callback function. The callback function is called every many milliseconds defined by the <em>frequency</em> option. See above on how to set the <em>frequency</em>. The default frequency is 50ms. 
