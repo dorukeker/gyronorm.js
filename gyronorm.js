@@ -26,6 +26,7 @@
 	var _calibrationValue = 0;								// Alpha offset value
 	var _gravityCoefficient = 0;							// Coefficient to normalze gravity related values
 	var _isRunning = false;									// Boolean value if GyroNorm is tracking
+	var _isReady = false;									// Boolean value if GyroNorm is is initialized
 	
 	var _do = null;											// Object to store the device orientation values
 	var _dm = null;											// Object to store the device motion values
@@ -120,6 +121,7 @@
 				isDeviceOrientationReady = true;
 
 				if(isDeviceOrientationReady && isDeviceMotionReady){
+					_isReady = true;
 					resolve();
 				}
 
@@ -139,6 +141,7 @@
 				isDeviceMotionReady = true;
 
 				if(isDeviceOrientationReady && isDeviceMotionReady){
+					_isReady = true;
 					resolve();
 				}
 
@@ -159,6 +162,7 @@
 	*/
 	GyroNorm.prototype.end = function(){
 		try{
+			_isReady = false;
 			this.stop();
 			_dm.stop();
 			_do.stop();
@@ -175,6 +179,11 @@
 	*
 	*/
 	GyroNorm.prototype.start = function(callback){
+		if(!_isReady){
+			log({message:'GyroNorm is not initialized yet. First call the "init()" function.' , code:1});
+			return;
+		}
+
 		_interval = setInterval(function(){
 			callback(snapShot());	
 		},_frequency);
@@ -214,7 +223,7 @@
 	*
 	*/
 	GyroNorm.prototype.setHeadDirection = function(){
-		if(_screenAdjusted || _orientationBase === this.WORLD || !_trackDeviceOrientation){
+		if(_screenAdjusted || _orientationBase === this.WORLD){
 			return false;
 		}
 
