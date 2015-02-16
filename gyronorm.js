@@ -95,8 +95,6 @@
 	* @param boolean options.orientationBase
 	* @param boolean options.decimalCount
 	* @param function options.logger
-	* @param function options.trackDeviceOrientation
-	* @param function options.trackDeviceMotion
 	* @param function options.screenAdjusted
 	*
 	*/
