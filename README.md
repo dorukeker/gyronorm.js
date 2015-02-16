@@ -16,7 +16,7 @@ For production, add the minified version of gyronorm.js
 
 	<script src="<path_to_js_files>/gyronorm.min.js"></script>
 
-If you want to use the un-minified version (for instance for development), then you need to add the FullTilt and the promises polyfill.
+If you want to use the un-minified version (for instance for development), then you need to add the FullTilt and the Promises polyfill.
 
 	<script src="<path_to_js_files>/promise.min.js"></script>
 	<script src="<path_to_js_files>/fulltilt.min.js"></script>
@@ -24,16 +24,14 @@ If you want to use the un-minified version (for instance for development), then 
 
 ##How to use
 
-Initialize the <em>gn</em> object. Call the `init` function which returns a promise. Start the <em>gn</em> object when this promise resolves.
+Initialize the `gn` object by calling the `gn.init()` function which returns a promise. Start the `gn` object when this promise resolves.
 
 Access the values in the callback function of the `gn.start()`
 
-	<script src="/js/promise.min.js"></script>
-	<script src="/js/fulltilt.min.js"></script>
-	<script src="/js/gyronorm.min.js"></script>
+	<script src="<path_to_js_files>/gyronorm.min.js"></script>
 	
     var gn = new GyroNorm();
-    gn.init(args).then(function(){
+    gn.init().then(function(){
     	gn.start(function(data){
 	   		// Process:
 			// data.do.alpha	( deviceorientation event alpha value )
