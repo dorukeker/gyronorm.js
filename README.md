@@ -1,7 +1,7 @@
 #gyronorm.js
 Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.
 
-It returns consistent values across different devices. It has options to uniform the alpha value (rotation around z-axis), and normalize the gravity-related values. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
+It returns consistent values across different devices. It has options to return game-based or world-based alpha values (rotation around z-axis), and normalize the gravity-related values. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
 
 ##Installation
 You can clone from this GitHub repository or use Bower.
@@ -10,18 +10,19 @@ You can clone from this GitHub repository or use Bower.
 
 This version of gyronorm.js is built on top of the [FullTilt](https://github.com/richtr/Full-Tilt) project which uses [JavaScript Promises](https://www.promisejs.org/). You do not need to install them seperately. Both the FullTilt library and the polyfill for JS Promises will come as dependencies of gyronorm.js
 
-##How to use
-Add the JS promises polyfill file to your HTML, incase you target older devices. 
+##How to add
 
-	<script src="<path_to_js_files>/promise.min.js"></script>
-
-Add the FullTilt to your HTML
-
-	<script src="<path_to_js_files>/fulltilt.min.js"></script>
-
-Add the gyronorm.js to your HTML
+For production, add the minified version of gyronorm.js
 
 	<script src="<path_to_js_files>/gyronorm.min.js"></script>
+
+If you want to use the un-minified version (for instance for development), then you need to add the FullTilt and the promises polyfill.
+
+	<script src="<path_to_js_files>/promise.min.js"></script>
+	<script src="<path_to_js_files>/fulltilt.min.js"></script>
+	<script src="<path_to_js_files>/gyronorm.js"></script>
+
+##How to use
 
 Initialize the <em>gn</em> object. Call the `init` function which returns a promise. Start the <em>gn</em> object when this promise resolves.
 
@@ -57,16 +58,9 @@ Access the values in the callback function of the `gn.start()`
 
 ###Backward Compatibility
 There are some breaking changes from 1.x to 2.x versions. You can find the details here.
-
-In the previous versions you were able to initialize and start the <em>gn</em> object directly, without the `ready` function
-
-	var gn = new GyroNorm();
-	gn.start(function(data){ ... });
-		
-This method still works. However the return values from the `gn.isAvailable()` function will not be reliable. I recommend to use the `ready` callback function as described above.
 	
 ###Options
-You can pass arguments as an object to the to the constructor method. The values you pass overwrites the default values. Below is the list of available options and their default values.
+You can pass arguments as an object to the to the constructor `init`. The values you pass overwrites the default values. Below is the list of available options and their default values.
 
 	var args = {
 		frequency:50,					// ( how often the object sends the values - milliseconds )
@@ -81,11 +75,16 @@ You can pass arguments as an object to the to the constructor method. The values
 
 ###Methods
 ####GyroNorm()
-Instantiate gyronorm instance. Adds event listeners to the window object. If extra arguments are provided overwrites the default options (see above).
+Instantiate a new gyronorm instance.
+
+####init()
+Returns a promise object that resolves when gyronorm is ready. (Attempt to add events to Window object is complete). If extra arguments are provided overwrites the default options (see above).
+
+Make sure to call all other function after this promise resolves.
 
 #####Syntax
 
-	var gn = new GyroNorm(args);
+	gn.init(args);
 
 #####Parameters
 
@@ -93,7 +92,7 @@ args - object (optional) - Passes the values to overwrite the default option val
 
 ####start()
 
-Starts returning values via the callback function. The callback function is called every many milliseconds defined by the <em>frequency</em> option. See above on how to set the <em>frequency</em>. The default frequency is 50ms. 
+Starts returning values via the callback function. The callback function is called every many milliseconds defined by the <em>frequency</em> option. See above on how to set the <em>frequency</em>. The default frequency is 50ms.
 
 #####Syntax
 
@@ -117,34 +116,34 @@ Tells the availability of device orientation or device motion values on the devi
 
 #####Parameters
 
-valueType - string - optional - If passed, the method returns `true` or `false`, depending on the availablity of the specified value. Possible values are `deviceorientation`,`acceleration`,`accelerationinludinggravity`,`rotationrate` or `compassneedscalibration`
+valueType - string - optional - If passed, the method returns `true` or `false`, depending on the availablity of the specified value. Possible values are `gn.DEVICE_ORIENTATION`,`gn.ACCELERATION`,`gn.ACCELERATION_INCLUDING_GRAVITY` or `gn.ROTATION_RATE`
 
-When called without a parameter returns availibility for values.
+When called without a parameter returns availibility for all values.
 
 #####Example
 	
-	var args = {ready:ongnReady};
-	var gn = new GyroNorm(args);
+	var gn = new GyroNorm();
+	gn.init().then(ongnReady);
 	var ongnReady = function(){
-		var doAvailable = gn.isAvailable("deviceorientation");
-		// Parameter can also be "acceleration","accelerationinludinggravity","rotationrate" or "compassneedscalibration"
+		var doAvailable = gn.isAvailable(gn.DEVICE_ORIENTATION);
+		// Parameter can also be gn.DEVICE_ORIENTATION, gn.ACCELERATION, gn.ACCELERATION_INCLUDING_GRAVITY or gn.ROTATION_RATE
 		// This example returns true if deviceorientation is available. Returns false if not.
 		
 		var gnAvailable = gn.isAvailable();
 		/* Returns the following object
 			{
-				deviceOrientationAvailable : true/false,		
-				accelerationAvailable : true/false,
-				accelerationIncludingGravityAvailable : true/false,
-				rotationRateAvailable : true/false,
-				compassNeedsCalibrationAvailable : true/false
+				deviceOrientationAvailable : <true or false>,		
+				accelerationAvailable : <true or false>,
+				accelerationIncludingGravityAvailable : <true or false>,
+				rotationRateAvailable : <true or false>,
+				compassNeedsCalibrationAvailable : <true or false>
 			}
 		*/
 	}
 
 ####normalizeGravity()
 
-Changes the value of the <em>gravityNormalized</em> option. It can be called any time.
+Changes the value of the <em>gravityNormalized</em> option. Even when GyroNorm is running.
 
 #####Syntax
 
@@ -156,8 +155,8 @@ flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <e
 
 #####Example
 	
-	var args = {ready:ongnReady};
-	var gn = new GyroNorm(args);
+	var gn = new GyroNorm();
+	gn.init().then(ongnReady);
 	var ongnReady = function(){
 		gn.start(function(){
 			// Process return values here
@@ -170,39 +169,13 @@ flag - boolean - <em>true</em> sets the option <em>gravityNormalized</em> on, <e
 
 	// At this point callback function returns native values gravity-related as provided by the device.		
 
-####giveAbsoluteDirection()
-
-Changes the value of the <em>directionAbsolute</em> option. It can be called any time.
-
-#####Syntax
-
-	gn.giveAbsoluteDirection(flag);
-
-#####Parameters
-
-flag - boolean - <em>true</em> sets the option <em>directionAbsolute</em> on, <em>false</em> set it to off.
-
-#####Example
-
-	var args = {ready:ongnReady};
-	var gn = new GyroNorm(args);
-	var ongnReady = function(){
-		gn.start(function(){
-			// Process return values here
-		});
-	}
-
-	// At this point callback function returns do.alpha values relative to the initial position of the device
-
-	gn.giveAbsoluteDirection(true);
-
-	// At this point callback function returns do.alpha values as provided by the device.	
-
 ####setHeadDirection()
 
-Must be called after the `start()` method. When called, the callback function starts returning the <em>do.alpha</em> value relative to the current head direction of the device.
+Must be called after the `start()` method. This can only be used if gyronorm is tracking game-based and not-screen-adjusted values.
 
-Once this method is called <em>directionAbsolute</em> option is also set to <em>false</em>
+When called, the callback function starts returning the <em>do.alpha</em> value relative to the current head direction of the device.
+
+It will return `true` if head direction is set successfully; `false` if not. 
 
 #####Syntax
 
@@ -210,8 +183,8 @@ Once this method is called <em>directionAbsolute</em> option is also set to <em>
 
 #####Example
 
-	var args = {ready:ongnReady};
-	var gn = new GyroNorm(args);
+	var gn = new GyroNorm();
+	gn.init().then(ongnReady);
 	var ongnReady = function(){
 		gn.start(function(){
 			// Process return values here
@@ -259,11 +232,13 @@ You can do this with the options when initializing the object.
 		// Do something with the data
 	}}
 
-	var gn = new GyroNorm(args);
-	
+	var gn = new GyroNorm();
+	gn.init(args).then( ... );	
+
 You can also set the log listener function at a later point using the `startLogging()` function.
 
 	var gn = new GyroNorm();
+	gn.init().then( ... );
 
 	gn.startLogging(function(data){
 		// Do something with the data
@@ -275,7 +250,8 @@ At any point you can call the `stopLogging()` function to stop logging.
 		// Do something with the data
 	}}
 
-	var gn = new GyroNorm(args);
+	var gn = new GyroNorm();
+	gn.init(args).then( ... );
 
 	gn.stopLogging();
 
@@ -290,8 +266,6 @@ A log code that you can check on.
 
 - 0: Errors thrown by the system and caugth by gyronorm.js
 - 1: gyronorm is not initialized so the event listeners are not added yet. You get this if you try to call `gn.start()` before `gn.init()`
-- 2: The deviceOrientation event of the window seems to be available but not returning the expected values.
-- 3: Device compass is not calibrated
 
 ####data.message
 
