@@ -56,21 +56,22 @@ Access the values in the callback function of the `gn.start()`
 	</script    	
 
 ###Backward Compatibility
-There are some breaking changes from 1.x to 2.x versions. You can find the details here.
+There are some breaking changes from 1.x to 2.x versions. You can find the details [here](https://github.com/dorukeker/gyronorm.js/wiki/Breaking-changes-from-1.x-to-2.x).
 	
 ###Options
-You can pass arguments as an object to the to the constructor `init`. The values you pass overwrites the default values. Below is the list of available options and their default values.
+You can pass arguments as an object to the `init()` function. The values you pass overwrites the default values. Below is the list of available options and their default values.
 
 	var args = {
-		frequency:50,					// ( how often the object sends the values - milliseconds )
-		gravityNormalized:true,			// ( if the garvity related values to be normalized )
+		frequency:50,					// ( How often the object sends the values - milliseconds )
+		gravityNormalized:true,			// ( If the garvity related values to be normalized )
 		orientationBase:gn.EULER,		// ( Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world. )
-		decimalCount:2,					// ( how many digits after the decimal point will there be in the return values )
-		logger:null,					// ( function to be called to log messages from GyroNorm )
+		decimalCount:2,					// ( How many digits after the decimal point will there be in the return values )
+		logger:null,					// ( Function to be called to log messages from GyroNorm )
 		screenAdjusted:false			// ( If set to true it will return screen adjusted values. )
 	}
 	
-	var gn = new GyroNorm(args);
+	var gn = new GyroNorm();
+	gn.init(args).then( ... );
 
 ###Methods
 ####GyroNorm()
