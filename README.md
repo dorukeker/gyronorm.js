@@ -30,29 +30,30 @@ Access the values in the callback function of the `gn.start()`
 
 	<script src="<path_to_js_files>/gyronorm.min.js"></script>
 	
-    var gn = new GyroNorm();
-    gn.init().then(function(){
-    	gn.start(function(data){
-	   		// Process:
-			// data.do.alpha	( deviceorientation event alpha value )
-			// data.do.beta		( deviceorientation event beta value )
-			// data.do.gamma	( deviceorientation event gamma value )
-			// data.do.absolute	( deviceorientation event absolute value )
-			
-			// data.dm.x		( devicemotion event acceleration x value )
-			// data.dm.y		( devicemotion event acceleration y value )
-			// data.dm.z		( devicemotion event acceleration z value )
-			
-			// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
-			// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
-			// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
+	<script type="text/javascript">
+	    var gn = new GyroNorm();
+	    gn.init().then(function(){
+	    	gn.start(function(data){
+		   		// Process:
+				// data.do.alpha	( deviceorientation event alpha value )
+				// data.do.beta		( deviceorientation event beta value )
+				// data.do.gamma	( deviceorientation event gamma value )
+				// data.do.absolute	( deviceorientation event absolute value )
 				
-			// data.dm.alpha	( devicemotion event rotationRate alpha value )
-			// data.dm.beta		( devicemotion event rotationRate beta value )
-			// data.dm.gamma	( devicemotion event rotationRate gamma value )
+				// data.dm.x		( devicemotion event acceleration x value )
+				// data.dm.y		( devicemotion event acceleration y value )
+				// data.dm.z		( devicemotion event acceleration z value )
+				
+				// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
+				// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
+				// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
+					
+				// data.dm.alpha	( devicemotion event rotationRate alpha value )
+				// data.dm.beta		( devicemotion event rotationRate beta value )
+				// data.dm.gamma	( devicemotion event rotationRate gamma value )
+			});
 		});
-	});
-    	
+	</script    	
 
 ###Backward Compatibility
 There are some breaking changes from 1.x to 2.x versions. You can find the details here.
