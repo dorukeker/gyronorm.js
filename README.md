@@ -64,9 +64,9 @@ You can pass arguments as an object to the `init()` function. The values you pas
 	var args = {
 		frequency:50,					// ( How often the object sends the values - milliseconds )
 		gravityNormalized:true,			// ( If the garvity related values to be normalized )
-		orientationBase:gn.EULER,		// ( Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world. )
+		orientationBase:gn.EULER,		// ( Can be gn.GAME or gn.WORLD. gn.GAME returns orientation values with respect to the head direction of the device. gn.WORLD returns the orientation values with respect to the actual north direction of the world. )
 		decimalCount:2,					// ( How many digits after the decimal point will there be in the return values )
-		logger:null,					// ( Function to be called to log messages from GyroNorm )
+		logger:null,					// ( Function to be called to log messages from gyronorm.js )
 		screenAdjusted:false			// ( If set to true it will return screen adjusted values. )
 	}
 	
@@ -79,7 +79,7 @@ You can pass arguments as an object to the `init()` function. The values you pas
 
 ##Error Handling
 
-GyroNorm can return errors and log messages. You need to define a function to handle those message.
+gyronorm.js can return errors and log messages. You need to define a function to handle those message.
 
 You can do this with the options when initializing the object.
 	
@@ -120,7 +120,7 @@ A log code that you can check on.
 ####Availabele codes
 
 - 0: Errors thrown by the system and caugth by gyronorm.js
-- 1: gyronorm is not initialized so the event listeners are not added yet. You get this if you try to call `gn.start()` before `gn.init()`
+- 1: GyroNorm object is not initialized so the event listeners are not added yet. You get this if you try to call `gn.start()` before `gn.init()`
 
 ###data.message
 
