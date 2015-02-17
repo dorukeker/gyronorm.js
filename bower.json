@@ -1,6 +1,6 @@
 {
   "name": "gyronorm",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "homepage": "https://github.com/dorukeker/gyronorm.git",
   "authors": [
     "Doruk Eker"
@@ -11,18 +11,20 @@
     "README.md",
     "LICENSE",
     "demo/*",
-    "demo"
+    "demo",
+    "Gruntfile.js",
+    "package.json",
+    "bower_components/*",
+    "node_modules/*"
   ],
-  "dependencies": {
-    "fulltilt": "0.5.2",
-    "es6-promise": "*"
-  },
   "keywords": [
     "devicemotion",
     "deviceorientation"
   ],
   "license": "MIT",
   "devDependencies": {
-    "bootstrap": "~3.3.2"
+    "bootstrap": "~3.3.2",
+    "fulltilt": "0.5.2",
+    "es6-promise": "*"
   }
 }
