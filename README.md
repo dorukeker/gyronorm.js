@@ -53,7 +53,7 @@ Access the values in the callback function of the `gn.start()`
 				// data.dm.gamma	( devicemotion event rotationRate gamma value )
 			});
 		});
-	</script    	
+	</script>    	
 
 ###Backward Compatibility
 There are some breaking changes from 1.x to 2.x versions. You can find the details [here](https://github.com/dorukeker/gyronorm.js/wiki/Breaking-changes-from-1.x-to-2.x).
