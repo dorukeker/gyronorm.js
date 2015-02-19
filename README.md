@@ -55,7 +55,12 @@ Access the values in the callback function of the `gn.start()`
 		});
 	</script>    	
 
-###Backward Compatibility
+###Older devices
+In some of the older devices the polyfill for the JS Promises does not work properly. This might cause all or a part of your JavaScript code to break. Try adding the following line before you instantiate GyroNorm.
+
+	var Promise = Promise || ES6Promise.Promise;
+
+###Backward compatibility
 There are some breaking changes from 1.x to 2.x versions. You can find the details [here](https://github.com/dorukeker/gyronorm.js/wiki/Breaking-changes-from-1.x-to-2.x).
 	
 ###Options
@@ -77,7 +82,7 @@ You can pass arguments as an object to the `init()` function. The values you pas
 
 [gyronorm.js API Documentation](https://github.com/dorukeker/gyronorm.js/wiki/API-Documentaion)
 
-##Error Handling
+##Error handling
 
 gyronorm.js can return errors and log messages. You need to define a function to handle those message.
 
