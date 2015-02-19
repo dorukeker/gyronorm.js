@@ -55,11 +55,6 @@ Access the values in the callback function of the `gn.start()`
 		});
 	</script>    	
 
-###Older devices
-In some of the older devices the polyfill for the JS Promises does not work properly. This might cause all or a part of your JavaScript code to break. Try adding the following line before you instantiate GyroNorm.
-
-	var Promise = Promise || ES6Promise.Promise;
-
 ###Backward compatibility
 There are some breaking changes from 1.x to 2.x versions. You can find the details [here](https://github.com/dorukeker/gyronorm.js/wiki/Breaking-changes-from-1.x-to-2.x).
 	
@@ -77,6 +72,11 @@ You can pass arguments as an object to the `init()` function. The values you pas
 	
 	var gn = new GyroNorm();
 	gn.init(args).then( ... );
+
+###Older devices
+In some of the older devices the polyfill for the JS Promises does not work properly. This might cause all or a part of your JavaScript code to break. Try adding the following line before you instantiate GyroNorm.
+
+	var Promise = Promise || ES6Promise.Promise;
 
 ##API Documentation
 
