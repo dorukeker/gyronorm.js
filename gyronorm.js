@@ -109,37 +109,19 @@
     if (options && options.logger) _logger = options.logger;
     if (options && options.screenAdjusted) _screenAdjusted = options.screenAdjusted;
 
-    return new Promise(function(resolve, reject) {
-      var isDeviceOrientationReady = false;
-      var isDeviceMotionReady = false;
-
-      new FULLTILT.getDeviceOrientation({ 'type': _orientationBase }).then(function(controller) {
-        _do = controller;
-        isDeviceOrientationReady = true;
-
-        if (isDeviceOrientationReady && isDeviceMotionReady) {
-          _isReady = true;
-          resolve();
-        }
-      }).catch(function(err) {
-        reject(err);
-      });
-
-      new FULLTILT.getDeviceMotion().then(function(controller) {
-        isDeviceMotionReady = true;
-        _dm = controller;
-        // Set gravity coefficient
-        _gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0) ? 1 : -1;
-
-        if (isDeviceOrientationReady && isDeviceMotionReady) {
-          _isReady = true;
-          resolve();
-        }
-      }).catch(function(err) {
-        reject(err);
-      });
+    var deviceOrientationPromise = new FULLTILT.getDeviceOrientation({ 'type': _orientationBase }).then(function(controller) {
+      _do = controller;
     });
 
+    var deviceMotionPromise = new FULLTILT.getDeviceMotion().then(function(controller) {
+      _dm = controller;
+      // Set gravity coefficient
+      _gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0) ? 1 : -1;
+    });
+
+    return Promise.all([deviceOrientationPromise, deviceMotionPromise]).then(function() {
+      _isReady = true;
+    });
   }
 
   /*
