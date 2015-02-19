@@ -4,399 +4,383 @@
 * @author Doruk Eker <dorukeker@gmail.com>
 * @copyright 2015 Doruk Eker <http://dorukeker.com>
 * @version 2.0.0
-* @license MIT License | http://opensource.org/licenses/MIT 
+* @license MIT License | http://opensource.org/licenses/MIT
 */
 
-(function (root, factory) {
-  if(typeof define === "function" && define.amd) {
-    define(function(){
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(function() {
       return (root.GyroNorm = factory());
     });
-  } else if(typeof module === "object" && module.exports) {
+  } else if (typeof module === 'object' && module.exports) {
     module.exports = (root.GyroNorm = factory());
   } else {
     root.GyroNorm = factory();
   }
 }(this, function() {
-  	/*-------------------------------------------------------*/
-	/* PRIVATE VARIABLES */
+  /* Constants */
+  var GAME                            = 'game';
+  var WORLD                           = 'world';
+  var DEVICE_ORIENTATION              = 'deviceorientation';
+  var ACCELERATION                    = 'acceleration';
+  var ACCELERATION_INCLUDING_GRAVITY  = 'accelerationinludinggravity';
+  var ROTATION_RATE                   = 'rotationrate';
 
-	var _interval = null;									// Timer to return values
-	var _isCalibrating = false;								// Flag if calibrating
-	var _calibrationValue = 0;								// Alpha offset value
-	var _gravityCoefficient = 0;							// Coefficient to normalze gravity related values
-	var _isRunning = false;									// Boolean value if GyroNorm is tracking
-	var _isReady = false;									// Boolean value if GyroNorm is is initialized
-	
-	var _do = null;											// Object to store the device orientation values
-	var _dm = null;											// Object to store the device motion values
+  /*-------------------------------------------------------*/
+  /* PRIVATE VARIABLES */
 
-	/* OPTIONS */
-	var _frequency 				= 50;		// Frequency for the return data in milliseconds
-	var _gravityNormalized		= true;		// Flag if to normalize gravity values
-	var _orientationBase		= 'game';	// Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world.
-	var _decimalCount			= 2;		// Number of digits after the decimals point for the return values
-	var _logger 				= null;		// Function to callback on error. There is no default value. It can only be set by the user on gn.init()
-	var _screenAdjusted			= false;	// If set to true it will return screen adjusted values. (e.g. On a horizontal orientation of a mobile device, the head would be one of the sides, instead of  the actual head of the device.)
+  var _interval           = null;       // Timer to return values
+  var _isCalibrating      = false;      // Flag if calibrating
+  var _calibrationValue   = 0;          // Alpha offset value
+  var _gravityCoefficient = 0;          // Coefficient to normalze gravity related values
+  var _isRunning          = false;      // Boolean value if GyroNorm is tracking
+  var _isReady            = false;      // Boolean value if GyroNorm is is initialized
 
-	var _values = {
-		do:{
-			alpha:0,
-			beta:0,
-			gamma:0,
-			absolute:false
-		},
-		dm:{
-			x:0,
-			y:0,
-			z:0,
-			gx:0,
-			gy:0,
-			gz:0,
-			alpha:0,
-			beta:0,
-			gamma:0
-		}
-	}
+  var _do                 = null;       // Object to store the device orientation values
+  var _dm                 = null;       // Object to store the device motion values
 
-	/* Constants */
-	var GAME 								= 'game';
-	var WORLD 								= 'world';
-	var DEVICE_ORIENTATION 					= 'deviceorientation';
-	var ACCELERATION 						= 'acceleration';
-	var ACCELERATION_INCLUDING_GRAVITY 		= 'accelerationinludinggravity';
-	var ROTATION_RATE 						= 'rotationrate';
+  /* OPTIONS */
+  var _frequency          = 50;         // Frequency for the return data in milliseconds
+  var _gravityNormalized  = true;       // Flag if to normalize gravity values
+  var _orientationBase    = 'game';     // Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world.
+  var _decimalCount       = 2;          // Number of digits after the decimals point for the return values
+  var _logger             = null;       // Function to callback on error. There is no default value. It can only be set by the user on gn.init()
+  var _screenAdjusted     = false;      // If set to true it will return screen adjusted values. (e.g. On a horizontal orientation of a mobile device, the head would be one of the sides, instead of  the actual head of the device.)
 
-	/*-------------------------------------------------------*/
-	/* PUBLIC FUNCTIONS */
+  var _values = {
+    do: {
+      alpha: 0,
+      beta: 0,
+      gamma: 0,
+      absolute: false
+    },
+    dm: {
+      x: 0,
+      y: 0,
+      z: 0,
+      gx: 0,
+      gy: 0,
+      gz: 0,
+      alpha: 0,
+      beta: 0,
+      gamma: 0
+    }
+  }
 
-	/*
-	*
-	* Constructor function
-	*
-	*/
+  /*-------------------------------------------------------*/
+  /* PUBLIC FUNCTIONS */
 
-	var GyroNorm = function(options){}
+  /*
+  *
+  * Constructor function
+  *
+  */
 
-	/* Constants */
-	GyroNorm.prototype.GAME 								= 'game';
-	GyroNorm.prototype.WORLD 								= 'world';
-	GyroNorm.prototype.DEVICE_ORIENTATION 					= 'deviceorientation';
-	GyroNorm.prototype.ACCELERATION 						= 'acceleration';
-	GyroNorm.prototype.ACCELERATION_INCLUDING_GRAVITY 		= 'accelerationinludinggravity';
-	GyroNorm.prototype.ROTATION_RATE 						= 'rotationrate';
+  var GyroNorm = function(options) {}
 
-	/*
-	*
-	* Initialize GyroNorm instance function
-	* 
-	* @param object options - values are as follows. If set in the init function they overwrite the default option values 
-	* @param int options.frequency
-	* @param boolean options.gravityNormalized
-	* @param boolean options.orientationBase
-	* @param boolean options.decimalCount
-	* @param function options.logger
-	* @param function options.screenAdjusted
-	*
-	*/
+  /* Constants */
+  GyroNorm.prototype.GAME                             = 'game';
+  GyroNorm.prototype.WORLD                            = 'world';
+  GyroNorm.prototype.DEVICE_ORIENTATION               = 'deviceorientation';
+  GyroNorm.prototype.ACCELERATION                     = 'acceleration';
+  GyroNorm.prototype.ACCELERATION_INCLUDING_GRAVITY   = 'accelerationinludinggravity';
+  GyroNorm.prototype.ROTATION_RATE                    = 'rotationrate';
 
-	GyroNorm.prototype.init = function(options){
-		// Assign options that are passed with the constructor function
-		if(options && options.frequency) _frequency = options.frequency;
-		if(options && options.gravityNormalized) _gravityNormalized = options.gravityNormalized;
-		if(options && options.orientationBase) _orientationBase = options.orientationBase;
-		if(options && options.decimalCount) _decimalCount = options.decimalCount;
-		if(options && options.logger) _logger = options.logger;
-		if(options && options.screenAdjusted) _screenAdjusted = options.screenAdjusted;
+  /*
+  *
+  * Initialize GyroNorm instance function
+  *
+  * @param object options - values are as follows. If set in the init function they overwrite the default option values 
+  * @param int options.frequency
+  * @param boolean options.gravityNormalized
+  * @param boolean options.orientationBase
+  * @param boolean options.decimalCount
+  * @param function options.logger
+  * @param function options.screenAdjusted
+  *
+  */
 
-		return new Promise(function( resolve , reject ){
+  GyroNorm.prototype.init = function(options) {
+    // Assign options that are passed with the constructor function
+    if (options && options.frequency) _frequency = options.frequency;
+    if (options && options.gravityNormalized) _gravityNormalized = options.gravityNormalized;
+    if (options && options.orientationBase) _orientationBase = options.orientationBase;
+    if (options && options.decimalCount) _decimalCount = options.decimalCount;
+    if (options && options.logger) _logger = options.logger;
+    if (options && options.screenAdjusted) _screenAdjusted = options.screenAdjusted;
 
-			var isDeviceOrientationReady = false;
-			var isDeviceMotionReady = false;
+    return new Promise(function(resolve, reject) {
+      var isDeviceOrientationReady = false;
+      var isDeviceMotionReady = false;
 
-			new FULLTILT.getDeviceOrientation({ 'type': _orientationBase }).then(function(controller){
+      new FULLTILT.getDeviceOrientation({ 'type': _orientationBase }).then(function(controller) {
+        _do = controller;
+        isDeviceOrientationReady = true;
 
-				_do = controller;
+        if (isDeviceOrientationReady && isDeviceMotionReady) {
+          _isReady = true;
+          resolve();
+        }
+      }).catch(function(err) {
+        reject(err);
+      });
 
-				isDeviceOrientationReady = true;
+      new FULLTILT.getDeviceMotion().then(function(controller) {
+        isDeviceMotionReady = true;
+        _dm = controller;
+        // Set gravity coefficient
+        _gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0) ? 1 : -1;
 
-				if(isDeviceOrientationReady && isDeviceMotionReady){
-					_isReady = true;
-					resolve();
-				}
+        if (isDeviceOrientationReady && isDeviceMotionReady) {
+          _isReady = true;
+          resolve();
+        }
+      }).catch(function(err) {
+        reject(err);
+      });
+    });
 
-			}).catch(function(err){
+  }
 
-				reject(err);
+  /*
+  *
+  * Stops all the tracking and listening on the window objects
+  *
+  */
+  GyroNorm.prototype.end = function() {
+    try {
+      _isReady = false;
+      this.stop();
+      _dm.stop();
+      _do.stop();
+    } catch(err){
+      log(err);
+    }
+  }
 
-			});
+  /*
+  *
+  * Starts tracking the values
+  *
+  * @param function callback - Callback function to read the values
+  *
+  */
+  GyroNorm.prototype.start = function(callback) {
+    if (!_isReady) {
+      log({ message: 'GyroNorm is not initialized yet. First call the "init()" function.', code: 1 });
+      return;
+    }
 
-			new FULLTILT.getDeviceMotion().then(function(controller){
+    _interval = setInterval(function() {
+      callback(snapShot());
+    }, _frequency);
+    _isRunning = true;
+  }
 
-				_dm = controller;
+  /*
+  *
+  * Stops tracking the values
+  *
+  */
+  GyroNorm.prototype.stop = function() {
+    if (_interval) {
+      clearInterval(_interval);
+      _isRunning = false;
+    }
+  }
 
-				// Set gravity coefficient
-				_gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0)? 1 : -1;
-
-				isDeviceMotionReady = true;
-
-				if(isDeviceOrientationReady && isDeviceMotionReady){
-					_isReady = true;
-					resolve();
-				}
-
-			}).catch(function(err){
-
-				reject(err);
-
-			});
-
-		});
-
-	}
-
-	/*
-	*
-	* Stops all the tracking and listening on the window objects
-	*
-	*/
-	GyroNorm.prototype.end = function(){
-		try{
-			_isReady = false;
-			this.stop();
-			_dm.stop();
-			_do.stop();
-		} catch(err){
-			log(err);
-		}
-	}
-
-	/*
-	*
-	* Starts tracking the values
-	* 
-	* @param function callback - Callback function to read the values
-	*
-	*/
-	GyroNorm.prototype.start = function(callback){
-		if(!_isReady){
-			log({message:'GyroNorm is not initialized yet. First call the "init()" function.' , code:1});
-			return;
-		}
-
-		_interval = setInterval(function(){
-			callback(snapShot());	
-		},_frequency);
-		_isRunning = true;
-	}
-
-	/*
-	*
-	* Stops tracking the values
-	*
-	*/
-	GyroNorm.prototype.stop = function(){
-		if(_interval){
-			clearInterval(_interval);
-			_isRunning = false;
-		}
-	}
-
-	/*
-	*
-	* Toggles if to normalize gravity related values
-	* 
-	* @param boolean flag
-	*
-	*/
-	GyroNorm.prototype.normalizeGravity = function(flag){
-		_gravityNormalized = (flag)?true:false;
-	}
+  /*
+  *
+  * Toggles if to normalize gravity related values
+  * 
+  * @param boolean flag
+  *
+  */
+  GyroNorm.prototype.normalizeGravity = function(flag) {
+    _gravityNormalized = (flag) ? true : false;
+  }
 
 
-	/*
-	*
-	* Sets the current head direction as alpha = 0
-	* Can only be used if device orientation is being tracked, values are not screen adjusted, value type is GyroNorm.EULER and orientation base is GyroNorm.GAME
-	*
-	* @return: If head direction is set successfully returns true, else false 
-	*
-	*/
-	GyroNorm.prototype.setHeadDirection = function(){
-		if(_screenAdjusted || _orientationBase === this.WORLD){
-			return false;
-		}
+  /*
+  *
+  * Sets the current head direction as alpha = 0
+  * Can only be used if device orientation is being tracked, values are not screen adjusted, value type is GyroNorm.EULER and orientation base is GyroNorm.GAME
+  *
+  * @return: If head direction is set successfully returns true, else false 
+  *
+  */
+  GyroNorm.prototype.setHeadDirection = function() {
+    if (_screenAdjusted || _orientationBase === this.WORLD) {
+      return false;
+    }
 
-		_calibrationValue = _do.getFixedFrameEuler().alpha;
-		return true;
+    _calibrationValue = _do.getFixedFrameEuler().alpha;
+    return true;
+  }
 
-	}
+  /*
+  *
+  * Sets the log function
+  *
+  */
+  GyroNorm.prototype.startLogging = function(logger) {
+    if (logger) {
+      _logger = logger;
+    }
+  }
 
-	/*
-	*
-	* Sets the log function
-	*
-	*/
-	GyroNorm.prototype.startLogging = function(logger){
-		if(logger){
-			_logger = logger;
-		}
-	}
+  /*
+  *
+  * Sets the log function to null which stops the logging
+  *
+  */
+  GyroNorm.prototype.stopLogging = function() {
+    _logger = null;
+  }
 
-	/*
-	*
-	* Sets the log function to null which stops the logging
-	*
-	*/
-	GyroNorm.prototype.stopLogging = function(){
-		_logger = null;
-	}
+  /*
+  *
+  * Returns if certain type of event is available on the device
+  * 
+  * @param string _eventType - possible values are "deviceorientation" , "devicemotion" , "compassneedscalibration"
+  * 
+  * @return true if event is available false if not
+  *
+  */
+  GyroNorm.prototype.isAvailable = function(_eventType) {
 
-	/*
-	*
-	* Returns if certain type of event is available on the device
-	* 
-	* @param string _eventType - possible values are "deviceorientation" , "devicemotion" , "compassneedscalibration"
-	* 
-	* @return true if event is available false if not
-	*
-	*/
-	GyroNorm.prototype.isAvailable = function(_eventType){
+    switch (_eventType) {
+      case this.DEVICE_ORIENTATION:
+        return (_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA));
+        break;
 
-		switch(_eventType){
-			case this.DEVICE_ORIENTATION:
-				return (_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA));
-				break;
+      case this.ACCELERATION:
+        return (_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z));
+        break;
 
-			case this.ACCELERATION:
-				return (_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z));
-				break;
+      case this.ACCELERATION_INCLUDING_GRAVITY:
+        return (_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z));
+        break;
 
-			case this.ACCELERATION_INCLUDING_GRAVITY:
-				return (_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z));
-				break;
+      case this.ROTATION_RATE:
+        return (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA));
+        break;
 
-			case this.ROTATION_RATE:
-				return (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA));
-				break;
+      default:
+        return {
+          deviceOrientationAvailable: (_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA)),
+          accelerationAvailable: (_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z)),
+          accelerationIncludingGravityAvailable: (_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z)),
+          rotationRateAvailable: (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA))     
+        }
+        break;
+    }
+  }
 
-			default:
-				return {
-					deviceOrientationAvailable:(_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA)),
-					accelerationAvailable:(_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z)),
-					accelerationIncludingGravityAvailable:(_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z)),
-					rotationRateAvailable:(_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA))			
-				}
-				break;
-		}
-	}
+  /*
+  *
+  * Returns boolean value if the GyroNorm is running
+  *
+  */
+  GyroNorm.prototype.isRunning = function() {
+    return _isRunning;
+  }
 
-	/*
-	*
-	* Returns boolean value if the GyroNorm is running
-	*
-	*/
-	GyroNorm.prototype.isRunning = function(){
-		return _isRunning;
-	}
+  /*-------------------------------------------------------*/
+  /* PRIVATE FUNCTIONS */
 
-	/*-------------------------------------------------------*/
-	/* PRIVATE FUNCTIONS */
+  /*
+  *
+  * Utility function to round with digits after the decimal point
+  *
+  * @param float number - the original number to round
+  *
+  */
+  function rnd(number) {
+    return Math.round(number * Math.pow(10, _decimalCount)) / Math.pow(10, _decimalCount);
+  }
 
-	/*
-	*
-	* Utility function to round with digits after the decimal point
-	*
-	* @param float number - the original number to round
-	*
-	*/
-	function rnd(number){
-		return Math.round(number * Math.pow(10 , _decimalCount)) / Math.pow(10 , _decimalCount);
-	}
+  /*
+  *
+  * Starts calibration
+  *
+  */
+  function calibrate() {
+    _isCalibrating = true;
+    _calibrationValues = new Array();
+  }
 
-	/*
-	*
-	* Starts calibration
-	*
-	*/
-	function calibrate(){
-		_isCalibrating = true;
-		_calibrationValues = new Array();
-	}
+  /*
+  *
+  * Takes a snapshot of the current deviceo orientaion and device motion values
+  *
+  */
+  function snapShot() {
+    var doSnapShot = {};
 
-	/*
-	*
-	* Takes a snapshot of the current deviceo orientaion and device motion values
-	*
-	*/
-	function snapShot(){
+    if (_screenAdjusted) {
+      doSnapShot = _do.getScreenAdjustedEuler();
+    } else {
+      doSnapShot = _do.getFixedFrameEuler();
+    }
 
-		var doSnapShot = {};
-	
-		if(_screenAdjusted){
-			doSnapShot = _do.getScreenAdjustedEuler();
-		} else {
-			doSnapShot = _do.getFixedFrameEuler();
-		}
-				
-		var accSnapShot = _dm.getScreenAdjustedAcceleration();
-		var accGraSnapShot = _dm.getScreenAdjustedAccelerationIncludingGravity();
-		var rotRateSnapShot = _dm.getScreenAdjustedRotationRate();
+    var accSnapShot = _dm.getScreenAdjustedAcceleration();
+    var accGraSnapShot = _dm.getScreenAdjustedAccelerationIncludingGravity();
+    var rotRateSnapShot = _dm.getScreenAdjustedRotationRate();
 
-		var alphaToSend = 0;
+    var alphaToSend = 0;
 
-		if(_orientationBase === GAME){
-			alphaToSend = doSnapShot.alpha - _calibrationValue;
-			alphaToSend = (alphaToSend < 0)?(360 - Math.abs(alphaToSend)):alphaToSend;
-		} else {
-			alphaToSend = doSnapShot.alpha;
-		}
+    if (_orientationBase === GAME) {
+      alphaToSend = doSnapShot.alpha - _calibrationValue;
+      alphaToSend = (alphaToSend < 0) ? (360 - Math.abs(alphaToSend)) : alphaToSend;
+    } else {
+      alphaToSend = doSnapShot.alpha;
+    }
 
-		var snapShot = {
-			do:{
-				alpha:rnd(alphaToSend),
-				beta:rnd(doSnapShot.beta),
-				gamma:rnd(doSnapShot.gamma),
-				absolute:_do.isAbsolute()
-			},
-			dm:{
-				x:rnd(accSnapShot.x),
-				y:rnd(accSnapShot.y),
-				z:rnd(accSnapShot.z),
-				gx:rnd(accGraSnapShot.x),
-				gy:rnd(accGraSnapShot.y),
-				gz:rnd(accGraSnapShot.z),
-				alpha:rnd(rotRateSnapShot.alpha),
-				beta:rnd(rotRateSnapShot.beta),
-				gamma:rnd(rotRateSnapShot.gamma)
-			}
-		};
+    var snapShot = {
+      do: {
+        alpha: rnd(alphaToSend),
+        beta: rnd(doSnapShot.beta),
+        gamma: rnd(doSnapShot.gamma),
+        absolute: _do.isAbsolute()
+      },
+      dm: {
+        x: rnd(accSnapShot.x),
+        y: rnd(accSnapShot.y),
+        z: rnd(accSnapShot.z),
+        gx: rnd(accGraSnapShot.x),
+        gy: rnd(accGraSnapShot.y),
+        gz: rnd(accGraSnapShot.z),
+        alpha: rnd(rotRateSnapShot.alpha),
+        beta: rnd(rotRateSnapShot.beta),
+        gamma: rnd(rotRateSnapShot.gamma)
+      }
+    };
 
-		// Normalize gravity
-		if(_gravityNormalized){
-			snapShot.dm.gx *= _gravityCoefficient;
-			snapShot.dm.gy *= _gravityCoefficient;
-			snapShot.dm.gz *= _gravityCoefficient;
-		}	
+    // Normalize gravity
+    if (_gravityNormalized) {
+      snapShot.dm.gx *= _gravityCoefficient;
+      snapShot.dm.gy *= _gravityCoefficient;
+      snapShot.dm.gz *= _gravityCoefficient;
+    }
 
-		return snapShot;
-	}
+    return snapShot;
+  }
 
 
-	/*
-	*
-	* Starts listening to orientation event on the window object
-	*
-	*/
-	function log(err){
-		if(_logger){
-			if(typeof(err) == 'string'){
-				err = {message:err , code:0}
-			}
-			_logger(err);
-		}
-	}
+  /*
+  *
+  * Starts listening to orientation event on the window object
+  *
+  */
+  function log(err) {
+    if (_logger) {
+      if (typeof(err) == 'string') {
+        err = { message: err, code: 0 }
+      }
+      _logger(err);
+    }
+  }
 
-
-	return GyroNorm;
+  return GyroNorm;
 }));
