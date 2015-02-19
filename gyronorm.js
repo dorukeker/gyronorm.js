@@ -79,12 +79,12 @@
   var GyroNorm = function(options) {}
 
   /* Constants */
-  GyroNorm.prototype.GAME                             = 'game';
-  GyroNorm.prototype.WORLD                            = 'world';
-  GyroNorm.prototype.DEVICE_ORIENTATION               = 'deviceorientation';
-  GyroNorm.prototype.ACCELERATION                     = 'acceleration';
-  GyroNorm.prototype.ACCELERATION_INCLUDING_GRAVITY   = 'accelerationinludinggravity';
-  GyroNorm.prototype.ROTATION_RATE                    = 'rotationrate';
+  GyroNorm.GAME                             = GAME;
+  GyroNorm.WORLD                            = WORLD;
+  GyroNorm.DEVICE_ORIENTATION               = DEVICE_ORIENTATION;
+  GyroNorm.ACCELERATION                     = ACCELERATION;
+  GyroNorm.ACCELERATION_INCLUDING_GRAVITY   = ACCELARATION_INCLUDING_GRAVITY;
+  GyroNorm.ROTATION_RATE                    = ROTATION_RATE;
 
   /*
   *
@@ -210,7 +210,7 @@
   *
   */
   GyroNorm.prototype.setHeadDirection = function() {
-    if (_screenAdjusted || _orientationBase === this.WORLD) {
+    if (_screenAdjusted || _orientationBase === WORLD) {
       return false;
     }
 
@@ -250,19 +250,19 @@
   GyroNorm.prototype.isAvailable = function(_eventType) {
 
     switch (_eventType) {
-      case this.DEVICE_ORIENTATION:
+      case DEVICE_ORIENTATION:
         return (_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA));
         break;
 
-      case this.ACCELERATION:
+      case ACCELERATION:
         return (_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z));
         break;
 
-      case this.ACCELERATION_INCLUDING_GRAVITY:
+      case ACCELERATION_INCLUDING_GRAVITY:
         return (_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z));
         break;
 
-      case this.ROTATION_RATE:
+      case ROTATION_RATE:
         return (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA));
         break;
 
@@ -271,7 +271,7 @@
           deviceOrientationAvailable: (_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA)),
           accelerationAvailable: (_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z)),
           accelerationIncludingGravityAvailable: (_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z)),
-          rotationRateAvailable: (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA))     
+          rotationRateAvailable: (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA))
         }
         break;
     }
