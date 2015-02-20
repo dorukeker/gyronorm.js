@@ -42,7 +42,7 @@
   /* OPTIONS */
   var _frequency          = 50;         // Frequency for the return data in milliseconds
   var _gravityNormalized  = true;       // Flag if to normalize gravity values
-  var _orientationBase    = 'game';     // Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world.
+  var _orientationBase    = GAME;       // Can be GyroNorm.GAME or GyroNorm.WORLD. GyroNorm.GAME returns orientation values with respect to the head direction of the device. GyroNorm.WORLD returns the orientation values with respect to the actual north direction of the world.
   var _decimalCount       = 2;          // Number of digits after the decimals point for the return values
   var _logger             = null;       // Function to callback on error. There is no default value. It can only be set by the user on gn.init()
   var _screenAdjusted     = false;      // If set to true it will return screen adjusted values. (e.g. On a horizontal orientation of a mobile device, the head would be one of the sides, instead of  the actual head of the device.)
