@@ -9,11 +9,17 @@ module.exports = function(grunt) {
       // define a string to put between each file in the concatenated output
         separator: ' '
       },
-      dist: {
-        // the files to concatenate
-        src: ['bower_components/es6-promise/promise.min.js','bower_components/fulltilt/dist/fulltilt.min.js','gyronorm.min.js'],
-        // the location of the resulting JS file
-        dest: 'gyronorm.min.js'
+      core: {
+        src: ['lib/gyronorm.js'],
+        dest: 'dist/gyronorm.js'
+      },
+      complete: {
+        src: ['bower_components/es6-promise/promise.js', 'bower_components/fulltilt/dist/fulltilt.js', 'lib/gyronorm.js'],
+        dest: 'dist/gyronorm.complete.js'
+      },
+      complete_minified: {
+        src: ['bower_components/es6-promise/promise.min.js', 'bower_components/fulltilt/dist/fulltilt.min.js', 'dist/gyronorm.min.js'],
+        dest: 'dist/gyronorm.complete.min.js'
       }
     },
     uglify: {
@@ -23,12 +29,15 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'gyronorm.min.js': ['gyronorm.js']
+          'dist/gyronorm.min.js': ['lib/gyronorm.js']
         }
       }
     },
     clean: {
-      start: 'gyronorm.min.js'
+      core: 'dist/gyronorm.js',
+      core_min: 'dist/gyronorm.min.js',
+      complete: 'dist/gyronorm.complete.js',
+      complete_min: 'dist/gyronorm.complete.min.js'
     }
   });
 
@@ -36,8 +45,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  // grunt.registerTask('build', ['clean:start' , 'uglify' , 'concat']);
-
-    grunt.registerTask('build', ['clean:start' , 'uglify' , 'concat']);
-
+  grunt.registerTask('build', ['clean' , 'uglify' , 'concat']);
 };

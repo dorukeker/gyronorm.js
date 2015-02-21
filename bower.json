@@ -6,7 +6,7 @@
     "Doruk Eker"
   ],
   "description": "Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.",
-  "main": "gyronorm.min.js",
+  "main": "dist/gyronorm.js",
   "ignore": [
     "README.md",
     "LICENSE",
