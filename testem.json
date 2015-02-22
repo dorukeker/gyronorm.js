@@ -1,13 +1,13 @@
 {
   "framework": "mocha+chai",
   "src_files": [
-    "lib/**/*.js",
-    "test/**/*.js",
     "bower_components/jquery/dist/jquery.js",
     "bower_components/fulltilt/dist/fulltilt.js",
     "bower_components/es6-promise/promise.js",
     "bower_components/chai-as-promised/lib/chai-as-promised.js",
     "bower_components/sinon/lib/sinon.js",
-    "bower_components/sinon-chai/lib/sinon-chai.js"
+    "bower_components/sinon-chai/lib/sinon-chai.js",
+    "lib/**/*.js",
+    "test/**/*.js"
   ]
 }
