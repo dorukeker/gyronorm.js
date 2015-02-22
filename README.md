@@ -12,9 +12,9 @@ This version of gyronorm.js is built on top of the [FullTilt](https://github.com
 
 ##How to add
 
-For production, add the minified version of gyronorm.js
+For production, add the minified complete version of gyronorm.js which is under the `/dist` folder.
 
-	<script src="<path_to_js_files>/gyronorm.min.js"></script>
+	<script src="<path_to_js_files>/gyronorm.complete.min.js"></script>
 
 If you want to use the un-minified version (for instance for development), then you need to add the FullTilt and the Promises polyfill.
 
