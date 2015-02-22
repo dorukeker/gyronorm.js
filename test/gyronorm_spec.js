@@ -11,7 +11,14 @@ describe('GyroNorm', function() {
 
   describe('.init', function() {
     var gn = new GyroNorm();
-    var initPromise = gn.init();
+    var initPromise = null;
+
+    before(function(done) {
+      initPromise = gn.init();
+      initPromise.then(function(gn) {
+        return done();
+      });
+    });
 
     it('should set up a device orientation controller', function(done) {
       expect(initPromise)
