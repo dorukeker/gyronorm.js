@@ -1,5 +1,5 @@
 var expect = chai.expect;
-mocha.timeout(10000);
+mocha.timeout(30000);
 
 describe('GyroNorm', function() {
 
@@ -56,6 +56,58 @@ describe('GyroNorm', function() {
           expect(gn)
             .to.have.property('_logger')
             .that.equals(null);
+        });
+      });
+    });
+
+    context('when options have been provided', function() {
+      var options = {
+        frequency: 100,
+        gravityNormalized: false,
+        orientationBase: GyroNorm.WORLD,
+        decimalCount: 4,
+        screenAdjusted: true,
+        logger: function() {},
+      };
+      var gn = new GyroNorm(options);
+
+      describe('_frequency', function() {
+        it('should be equal to the provided options.frequency value', function() {
+          expect(gn)
+            .to.have.property('_frequency')
+            .that.equals(options.frequency);
+        });
+      });
+
+      describe('_gravityNormalized', function() {
+        it('should be equal to the provided options.gravityNormalized value', function() {
+          expect(gn)
+            .to.have.property('_gravityNormalized')
+            .that.equals(options.gravityNormalized);
+        });
+      });
+
+      describe('_orientationBase', function() {
+        it('should be equal to the provided options.orientationBase value', function() {
+          expect(gn)
+            .to.have.property('_orientationBase')
+            .that.equals(options.orientationBase);
+        });
+      });
+
+      describe('_decimalCount', function() {
+        it('should be equal to the provided options.decimalCount value', function() {
+          expect(gn)
+            .to.have.property('_decimalCount')
+            .that.equals(options.decimalCount);
+        });
+      });
+
+      describe('_screenAdjusted', function() {
+        it('should be equal to the provided options.screenAdjusted value', function() {
+          expect(gn)
+            .to.have.property('_screenAdjusted')
+            .that.equals(options.screenAdjusted);
         });
       });
     });
