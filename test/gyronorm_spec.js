@@ -1,5 +1,6 @@
 var expect = chai.expect;
 mocha.timeout(30000);
+ES6Promise.polyfill();
 
 describe('GyroNorm', function() {
 
@@ -116,28 +117,51 @@ describe('GyroNorm', function() {
   describe('.init', function() {
     var gn = new GyroNorm();
     var initPromise = null;
+    var sandbox = null;
 
-    before(function(done) {
+    before(function() {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(gn, '_getDeviceOrientationController').returns(Promise.resolve({}));
+      sandbox.stub(gn, '_getDeviceMotionController').returns(Promise.resolve({}));
+      sandbox.stub(gn, '_getGravityCoefficient').returns(1);
       initPromise = gn.init();
-      initPromise.then(function(gn) {
-        return done();
-      });
     });
 
     it('should set up a device orientation controller', function(done) {
-      expect(initPromise)
-        .to.eventually.be.fulfilled
-        .and.have.property('_do')
-        .to.not.equal(null)
-        .and.notify(done);
+      expect(gn._getDeviceOrientationController).to.have.been.calledOnce;
+
+      initPromise.then(function() {
+        expect(gn)
+          .to.have.property('_do')
+          .that.is.ok;
+        done();
+      });
     });
 
     it('should set up a device motion controller', function(done) {
-      expect(initPromise)
-        .to.eventually.be.fulfilled
-        .and.have.property('_dm')
-        .to.not.equal(null)
-        .and.notify(done);
+      expect(gn._getDeviceMotionController).to.have.been.calledOnce;
+
+      initPromise.then(function() {
+        expect(gn)
+          .to.have.property('_dm')
+          .that.is.ok;
+        done();
+      });
+    });
+
+    it('should retrieve and store the gravityCoefficient value', function(done) {
+      expect(gn._getGravityCoefficient).to.have.been.calledOnce;
+
+      initPromise.then(function() {
+        expect(gn)
+          .to.have.property('_gravityCoefficient')
+          .that.equals(1);
+        done();
+      });
+    });
+
+    after(function() {
+      sandbox.restore();
     });
   });
 });
