@@ -28,7 +28,7 @@ Initialize the `gn` object by calling the `gn.init()` function which returns a p
 
 Access the values in the callback function of the `gn.start()`
 
-	<script src="<path_to_js_files>/gyronorm.min.js"></script>
+	<script src="<path_to_js_files>/gyronorm.complete.min.js"></script>
 	
 	<script type="text/javascript">
 	    var gn = new GyroNorm();
