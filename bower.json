@@ -12,10 +12,11 @@
     "LICENSE",
     "demo/*",
     "demo",
-    "dist/*",
-    "dist",
+    "lib",
+    "lib/*",
     "Gruntfile.js",
     "package.json",
+    "testem.json",
     "bower_components/*",
     "node_modules/*"
   ],
@@ -28,8 +29,7 @@
     "bootstrap": "~3.3.2",
     "fulltilt": "0.5.3",
     "es6-promise": "*",
-    "chai-as-promised": "~4.2.0",
-    "sinon": "~1.12.2",
+    "sinon": "http://sinonjs.org/releases/sinon-1.12.2.js",
     "sinon-chai": "~2.7.0"
   }
 }
