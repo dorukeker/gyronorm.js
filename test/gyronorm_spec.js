@@ -53,7 +53,7 @@ describe('GyroNorm', function() {
       });
 
       describe('_logger', function() {
-        it('should be initialied with the default value', function() {
+        it('should be initialized with the default value', function() {
           expect(gn)
             .to.have.property('_logger')
             .that.equals(null);
