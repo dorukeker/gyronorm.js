@@ -130,34 +130,28 @@ describe('GyroNorm', function() {
     it('should set up a device orientation controller', function(done) {
       expect(gn._getDeviceOrientationController).to.have.been.calledOnce;
 
-      initPromise.then(function() {
-        expect(gn)
-          .to.have.property('_do')
-          .that.is.ok;
-        done();
-      });
+      expect(initPromise)
+        .to.eventually.have.property('_do')
+        .that.is.ok
+        .and.notify(done);
     });
 
     it('should set up a device motion controller', function(done) {
       expect(gn._getDeviceMotionController).to.have.been.calledOnce;
 
-      initPromise.then(function() {
-        expect(gn)
-          .to.have.property('_dm')
-          .that.is.ok;
-        done();
-      });
+      expect(initPromise)
+        .to.eventually.have.property('_dm')
+        .that.is.ok
+        .and.notify(done);
     });
 
     it('should retrieve and store the gravityCoefficient value', function(done) {
       expect(gn._getGravityCoefficient).to.have.been.calledOnce;
 
-      initPromise.then(function() {
-        expect(gn)
-          .to.have.property('_gravityCoefficient')
-          .that.equals(1);
-        done();
-      });
+      expect(initPromise)
+        .to.eventually.have.property('_gravityCoefficient')
+        .that.equals(1)
+        .and.notify(done);
     });
 
     after(function() {
