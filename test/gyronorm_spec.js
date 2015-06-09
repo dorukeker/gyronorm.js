@@ -158,4 +158,91 @@ describe('GyroNorm', function() {
       sandbox.restore();
     });
   });
+
+  describe('.isDeviceOrientationAvailable', function() {
+    context('when the device orientation controller is falsy', function() {
+      var gn = new GyroNorm();
+      it('should return false', function() {
+        expect(gn.isDeviceOrientationAvailable())
+          .to.be.false
+      });
+    });
+
+    context('when all device orientation parameters are supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._do = {};
+        gn._do.isAvailable = sinon.stub().returns(true);
+      });
+
+      it('should return true', function() {
+        expect(gn.isDeviceOrientationAvailable())
+          .to.be.true;
+
+        expect(gn._do.isAvailable)
+          .to.have.callCount(3);
+      });
+    });
+
+    context('when a device orientation alpha parameter is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._do = { ALPHA: 'alpha', BETA: 'beta', GAMMA: 'gamma' };
+        gn._do.isAvailable = sinon.stub();
+        gn._do.isAvailable.withArgs('alpha').returns(false);
+        gn._do.isAvailable.withArgs('beta').returns(true);
+        gn._do.isAvailable.withArgs('gamma').returns(true);
+      });
+
+      it('should return false', function() {
+        expect(gn.isDeviceOrientationAvailable())
+          .to.be.false;
+
+        expect(gn._do.isAvailable)
+        .to.have.callCount(1);
+      });
+    });
+
+    context('when a device orientation beta parameter is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._do = { ALPHA: 'alpha', BETA: 'beta', GAMMA: 'gamma' };
+        gn._do.isAvailable = sinon.stub();
+        gn._do.isAvailable.withArgs('alpha').returns(true);
+        gn._do.isAvailable.withArgs('beta').returns(false);
+        gn._do.isAvailable.withArgs('gamma').returns(true);
+      });
+
+      it('should return false', function() {
+        expect(gn.isDeviceOrientationAvailable())
+          .to.be.false;
+
+        expect(gn._do.isAvailable)
+        .to.have.callCount(2);
+      });
+    });
+
+    context('when a device orientation gamma parameter is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._do = { ALPHA: 'alpha', BETA: 'beta', GAMMA: 'gamma' };
+        gn._do.isAvailable = sinon.stub();
+        gn._do.isAvailable.withArgs('alpha').returns(true);
+        gn._do.isAvailable.withArgs('beta').returns(true);
+        gn._do.isAvailable.withArgs('gamma').returns(false);
+      });
+
+      it('should return false', function() {
+        expect(gn.isDeviceOrientationAvailable())
+          .to.be.false;
+
+        expect(gn._do.isAvailable)
+        .to.have.callCount(3);
+      });
+    });
+  });
 });
