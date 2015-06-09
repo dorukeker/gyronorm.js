@@ -185,7 +185,7 @@ describe('GyroNorm', function() {
       });
     });
 
-    context('when a device orientation alpha parameter is not supported', function() {
+    context('when the device orientation parameter `alpha` is not supported', function() {
       var gn = new GyroNorm();
 
       before(function() {
@@ -205,7 +205,7 @@ describe('GyroNorm', function() {
       });
     });
 
-    context('when a device orientation beta parameter is not supported', function() {
+    context('when the device orientation parameter `beta` is not supported', function() {
       var gn = new GyroNorm();
 
       before(function() {
@@ -225,7 +225,7 @@ describe('GyroNorm', function() {
       });
     });
 
-    context('when a device orientation gamma parameter is not supported', function() {
+    context('when the device orientation parameter `gamma` is not supported', function() {
       var gn = new GyroNorm();
 
       before(function() {
@@ -241,6 +241,94 @@ describe('GyroNorm', function() {
           .to.be.false;
 
         expect(gn._do.isAvailable)
+        .to.have.callCount(3);
+      });
+    });
+  });
+
+  describe('.isAccelerationAvailable', function() {
+    context('when the device orientation controller is falsy', function() {
+      var gn = new GyroNorm();
+
+      it('should return false', function() {
+        expect(gn.isAccelerationAvailable())
+          .to.be.false
+      });
+    });
+
+    context('when all device acceleration parameters are supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = {};
+        gn._dm.isAvailable = sinon.stub().returns(true);
+      });
+
+      it('should return true', function() {
+        expect(gn.isAccelerationAvailable())
+          .to.be.true;
+
+        expect(gn._dm.isAvailable)
+          .to.have.callCount(3);
+      });
+    });
+
+    context('when the device acceleration parameter `X` is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = { ACCELERATION_X: 'acceleraionX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
+        gn._dm.isAvailable = sinon.stub();
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(false);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Z).returns(true);
+      });
+
+      it('should return false', function() {
+        expect(gn.isAccelerationAvailable())
+          .to.be.false;
+
+        expect(gn._dm.isAvailable)
+        .to.have.callCount(1);
+      });
+    });
+
+    context('when the device acceleration parameter `Y` is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = { ACCELERATION_X: 'acceleraionX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
+        gn._dm.isAvailable = sinon.stub();
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(false);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Z).returns(true);
+      });
+
+      it('should return false', function() {
+        expect(gn.isAccelerationAvailable())
+          .to.be.false;
+
+        expect(gn._dm.isAvailable)
+        .to.have.callCount(2);
+      });
+    });
+
+    context('when the device acceleration parameter `Z` is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = { ACCELERATION_X: 'acceleraionX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
+        gn._dm.isAvailable = sinon.stub();
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Z).returns(false);
+      });
+
+      it('should return false', function() {
+        expect(gn.isAccelerationAvailable())
+          .to.be.false;
+
+        expect(gn._dm.isAvailable)
         .to.have.callCount(3);
       });
     });
