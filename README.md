@@ -60,6 +60,8 @@ Access the values in the callback function of the `gn.start()`
 			// data.dm.beta		( devicemotion event rotationRate beta value )
 			// data.dm.gamma	( devicemotion event rotationRate gamma value )
 		});
+	}).catch(function(e){
+	  // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
 	});
 </script>
 ```
