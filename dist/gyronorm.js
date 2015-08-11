@@ -3,7 +3,7 @@
 *
 * @author Doruk Eker <dorukeker@gmail.com>
 * @copyright 2015 Doruk Eker <http://dorukeker.com>
-* @version 2.0.0
+* @version 2.0.2
 * @license MIT License | http://opensource.org/licenses/MIT
 */
 
@@ -231,29 +231,34 @@
   */
   GyroNorm.prototype.isAvailable = function(_eventType) {
 
+    var doSnapShot = _do.getScreenAdjustedEuler();
+    var accSnapShot = _dm.getScreenAdjustedAcceleration();
+    var accGraSnapShot = _dm.getScreenAdjustedAccelerationIncludingGravity();
+    var rotRateSnapShot = _dm.getScreenAdjustedRotationRate();
+
     switch (_eventType) {
       case DEVICE_ORIENTATION:
-        return (_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA));
+        return ((doSnapShot.alpha && doSnapShot.alpha !== null) && (doSnapShot.beta && doSnapShot.beta !== null) && (doSnapShot.gamma && doSnapShot.gamma !== null));
         break;
 
       case ACCELERATION:
-        return (_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z));
+        return (accSnapShot && accSnapShot.x && accSnapShot.y && accSnapShot.z);
         break;
 
       case ACCELERATION_INCLUDING_GRAVITY:
-        return (_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z));
+        return (accGraSnapShot && accGraSnapShot.x && accGraSnapShot.y && accGraSnapShot.z);
         break;
 
       case ROTATION_RATE:
-        return (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA));
+        return (rotRateSnapShot && rotRateSnapShot.alpha && rotRateSnapShot.beta && rotRateSnapShot.gamma);
         break;
 
       default:
         return {
-          deviceOrientationAvailable: (_do.isAvailable(_do.ALPHA) && _do.isAvailable(_do.BETA) && _do.isAvailable(_do.GAMMA)),
-          accelerationAvailable: (_dm.isAvailable(_dm.ACCELERATION_X) && _dm.isAvailable(_dm.ACCELERATION_Y) && _dm.isAvailable(_dm.ACCELERATION_Z)),
-          accelerationIncludingGravityAvailable: (_dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_X) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Y) && _dm.isAvailable(_dm.ACCELERATION_INCLUDING_GRAVITY_Z)),
-          rotationRateAvailable: (_dm.isAvailable(_dm.ROTATION_RATE_ALPHA) && _dm.isAvailable(_dm.ROTATION_RATE_BETA) && _dm.isAvailable(_dm.ROTATION_RATE_GAMMA))
+          deviceOrientationAvailable: ((doSnapShot.alpha && doSnapShot.alpha !== null) && (doSnapShot.beta && doSnapShot.beta !== null) && (doSnapShot.gamma && doSnapShot.gamma !== null)),
+          accelerationAvailable: (accSnapShot && accSnapShot.x && accSnapShot.y && accSnapShot.z),
+          accelerationIncludingGravityAvailable: (accGraSnapShot && accGraSnapShot.x && accGraSnapShot.y && accGraSnapShot.z),
+          rotationRateAvailable: (rotRateSnapShot && rotRateSnapShot.alpha && rotRateSnapShot.beta && rotRateSnapShot.gamma)
         }
         break;
     }
