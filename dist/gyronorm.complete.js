@@ -2351,8 +2351,8 @@ window.FULLTILT = FULLTILT;
 * JavaScript project for accessing and normalizing the accelerometer and gyroscope data on mobile devices
 *
 * @author Doruk Eker <dorukeker@gmail.com>
-* @copyright 2015 Doruk Eker <http://dorukeker.com>
-* @version 2.0.2
+* @copyright Doruk Eker <http://dorukeker.com>
+* @version 2.0.3
 * @license MIT License | http://opensource.org/licenses/MIT
 */
 
@@ -2439,7 +2439,7 @@ window.FULLTILT = FULLTILT;
   *
   * Initialize GyroNorm instance function
   *
-  * @param object options - values are as follows. If set in the init function they overwrite the default option values 
+  * @param object options - values are as follows. If set in the init function they overwrite the default option values
   * @param int options.frequency
   * @param boolean options.gravityNormalized
   * @param boolean options.orientationBase
@@ -2465,7 +2465,7 @@ window.FULLTILT = FULLTILT;
     var deviceMotionPromise = new FULLTILT.getDeviceMotion().then(function(controller) {
       _dm = controller;
       // Set gravity coefficient
-      _gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0) ? 1 : -1;
+      _gravityCoefficient = (_dm.getScreenAdjustedAccelerationIncludingGravity().z > 0) ? -1 : 1;
     });
 
     return Promise.all([deviceOrientationPromise, deviceMotionPromise]).then(function() {
@@ -2523,7 +2523,7 @@ window.FULLTILT = FULLTILT;
   /*
   *
   * Toggles if to normalize gravity related values
-  * 
+  *
   * @param boolean flag
   *
   */
@@ -2537,7 +2537,7 @@ window.FULLTILT = FULLTILT;
   * Sets the current head direction as alpha = 0
   * Can only be used if device orientation is being tracked, values are not screen adjusted, value type is GyroNorm.EULER and orientation base is GyroNorm.GAME
   *
-  * @return: If head direction is set successfully returns true, else false 
+  * @return: If head direction is set successfully returns true, else false
   *
   */
   GyroNorm.prototype.setHeadDirection = function() {
@@ -2572,9 +2572,9 @@ window.FULLTILT = FULLTILT;
   /*
   *
   * Returns if certain type of event is available on the device
-  * 
+  *
   * @param string _eventType - possible values are "deviceorientation" , "devicemotion" , "compassneedscalibration"
-  * 
+  *
   * @return true if event is available false if not
   *
   */
