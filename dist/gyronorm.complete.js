@@ -1127,6 +1127,10 @@ FULLTILT.getDeviceOrientation = function(options) {
 
 		orientationSensorCheck.then(function() {
 
+			control._alphaAvailable = (sensors.orientation.data.alpha && sensors.orientation.data.alpha !== null);
+			control._betaAvailable = (sensors.orientation.data.beta && sensors.orientation.data.beta !== null);
+			control._gammaAvailable = (sensors.orientation.data.gamma && sensors.orientation.data.gamma !== null);
+
 			resolve(control);
 
 		}).catch(function() {
@@ -1153,6 +1157,18 @@ FULLTILT.getDeviceMotion = function(options) {
 		var motionSensorCheck = new SensorCheck(sensors.motion);
 
 		motionSensorCheck.then(function() {
+
+			control._accelerationXAvailable = (sensors.motion.data.acceleration && sensors.motion.data.acceleration.x);
+			control._accelerationYAvailable = (sensors.motion.data.acceleration && sensors.motion.data.acceleration.y);
+			control._accelerationZAvailable = (sensors.motion.data.acceleration && sensors.motion.data.acceleration.z);
+
+			control._accelerationIncludingGravityXAvailable = (sensors.motion.data.accelerationIncludingGravity && sensors.motion.data.accelerationIncludingGravity.x);
+			control._accelerationIncludingGravityYAvailable = (sensors.motion.data.accelerationIncludingGravity && sensors.motion.data.accelerationIncludingGravity.y);
+			control._accelerationIncludingGravityZAvailable = (sensors.motion.data.accelerationIncludingGravity && sensors.motion.data.accelerationIncludingGravity.z);
+
+			control._rotationRateAlphaAvailable = (sensors.motion.data.rotationRate && sensors.motion.data.rotationRate.alpha);
+			control._rotationRateBetaAvailable = (sensors.motion.data.rotationRate && sensors.motion.data.rotationRate.beta);
+			control._rotationRateGammaAvailable = (sensors.motion.data.rotationRate && sensors.motion.data.rotationRate.gamma);
 
 			resolve(control);
 
@@ -2172,6 +2188,25 @@ FULLTILT.DeviceOrientation.prototype = {
 
 	},
 
+	_alphaAvailable: false,
+	_betaAvailable: false,
+	_gammaAvailable: false,
+
+	isAvailable: function(_valueType){
+
+		switch(_valueType){
+			case this.ALPHA:
+				return this._alphaAvailable;
+
+			case this.BETA:
+				return this._betaAvailable;
+
+			case this.GAMMA:
+				return this._gammaAvailable;
+		}
+
+	},
+
 	ALPHA: 'alpha',
 	BETA: 'beta',
 	GAMMA: 'gamma'
@@ -2338,10 +2373,65 @@ FULLTILT.DeviceMotion.prototype = {
 
 		return sensors.motion.data || {};
 
-	}
+	},
+
+	_accelerationXAvailable: false,
+	_accelerationYAvailable: false,
+	_accelerationZAvailable: false,
+
+	_accelerationIncludingGravityXAvailable: false,
+	_accelerationIncludingGravityYAvailable: false,
+	_accelerationIncludingGravityZAvailable: false,
+
+	_rotationRateAlphaAvailable: false,
+	_rotationRateBetaAvailable: false,
+	_rotationRateGammaAvailable: false,
+
+	isAvailable: function(_valueType){
+
+		switch(_valueType){
+			case this.ACCELERATION_X:
+				return this._accelerationXAvailable;
+
+			case this.ACCELERATION_Y:
+				return this._accelerationYAvailable;
+
+			case this.ACCELERATION_Z:
+				return this._accelerationZAvailable;
+
+			case this.ACCELERATION_INCLUDING_GRAVITY_X:
+				return this._accelerationIncludingGravityXAvailable;
+
+			case this.ACCELERATION_INCLUDING_GRAVITY_Y:
+				return this._accelerationIncludingGravityYAvailable;
+
+			case this.ACCELERATION_INCLUDING_GRAVITY_Z:
+				return this._accelerationIncludingGravityZAvailable;
+
+			case this.ROTATION_RATE_ALPHA:
+				return this._rotationRateAlphaAvailable;
+
+			case this.ROTATION_RATE_BETA:
+				return this._rotationRateBetaAvailable;
+
+			case this.ROTATION_RATE_GAMMA:
+				return this._rotationRateGammaAvailable;
+		}
+	},
+
+	ACCELERATION_X: 'accelerationX',
+	ACCELERATION_Y: 'accelerationY',
+	ACCELERATION_Z: 'accelerationZ',
+
+	ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
+	ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY',
+	ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ',
+
+	ROTATION_RATE_ALPHA: 'rotationRateAlpha',
+	ROTATION_RATE_BETA: 'rotationRateBeta',
+	ROTATION_RATE_GAMMA: 'rotationRateGamma'
 
 };
-
 
 ////// Attach FULLTILT to root DOM element //////
 
@@ -2352,7 +2442,7 @@ window.FULLTILT = FULLTILT;
 *
 * @author Doruk Eker <dorukeker@gmail.com>
 * @copyright Doruk Eker <http://dorukeker.com>
-* @version 2.0.3
+* @version 2.0.4
 * @license MIT License | http://opensource.org/licenses/MIT
 */
 
