@@ -24,7 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "bootstrap": "~3.3.2",
-    "fulltilt": "0.7",
+    "fulltilt": "0.5.3",
     "es6-promise": "*"
   }
 }
