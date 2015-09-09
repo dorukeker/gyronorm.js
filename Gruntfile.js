@@ -25,7 +25,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         // the banner is inserted at the top of the output
-        banner: '\n/* gyronorm.js v2.0.2 - https://github.com/dorukeker/gyronorm.git*/\n'
+        banner: '\n/* gyronorm.js v2.0.4 - https://github.com/dorukeker/gyronorm.git*/\n'
       },
       dist: {
         files: {
