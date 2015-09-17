@@ -1,5 +1,5 @@
 #### Gyronorm.js E-book
-I started to prepare an e-book. It covers the the basis of gyroscope and accelerometer data in JavaScript, as well as details on the gyronorm.js library.
+I started to prepare an e-book for gyronorm.js. It covers the the basis of gyroscope and accelerometer data in JavaScript, as well as details on the gyronorm.js library.
 
 I would like to get as many feedback as possible to finalize it. You can download a free full version from the following link.
 [Gyronorm.js E-book](https://leanpub.com/gyronormjs/c/ZLF4ix0CUzLm)
