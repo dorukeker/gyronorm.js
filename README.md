@@ -1,7 +1,17 @@
+#### Gyronorm.js E-book
+I started to prepare an e-book. It covers the the basis of gyroscope and accelerometer data in JavaScript, as well as details on the gyronorm.js library.
+
+I would like to get as many feedback as possible to finalize it. You can download a free full version from the following link.
+[Gyronorm.js E-book](https://leanpub.com/gyronormjs/c/ZLF4ix0CUzLm)
+
+Your feedback will help me make it more useful.
+
+---
+
 # gyronorm.js
 Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.
 
-It returns consistent values across different devices. It has options to return game-based or world-based alpha values (rotation around z-axis), and normalize the gravity-related values. You can find more about the differences across devices [here](http://dorukeker.com/know-thy-gyroscope-and-js-part-ii/)
+It returns consistent values across different devices. It has options to return game-based or world-based alpha values (rotation around z-axis), and normalize the gravity-related values. You can find more about the differences across devices in the [e-book](https://leanpub.com/gyronormjs/c/ZLF4ix0CUzLm)
 
 ## Installation
 You can clone from this GitHub repository, use Bower or NPM.
