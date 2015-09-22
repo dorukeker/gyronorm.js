@@ -247,7 +247,7 @@ describe('GyroNorm', function() {
   });
 
   describe('.isAccelerationAvailable', function() {
-    context('when the device orientation controller is falsy', function() {
+    context('when the device acceleration controller does not exist', function() {
       var gn = new GyroNorm();
 
       it('should return false', function() {
@@ -277,7 +277,7 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_X: 'acceleraionX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
+        gn._dm = { ACCELERATION_X: 'accelerationX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
         gn._dm.isAvailable = sinon.stub();
         gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(false);
         gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(true);
@@ -297,7 +297,7 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_X: 'acceleraionX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
+        gn._dm = { ACCELERATION_X: 'accelerationX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
         gn._dm.isAvailable = sinon.stub();
         gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(true);
         gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(false);
@@ -317,7 +317,7 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_X: 'acceleraionX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
+        gn._dm = { ACCELERATION_X: 'accelerationX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
         gn._dm.isAvailable = sinon.stub();
         gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(true);
         gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(true);
@@ -326,6 +326,98 @@ describe('GyroNorm', function() {
 
       it('should return false', function() {
         expect(gn.isAccelerationAvailable())
+          .to.be.false;
+
+        expect(gn._dm.isAvailable)
+        .to.have.callCount(3);
+      });
+    });
+  });
+
+  describe('.isAccelerationIncludingGravityAvailable', function() {
+    context('when the device orientation controller is falsy', function() {
+      var gn = new GyroNorm();
+
+      it('should return false', function() {
+        expect(gn.isAccelerationIncludingGravityAvailable())
+          .to.be.false
+      });
+    });
+
+    context('when all device accelerationIncludingGravity parameters are supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
+          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
+        gn._dm.isAvailable = sinon.stub().returns(true);
+      });
+
+      it('should return true', function() {
+        expect(gn.isAccelerationIncludingGravityAvailable())
+          .to.be.true;
+
+        expect(gn._dm.isAvailable)
+          .to.have.callCount(3);
+      });
+    });
+
+    context('when the device accelerationIncludingGravity parameter `X` is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
+          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
+        gn._dm.isAvailable = sinon.stub();
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_X).returns(false);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Y).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Z).returns(true);
+      });
+
+      it('should return false', function() {
+        expect(gn.isAccelerationIncludingGravityAvailable())
+          .to.be.false;
+
+        expect(gn._dm.isAvailable)
+        .to.have.callCount(1);
+      });
+    });
+
+    context('when the device accelerationIncludingGravity parameter `Y` is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
+          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
+        gn._dm.isAvailable = sinon.stub();
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_X).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Y).returns(false);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Z).returns(true);
+      });
+
+      it('should return false', function() {
+        expect(gn.isAccelerationIncludingGravityAvailable())
+          .to.be.false;
+
+        expect(gn._dm.isAvailable)
+        .to.have.callCount(2);
+      });
+    });
+
+    context('when the device accelerationIncludingGravity parameter `Z` is not supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
+          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
+        gn._dm.isAvailable = sinon.stub();
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_X).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Y).returns(true);
+        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Z).returns(false);
+      });
+
+      it('should return false', function() {
+        expect(gn.isAccelerationIncludingGravityAvailable())
           .to.be.false;
 
         expect(gn._dm.isAvailable)
