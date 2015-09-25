@@ -12,5 +12,8 @@
   ],
   "launch_in_dev": [
     "PhantomJS"
+  ],
+  "launch_in_ci": [
+    "PhantomJS"
   ]
 }
