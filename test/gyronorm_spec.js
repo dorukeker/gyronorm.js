@@ -240,16 +240,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = {};
-        gn._dm.isAvailable = sinon.stub().returns(true);
+        gn._getScreenAdjustedAcceleration = sinon.stub().returns({ x: 1, y: 1, z: 1 });
       });
 
       it('should return true', function() {
         expect(gn.isAccelerationAvailable())
           .to.be.true;
-
-        expect(gn._dm.isAvailable)
-          .to.have.callCount(3);
       });
     });
 
@@ -257,19 +253,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_X: 'accelerationX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
-        gn._dm.isAvailable = sinon.stub();
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(false);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Z).returns(true);
+        gn._getScreenAdjustedAcceleration = sinon.stub().returns({ y: 1, z: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isAccelerationAvailable())
           .to.be.false;
-
-        expect(gn._dm.isAvailable)
-        .to.have.callCount(1);
       });
     });
 
@@ -277,19 +266,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_X: 'accelerationX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
-        gn._dm.isAvailable = sinon.stub();
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(false);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Z).returns(true);
+        gn._getScreenAdjustedAcceleration = sinon.stub().returns({ x: 1, z: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isAccelerationAvailable())
           .to.be.false;
-
-        expect(gn._dm.isAvailable)
-        .to.have.callCount(2);
       });
     });
 
@@ -297,19 +279,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_X: 'accelerationX', ACCELERATION_Y: 'accelerationY', ACCELERATION_Z: 'accelerationZ' };
-        gn._dm.isAvailable = sinon.stub();
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_X).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Y).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_Z).returns(false);
+        gn._getScreenAdjustedAcceleration = sinon.stub().returns({ x: 1, y: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isAccelerationAvailable())
           .to.be.false;
-
-        expect(gn._dm.isAvailable)
-        .to.have.callCount(3);
       });
     });
   });
