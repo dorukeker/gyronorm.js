@@ -162,6 +162,11 @@ describe('GyroNorm', function() {
   describe('.isDeviceOrientationAvailable', function() {
     context('when the device orientation controller is falsy', function() {
       var gn = new GyroNorm();
+
+      before(function() {
+        gn._getScreenAdjustedEuler = sinon.stub().returns({});
+      });
+
       it('should return false', function() {
         expect(gn.isDeviceOrientationAvailable())
           .to.be.false
@@ -172,16 +177,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._do = {};
-        gn._do.isAvailable = sinon.stub().returns(true);
+        gn._getScreenAdjustedEuler = sinon.stub().returns({ alpha: 1, beta: 1, gamma: 1 });
       });
 
       it('should return true', function() {
         expect(gn.isDeviceOrientationAvailable())
           .to.be.true;
-
-        expect(gn._do.isAvailable)
-          .to.have.callCount(3);
       });
     });
 
@@ -189,19 +190,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._do = { ALPHA: 'alpha', BETA: 'beta', GAMMA: 'gamma' };
-        gn._do.isAvailable = sinon.stub();
-        gn._do.isAvailable.withArgs('alpha').returns(false);
-        gn._do.isAvailable.withArgs('beta').returns(true);
-        gn._do.isAvailable.withArgs('gamma').returns(true);
+        gn._getScreenAdjustedEuler = sinon.stub().returns({ beta: 1, gamma: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isDeviceOrientationAvailable())
           .to.be.false;
-
-        expect(gn._do.isAvailable)
-        .to.have.callCount(1);
       });
     });
 
@@ -209,19 +203,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._do = { ALPHA: 'alpha', BETA: 'beta', GAMMA: 'gamma' };
-        gn._do.isAvailable = sinon.stub();
-        gn._do.isAvailable.withArgs('alpha').returns(true);
-        gn._do.isAvailable.withArgs('beta').returns(false);
-        gn._do.isAvailable.withArgs('gamma').returns(true);
+        gn._getScreenAdjustedEuler = sinon.stub().returns({ alpha: 1, gamma: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isDeviceOrientationAvailable())
           .to.be.false;
-
-        expect(gn._do.isAvailable)
-        .to.have.callCount(2);
       });
     });
 
@@ -229,19 +216,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._do = { ALPHA: 'alpha', BETA: 'beta', GAMMA: 'gamma' };
-        gn._do.isAvailable = sinon.stub();
-        gn._do.isAvailable.withArgs('alpha').returns(true);
-        gn._do.isAvailable.withArgs('beta').returns(true);
-        gn._do.isAvailable.withArgs('gamma').returns(false);
+        gn._getScreenAdjustedEuler = sinon.stub().returns({ alpha: 1, beta: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isDeviceOrientationAvailable())
           .to.be.false;
-
-        expect(gn._do.isAvailable)
-        .to.have.callCount(3);
       });
     });
   });
