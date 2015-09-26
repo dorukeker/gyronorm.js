@@ -351,4 +351,67 @@ describe('GyroNorm', function() {
       });
     });
   });
+
+  describe('.isRotationRateAvailable', function() {
+    context('when the device motion controller is falsy', function() {
+      var gn = new GyroNorm();
+
+      it('should return false', function() {
+        expect(gn.isRotationRateAvailable())
+          .to.be.false;
+      });
+    });
+
+    context('when all rotation rate parameters are supported', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._getScreenAdjustedRotationRate = sinon.stub().returns({ alpha: 1, beta: 1, gamma: 1 });
+      });
+
+      it('should return true', function() {
+        expect(gn.isRotationRateAvailable())
+          .to.be.true;
+      });
+    });
+
+    context('when the alpha rotation rate parameter is unavailable', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._getScreenAdjustedRotationRate = sinon.stub().returns({ beta: 1, gamma: 1 });
+      });
+
+      it('should return false', function() {
+        expect(gn.isRotationRateAvailable())
+          .to.be.false;
+      });
+    });
+
+    context('when the beta rotation rate parameter is unavailable', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._getScreenAdjustedRotationRate = sinon.stub().returns({ alpha: 1, gamma: 1 });
+      });
+
+      it('should return false', function() {
+        expect(gn.isRotationRateAvailable())
+          .to.be.false;
+      });
+    });
+
+    context('when the gamma rotation rate parameter is unavailable', function() {
+      var gn = new GyroNorm();
+
+      before(function() {
+        gn._getScreenAdjustedRotationRate = sinon.stub().returns({ alpha: 1, beta: 1 });
+      });
+
+      it('should return false', function() {
+        expect(gn.isRotationRateAvailable())
+          .to.be.false;
+      });
+    });
+  });
 });
