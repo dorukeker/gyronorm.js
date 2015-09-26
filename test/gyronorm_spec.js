@@ -303,17 +303,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
-          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
-        gn._dm.isAvailable = sinon.stub().returns(true);
+        gn._getScreenAdjustedAccelerationIncludingGravity = sinon.stub().returns({ x: 1, y: 1, z: 1 });
       });
 
       it('should return true', function() {
         expect(gn.isAccelerationIncludingGravityAvailable())
           .to.be.true;
-
-        expect(gn._dm.isAvailable)
-          .to.have.callCount(3);
       });
     });
 
@@ -321,20 +316,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
-          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
-        gn._dm.isAvailable = sinon.stub();
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_X).returns(false);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Y).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Z).returns(true);
+        gn._getScreenAdjustedAccelerationIncludingGravity = sinon.stub().returns({ y: 1, z: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isAccelerationIncludingGravityAvailable())
           .to.be.false;
-
-        expect(gn._dm.isAvailable)
-        .to.have.callCount(1);
       });
     });
 
@@ -342,20 +329,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
-          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
-        gn._dm.isAvailable = sinon.stub();
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_X).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Y).returns(false);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Z).returns(true);
+        gn._getScreenAdjustedAccelerationIncludingGravity = sinon.stub().returns({ x: 1, z: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isAccelerationIncludingGravityAvailable())
           .to.be.false;
-
-        expect(gn._dm.isAvailable)
-        .to.have.callCount(2);
       });
     });
 
@@ -363,20 +342,12 @@ describe('GyroNorm', function() {
       var gn = new GyroNorm();
 
       before(function() {
-        gn._dm = { ACCELERATION_INCLUDING_GRAVITY_X: 'accelerationIncludingGravityX',
-          ACCELERATION_INCLUDING_GRAVITY_Y: 'accelerationIncludingGravityY', ACCELERATION_INCLUDING_GRAVITY_Z: 'accelerationIncludingGravityZ' };
-        gn._dm.isAvailable = sinon.stub();
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_X).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Y).returns(true);
-        gn._dm.isAvailable.withArgs(gn._dm.ACCELERATION_INCLUDING_GRAVITY_Z).returns(false);
+        gn._getScreenAdjustedAccelerationIncludingGravity = sinon.stub().returns({ x: 1, y: 1 });
       });
 
       it('should return false', function() {
         expect(gn.isAccelerationIncludingGravityAvailable())
           .to.be.false;
-
-        expect(gn._dm.isAvailable)
-        .to.have.callCount(3);
       });
     });
   });
