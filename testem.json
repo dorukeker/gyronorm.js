@@ -1,0 +1,19 @@
+{
+  "framework": "mocha+chai",
+  "src_files": [
+    "bower_components/jquery/dist/jquery.js",
+    "bower_components/fulltilt/dist/fulltilt.js",
+    "bower_components/es6-promise/promise.js",
+    "bower_components/sinon/index.js",
+    "bower_components/sinon-chai/lib/sinon-chai.js",
+    "bower_components/chai-as-promised/lib/chai-as-promised.js",
+    "lib/**/*.js",
+    "test/**/*.js"
+  ],
+  "launch_in_dev": [
+    "PhantomJS"
+  ],
+  "launch_in_ci": [
+    "PhantomJS"
+  ]
+}

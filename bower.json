@@ -12,8 +12,11 @@
     "LICENSE",
     "demo/*",
     "demo",
+    "lib",
+    "lib/*",
     "Gruntfile.js",
     "package.json",
+    "testem.json",
     "bower_components/*",
     "node_modules/*"
   ],
@@ -25,6 +28,9 @@
   "devDependencies": {
     "bootstrap": "~3.3.2",
     "fulltilt": "0.5.3",
-    "es6-promise": "*"
+    "es6-promise": "*",
+    "sinon": "http://sinonjs.org/releases/sinon-1.15.0.js",
+    "sinon-chai": "~2.7.0",
+    "chai-as-promised": "~5.1.0"
   }
 }
