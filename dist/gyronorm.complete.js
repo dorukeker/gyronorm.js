@@ -2544,7 +2544,7 @@ window.FULLTILT = FULLTILT;
     if (options && options.frequency) _frequency = options.frequency;
     if (options && options.gravityNormalized) _gravityNormalized = options.gravityNormalized;
     if (options && options.orientationBase) _orientationBase = options.orientationBase;
-    if (options && options.decimalCount) _decimalCount = options.decimalCount;
+    if (options && typeof options.decimalCount === 'number' && options.decimalCount >= 0) _decimalCount = parseInt(options.decimalCount);
     if (options && options.logger) _logger = options.logger;
     if (options && options.screenAdjusted) _screenAdjusted = options.screenAdjusted;
 
