@@ -166,7 +166,7 @@ The return value of the callback function (`data` in the above examples) is an o
 
 A machine-readable code.
 
-* 0: Errors thrown by the system and caugth by gyronorm.js
+* 0: Errors thrown by the system and caught by gyronorm.js
 * 1: You get this if you try to call `gn.start()` before `gn.init()`. It means GyroNorm object is started before proper event listeners are added.
 
 ### data.message
