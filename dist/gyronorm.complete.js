@@ -1154,7 +1154,8 @@ Promise.Promise = Promise;
 return Promise;
 
 })));
-//# sourceMappingURL=es6-promise.map /**
+//# sourceMappingURL=es6-promise.map
+/**
  *
  * FULL TILT
  * http://github.com/richtr/Full-Tilt
@@ -2626,7 +2627,8 @@ FULLTILT.DeviceMotion.prototype = {
 
 window.FULLTILT = FULLTILT;
 
-})( window ); /**
+})( window );
+/**
 * JavaScript project for accessing and normalizing the accelerometer and gyroscope data on mobile devices
 *
 * @author Doruk Eker <dorukeker@gmail.com>
