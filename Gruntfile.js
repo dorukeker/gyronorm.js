@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         separator: '\n'
       },
       core: {
-        src: ['lib/gyronorm.js'],
+        src: ['bower_components/fulltilt/dist/fulltilt.js', 'lib/gyronorm.js'],
         dest: 'dist/gyronorm.js'
       },
       complete: {
