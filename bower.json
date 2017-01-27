@@ -1,6 +1,6 @@
 {
   "name": "gyronorm",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "homepage": "https://github.com/dorukeker/gyronorm.git",
   "authors": [
     "Doruk Eker"
@@ -23,8 +23,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "fulltilt": "0.5.3",
-    "promise": "*"
+    "fulltilt": "0.5.3"
   },
   "devDependencies": {
     "bootstrap": "~3.3.2"
