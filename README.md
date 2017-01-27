@@ -26,7 +26,7 @@ or
 $ npm install gyronorm
 ```
 
-This version of gyronorm.js is built on top of the [FullTilt](https://github.com/richtr/Full-Tilt) project which uses [JavaScript Promises](https://www.promisejs.org/). You do not need to install them seperately. Both the FullTilt library and the polyfill for JS Promises will come as dependencies of gyronorm.js
+This version of gyronorm.js is built on top of the [FullTilt](https://github.com/richtr/Full-Tilt) project which uses [JavaScript Promises](https://www.promisejs.org/). You do not need to make seperate installations. FullTilt library comes as dependencies of gyronorm.js
 
 ## How to add
 
@@ -36,10 +36,9 @@ For production, add the minified complete version of gyronorm.js which is under 
 <script src="<path_to_js_files>/gyronorm.complete.min.js"></script>
 ```
 
-If you want to use the un-minified version (for instance for development), then you need to add the FullTilt and the Promises polyfill.
+If you want to use the un-minified version (for instance for development), then you need to add the FullTilt manually.
 
 ```html
-<script src="<path_to_js_files>/promise.min.js"></script>
 <script src="<path_to_js_files>/fulltilt.min.js"></script>
 <script src="<path_to_js_files>/gyronorm.js"></script>
 ```
@@ -104,11 +103,7 @@ gn.init(args).then( ... );
 ```
 
 ### Older devices
-In some of the older devices the polyfill for the JS Promises does not work properly. This might cause all or a part of your JavaScript code to break. Try adding the following line before you instantiate GyroNorm.
-
-```js
-var Promise = Promise || ES6Promise.Promise;
-```
+In some older devices/browsers JS Promisses are not natively supported. In this case you can use a polyfill as mentioned here [https://www.promisejs.org/]
 
 ## API Documentation
 
