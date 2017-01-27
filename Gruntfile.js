@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         dest: 'dist/gyronorm.js'
       },
       complete: {
-        src: ['bower_components/es6-promise/es6-promise.js', 'bower_components/fulltilt/dist/fulltilt.js', 'lib/gyronorm.js'],
+        src: ['bower_components/promise/promise.js', 'bower_components/fulltilt/dist/fulltilt.js', 'lib/gyronorm.js'],
         dest: 'dist/gyronorm.complete.js'
       },
       complete_minified: {

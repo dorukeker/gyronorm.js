@@ -16,7 +16,7 @@
     "url": "https://github.com/dorukeker/gyronorm.js/issues"
   },
   "description": "Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.",
-  "main": "dist/gyronorm.js",
+  "main": "dist/gyronorm.complete.js",
   "keywords": [
     "devicemotion",
     "deviceorientation"
