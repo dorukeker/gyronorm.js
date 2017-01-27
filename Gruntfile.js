@@ -7,18 +7,18 @@ module.exports = function(grunt) {
     concat: {
       options: {
       // define a string to put between each file in the concatenated output
-        separator: ' '
+        separator: '\n'
       },
       core: {
-        src: ['lib/gyronorm.js'],
+        src: ['bower_components/fulltilt/dist/fulltilt.js', 'lib/gyronorm.js'],
         dest: 'dist/gyronorm.js'
       },
       complete: {
-        src: ['bower_components/es6-promise/promise.js', 'bower_components/fulltilt/dist/fulltilt.js', 'lib/gyronorm.js'],
+        src: ['bower_components/promise/promise.js', 'bower_components/fulltilt/dist/fulltilt.js', 'lib/gyronorm.js'],
         dest: 'dist/gyronorm.complete.js'
       },
       complete_minified: {
-        src: ['bower_components/es6-promise/promise.min.js', 'bower_components/fulltilt/dist/fulltilt.min.js', 'dist/gyronorm.min.js'],
+        src: ['bower_components/es6-promise/es6-promise.min.js', 'bower_components/fulltilt/dist/fulltilt.min.js', 'dist/gyronorm.min.js'],
         dest: 'dist/gyronorm.complete.min.js'
       }
     },
