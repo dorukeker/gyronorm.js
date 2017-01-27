@@ -103,7 +103,7 @@ gn.init(args).then( ... );
 ```
 
 ### Older devices
-In some older devices/browsers JS Promisses are not natively supported. In this case you can use a polyfill as mentioned here [https://www.promisejs.org/]
+In some older devices/browsers JS Promises are not natively supported. In this case you can use a polyfill as mentioned [here](https://www.promisejs.org/)
 
 ## API Documentation
 
