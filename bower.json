@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "fulltilt": "0.5.3",
-    "promise": "*"
+    "promise-polyfill": "^6.0.2"
   },
   "devDependencies": {
     "bootstrap": "~3.3.2"

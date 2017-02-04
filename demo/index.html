@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, user-scalable=no">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="../bower_components/es6-promise/promise.min.js"></script>
+<script src="../bower_components/promise-polyfill/promise.js"></script>
 <script src="../bower_components/fulltilt/dist/fulltilt.min.js"></script>
 <script src="../lib/gyronorm.js"></script>
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -184,7 +184,7 @@
 
         if(!isAvailable.accelerationIncludingGravityAvailable) {
           logger({message:'Device acceleration incl. gravity is not available.'});
-        } 
+        }
 
         if(!isAvailable.rotationRateAvailable) {
           logger({message:'Device rotation rate is not available.'});
@@ -194,7 +194,7 @@
       }).catch(function(e){
 
         console.log(e);
-        
+
       });
     }
 
