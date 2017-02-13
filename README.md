@@ -30,6 +30,8 @@ This version of gyronorm.js is built on top of the [FullTilt](https://github.com
 
 ## How to add
 
+### Manually
+
 For production, add the minified complete version of gyronorm.js which is under the `/dist` folder.
 
 ```html
@@ -43,42 +45,55 @@ If you want to use the un-minified version (for instance for development), then 
 <script src="<path_to_js_files>/gyronorm.js"></script>
 ```
 
+### Module import
+
+You can use GyroNorm with your favourite module bundler (Both AMD and CommonJS). Some examples follow.
+
+#### AMD/CommonJS
+
+```js
+var GyroNorm = require('gyronorm').GyroNorm;
+```
+
+#### ES6
+
+```js
+import { GyroNorm } from 'gyronorm';
+```
+
+
 ## How to use
 
 Initialize the `gn` object by calling the `gn.init()` function which returns a promise. Start the `gn` object when this promise resolves.
 
 Access the values in the callback function of the `gn.start()`
 
-```html
-<script src="<path_to_js_files>/gyronorm.complete.min.js"></script>
+``` js
+var gn = new GyroNorm();
 
-<script type="text/javascript">
-    var gn = new GyroNorm();
+gn.init().then(function(){
+  gn.start(function(data){
+    // Process:
+    // data.do.alpha	( deviceorientation event alpha value )
+    // data.do.beta		( deviceorientation event beta value )
+    // data.do.gamma	( deviceorientation event gamma value )
+    // data.do.absolute	( deviceorientation event absolute value )
 
-    gn.init().then(function(){
-    	gn.start(function(data){
-	   		// Process:
-			// data.do.alpha	( deviceorientation event alpha value )
-			// data.do.beta		( deviceorientation event beta value )
-			// data.do.gamma	( deviceorientation event gamma value )
-			// data.do.absolute	( deviceorientation event absolute value )
+    // data.dm.x		( devicemotion event acceleration x value )
+    // data.dm.y		( devicemotion event acceleration y value )
+    // data.dm.z		( devicemotion event acceleration z value )
 
-			// data.dm.x		( devicemotion event acceleration x value )
-			// data.dm.y		( devicemotion event acceleration y value )
-			// data.dm.z		( devicemotion event acceleration z value )
+    // data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
+    // data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
+    // data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
 
-			// data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
-			// data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
-			// data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
-
-			// data.dm.alpha	( devicemotion event rotationRate alpha value )
-			// data.dm.beta		( devicemotion event rotationRate beta value )
-			// data.dm.gamma	( devicemotion event rotationRate gamma value )
-		});
-	}).catch(function(e){
-	  // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
-	});
-</script>
+    // data.dm.alpha	( devicemotion event rotationRate alpha value )
+    // data.dm.beta		( devicemotion event rotationRate beta value )
+    // data.dm.gamma	( devicemotion event rotationRate gamma value )
+  });
+}).catch(function(e){
+  // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
+});
 ```
 
 ### Backward compatibility
