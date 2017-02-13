@@ -1,10 +1,10 @@
 #### Gyronorm.js E-book
-I started to prepare an e-book for gyronorm.js. It covers the the basis of gyroscope and accelerometer data in JavaScript, as well as details on the gyronorm.js library.
+I started to prepare an e-book for gyronorm.js. It covers the the basics of gyroscope and accelerometer data in JavaScript, as well as details on the gyronorm.js library.
 
-I would like to get as many feedback as possible to finalize it. You can download a free full version from the following link.
+I would like to get as many feedback as possible to finish it. You can download a free full version from the following link.
 [Gyronorm.js E-book](https://leanpub.com/gyronormjs/c/ZLF4ix0CUzLm)
 
-Your feedback will help me make it more useful.
+Your feedback will help me to make it more useful.
 
 ---
 
@@ -26,7 +26,7 @@ or
 $ npm install gyronorm
 ```
 
-This version of gyronorm.js is built on top of the [FullTilt](https://github.com/richtr/Full-Tilt) project which uses [JavaScript Promises](https://www.promisejs.org/). You do not need to make seperate installations. FullTilt library comes as dependencies of gyronorm.js
+This version of gyronorm.js is built on top of the [FullTilt](https://github.com/richtr/Full-Tilt) project which uses [JavaScript Promises](https://www.promisejs.org/). You do not need to install both libraries. FullTilt is bundled with gyronorm.js
 
 ## How to add
 
@@ -38,7 +38,7 @@ For production, add the minified complete version of gyronorm.js which is under 
 <script src="<path_to_js_files>/gyronorm.complete.min.js"></script>
 ```
 
-If you want to use the un-minified version (for instance for development), then you need to add the FullTilt manually.
+If you want to use the unminified version (for instance for development), then you need to add FullTilt manually.
 
 ```html
 <script src="<path_to_js_files>/fulltilt.min.js"></script>
@@ -66,7 +66,7 @@ import { GyroNorm } from 'gyronorm';
 
 Initialize the `gn` object by calling the `gn.init()` function which returns a promise. Start the `gn` object when this promise resolves.
 
-Access the values in the callback function of the `gn.start()`
+Access the values in the callback function of `gn.start()`
 
 ``` js
 var gn = new GyroNorm();
@@ -100,7 +100,7 @@ gn.init().then(function(){
 There are some breaking changes from 1.x to 2.x versions. You can find the details [here](https://github.com/dorukeker/gyronorm.js/wiki/Breaking-changes-from-1.x-to-2.x).
 
 ### Options
-You can pass arguments as an object to the `init()` function. The values you pass overwrites the default values. Below is the list of available options and their default values.
+You can pass options as an object to the `init()` function. The values you pass overwrite the default values. Bellow is the list of available options and their default values.
 
 ```js
 var args = {
@@ -118,7 +118,7 @@ gn.init(args).then( ... );
 ```
 
 ### Older devices
-In some older devices/browsers JS Promises are not natively supported. In this case you can use a polyfill as mentioned [here](https://www.promisejs.org/)
+In some older devices/browsers JS Promises are not natively supported. In this cases you can use a polyfill as mentioned [here](https://www.promisejs.org).
 
 ## API Documentation
 
@@ -126,7 +126,7 @@ In some older devices/browsers JS Promises are not natively supported. In this c
 
 ## Error handling
 
-gyronorm.js can return error and log messages. You need to define a function to handle those message. If a handler function is not defined, those messages will be ignored silently.
+gyronorm.js can return error and log messages. You need to define a function to handle those messages. If a handler function is not defined, those messages will be silently ignored.
 
 You can do this with the options when initializing the object.
 
@@ -142,7 +142,7 @@ var gn = new GyroNorm();
 gn.init(args).then( ... );
 ```
 
-You can also set the log listener function at a later point using the `startLogging()` function.
+You can also set the log listener function at a later stage using the `startLogging()` function.
 
 ```js
 var gn = new GyroNorm();
