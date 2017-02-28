@@ -1476,19 +1476,22 @@ window.FULLTILT = FULLTILT;
 *
 * @author Doruk Eker <doruk@dorukeker.com>
 * @copyright Doruk Eker <http://dorukeker.com>
-* @version 2.0.5
+* @version 2.0.6
 * @license MIT License | http://opensource.org/licenses/MIT
 */
 
 (function(root, factory) {
+  var e = {
+    GyroNorm: factory(),
+  };
   if (typeof define === 'function' && define.amd) {
     define(function() {
-      return (root.GyroNorm = factory());
+      return e;
     });
   } else if (typeof module === 'object' && module.exports) {
-    module.exports = (root.GyroNorm = factory());
+    module.exports = e;
   } else {
-    root.GyroNorm = factory();
+    root.GyroNorm = e.GyroNorm;
   }
 }(this, function() {
   /* Constants */
