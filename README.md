@@ -58,7 +58,7 @@ var GyroNorm = require('gyronorm').GyroNorm;
 #### ES6
 
 ```js
-import { GyroNorm } from 'gyronorm';
+import GyroNorm from 'gyronorm';
 ```
 
 
