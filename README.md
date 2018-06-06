@@ -53,7 +53,7 @@ You can use GyroNorm with your favourite module bundler (Both AMD and CommonJS).
 var GyroNorm = require('gyronorm');
 ```
 
-#### ES6
+#### ES6
 
 ```js
 import GyroNorm from 'gyronorm';
