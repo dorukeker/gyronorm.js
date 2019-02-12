@@ -64,7 +64,7 @@ declare namespace gyronorm {
   type LogListener = (data: LoggerData) => void
 
   export class GyroNorm {
-    constructor(options: Options)
+    constructor()
 
     static GAME: orientationBase
     static WORLD: orientationBase
@@ -74,7 +74,7 @@ declare namespace gyronorm {
     static ACCELERATION_INCLUDING_GRAVITY: string
     static ROTATION_RATE: string
 
-    init(): Promise<void>
+    init(options: Options): Promise<void>
 
     start(callback: (data: MotionAndOrientationPayload) => void): void
 
