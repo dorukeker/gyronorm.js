@@ -12,6 +12,7 @@
   "authors": [
     "Doruk Eker"
   ],
+  "typings": "gyronorm.d.ts",
   "bugs": {
     "url": "https://github.com/dorukeker/gyronorm.js/issues"
   },
