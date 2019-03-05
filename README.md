@@ -1,3 +1,5 @@
+Dear All, It has been almost 5 years since I first wrote this library. In the mean time JS evolved a lot; and parallel to this I grow apart from the JS world. Therefore I dont have the resources to go on maintaining this library and make sure it runs as expercted on latest devices. Gyronorm library will stay opensource in GitHub however I wont be merging any PR; and I wont look actively into any issues. I created an issue for alternatives here: https://github.com/dorukeker/gyronorm.js/issues/61 So if any one finds an up-to-date alternative please feel free to share it. Cheers!
+
 # gyronorm.js
 Accesses the gyroscope and accelerometer data from the web browser and combines them in one JS object.
 
