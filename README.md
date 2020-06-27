@@ -122,7 +122,7 @@ In some older devices/browsers JS Promises are not natively supported. In this c
 
 ## API Documentation
 
-[gyronorm.js API Documentation](https://github.com/dorukeker/gyronorm.js/wiki/API-Documentaion)
+[gyronorm.js API Documentation](https://github.com/dorukeker/gyronorm.js/wiki/API-Documentation)
 
 ## Error handling
 
